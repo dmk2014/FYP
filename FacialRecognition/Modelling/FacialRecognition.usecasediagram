@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="539bbdd9-414b-42a0-ad79-1b08a2d25cfe" name="FacialRecognition" linkedPackageId="347ae0c4-187b-48fb-96a7-8ada72b30e4b" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="3faf2330-e8bf-495e-9e1c-8c09fcb9db30">
+      <profileInstance Id="b314b551-3ae8-41db-945b-69f812447871" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="0b32e91b-c23c-47bb-8ce9-5825a55dc6d6">
+      <profileInstance Id="a02e8f2e-5531-4c8e-8231-14eb98a41acb" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <actor Id="bcb05774-ba66-4e70-abb4-a2e900bbb186" name="Business Owner" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="77c88cc4-c8b2-4279-9ad9-f499416fd9a1" />
+        <targetEnds>
+          <association Id="99dfaa08-e921-4459-993c-523132e163ce" isDerived="false" sourceEndRoleName="Business Owner" targetEndRoleName="Initialise Facial Recognition Application" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="c95ea5a8-d770-4680-aec8-770d2ebd8429" LastKnownName="Initialise Facial Recognition Application" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8ed844ac-c655-4286-b6a2-4fac1dce6bf6" name="Business Owner" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ec6877d2-3a19-4e9b-85ca-28ca7b167bfa" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="cdcbd896-9b64-4a40-93ca-5ef6e609ca98" name="Initialise Facial Recognition Application" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="423302f9-e0ef-422f-bc35-70018bfe09ba" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="e7e3c717-b035-4169-9d8f-86d59b6aa210" />
+          </association>
+          <association Id="8b50b448-ff6b-4497-9e86-a1faf30e1cbc" isDerived="false" sourceEndRoleName="Business Owner" targetEndRoleName="Retrieve Source Image" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="b8851654-b813-4f21-8f72-b72483f86772" LastKnownName="Retrieve Source Image" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0ab26669-d8e7-4df6-b465-0664e0a0c290" name="Business Owner" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="730af667-fd36-45bf-9b2e-f08a8fcd8840" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="65ebf6f6-702f-432e-88b5-6742382ad82a" name="Retrieve Source Image" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="58348293-0710-4459-8468-7144c919310f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="9ca097b4-bb15-4df8-bd4a-0eef599082b6" />
+          </association>
+          <association Id="9da7d69e-f996-4399-b311-d64e8dcd42af" isDerived="false" sourceEndRoleName="Business Owner" targetEndRoleName="Peform Facial Detection" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="5bfecf3e-310c-4034-965e-67ab0989427a" LastKnownName="Peform Facial Detection" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2f82a33f-6693-4124-96de-371d227668f7" name="Business Owner" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="fc8c88de-ca38-4691-a154-a55a8e8a5733" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d1c52db0-7a54-4cb0-b7b5-519ee0dbc0da" name="Peform Facial Detection" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="c604775a-6e17-4ac2-aa75-6d33e66a64d2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="1c77e924-8114-476f-b374-3ca8f2db4e7a" />
+          </association>
+          <association Id="b057a318-3bf5-4df4-82f7-213e6bdc5cac" isDerived="false" sourceEndRoleName="Business Owner" targetEndRoleName="Perform Facial Recognition" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="e2186790-ce15-4eb2-b9a9-3e2b94ffb500" LastKnownName="Perform Facial Recognition" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4f5df658-bc1f-41bf-a8b8-45cf7844710e" name="Business Owner" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1eaa9003-9462-4311-b992-b265e5295c89" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8718faad-98ff-46a4-aedb-c335f7ed86aa" name="Perform Facial Recognition" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="2a487bbf-4a9e-4419-a8af-8539d830d024" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="49532bd7-0117-4e74-9d5c-348a402a7889" />
+          </association>
+          <association Id="9ed9b6df-9fd6-4967-ae1c-1159c592872b" isDerived="false" sourceEndRoleName="Business Owner" targetEndRoleName="Process Payment" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="630cdc92-c9e7-4bdb-9b17-b07a04652d48" LastKnownName="Process Payment" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d037779e-c0db-45c4-bebd-10bd711396de" name="Business Owner" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="479e235c-913e-4e9c-a430-9b7969ad8446" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="fc7b640d-4c8b-41bd-8250-be285b383aef" name="Process Payment" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="4133ab25-14d0-4baa-896a-03f7fc42ae20" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="e91c2e5d-adeb-42c2-884f-f7de0430cd2e" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="c95ea5a8-d770-4680-aec8-770d2ebd8429" name="Initialise Facial Recognition Application" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="53d170c8-4caa-48df-baa6-edb099793bf5" />
+        <additions>
+          <include Id="e0c8af8e-3e46-4e8c-bdb3-c0cb3efdbf16">
+            <useCaseMoniker Id="428af794-29fd-45d6-813b-6e475ee02995" LastKnownName="Connect to Facial Database" />
+            <elementDefinition Id="7fdfcde8-1b4b-4cb9-a70b-7f0a97f2a64e" />
+          </include>
+          <include Id="a9f9be16-877f-4646-a93a-6f7bc6a371c9">
+            <useCaseMoniker Id="1a3df355-5f28-412b-86d1-951672e64065" LastKnownName="Initialise Kinect Sensor" />
+            <elementDefinition Id="a0f2b9d2-1fd2-4cc0-80c9-e12e3bae69f4" />
+          </include>
+          <include Id="65e8a3d0-5ac6-4461-92ff-fc2c4e48e685">
+            <useCaseMoniker Id="8d2e5abf-1833-4286-944c-1c55bc7aab18" LastKnownName="Start Colour Stream" />
+            <elementDefinition Id="42323e25-56ea-4c8a-9f7b-1a0b27df8a13" />
+          </include>
+          <include Id="d3950ea7-7f08-4384-ab56-074156faf64f">
+            <useCaseMoniker Id="e27d8b4d-0d61-43db-92e7-4e2498ea5b81" LastKnownName="Start Depth Stream" />
+            <elementDefinition Id="14b70aa2-1bb7-4d5e-89dc-2cf1a81f7807" />
+          </include>
+          <include Id="34caf49c-76a9-4e72-b2f6-2826669a2116">
+            <useCaseMoniker Id="6744f84c-3917-4079-830d-4ecbc20a6fac" LastKnownName="&#xD;&#xA;Stop Kinect Data Streams" />
+            <elementDefinition Id="c90d3519-e4f9-4a7f-a0f2-04f43225da62" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="b8851654-b813-4f21-8f72-b72483f86772" name="Retrieve Source Image" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="87e22d85-48ee-4d1e-ba9c-d434f06eb1ec" />
+        <additions>
+          <include Id="d6630664-0004-402e-b9e2-1189d0ac5402">
+            <useCaseMoniker Id="8d3c0f8d-54e1-4434-b323-185f9d7af736" LastKnownName="Capture Depth Frame" />
+            <elementDefinition Id="d4134961-4563-4368-bcd8-51ffba22cdf1" />
+          </include>
+          <include Id="9dd288fd-397f-417d-be41-293f8c127f94">
+            <useCaseMoniker Id="0650870e-6e01-4fac-9ea1-1fd10672b4b8" LastKnownName="Capture Colour Frame" />
+            <elementDefinition Id="9e3cedc6-03b8-4914-9184-f4e420090b52" />
+          </include>
+          <include Id="dbc1a615-d7ca-437c-a0d1-9b44bb7706ba">
+            <useCaseMoniker Id="146fe843-08aa-44f7-92b1-3a594ba1964c" LastKnownName="Remove Background" />
+            <elementDefinition Id="43a7e206-d9af-4639-b1e0-881d9f2bfbce" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="5bfecf3e-310c-4034-965e-67ab0989427a" name="Peform Facial Detection" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3e191edc-0661-49df-9440-bbcabe8c7679" />
+        <additions>
+          <include Id="2ed2fc4d-0600-483e-aba0-7193ed779dfe">
+            <useCaseMoniker Id="88e20bbc-2eaf-4fd2-b617-6bf540685b82" LastKnownName="Detect Faces" />
+            <elementDefinition Id="51e79859-f1ae-44d9-be92-cd571c532c45" />
+          </include>
+          <include Id="708108a9-e94e-45d7-b7c5-b593575648dd">
+            <useCaseMoniker Id="29eb068d-cbe2-4544-baab-5aa842ed6f03" LastKnownName="Normalise Facial Image" />
+            <elementDefinition Id="5270c8f0-5658-4eaa-ac6d-a1c59678bc2c" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="e2186790-ce15-4eb2-b9a9-3e2b94ffb500" name="Perform Facial Recognition" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ddb03721-dbb9-4c37-ad32-58867fc291d6" />
+        <additions>
+          <include Id="e6823a60-9405-43f9-a8a6-4b5d2ccc1556">
+            <useCaseMoniker Id="798f2fba-905d-492a-afd4-1498968ef360" LastKnownName="Apply Algorithm To Facial Image" />
+            <elementDefinition Id="ba158589-1886-4cbe-8c63-ea4fd3384530" />
+          </include>
+          <include Id="943d2cb1-0af5-4e06-a726-0951c6953bc5">
+            <useCaseMoniker Id="0d600c99-fb00-4fe8-a5b0-d54eb1b33d42" LastKnownName="Process Facial Image Against Database" />
+            <elementDefinition Id="5804b81c-2301-4609-bd13-f526cedb1c8b" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="630cdc92-c9e7-4bdb-9b17-b07a04652d48" name="Process Payment" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="6e3dceb2-bba1-4dc6-9ffb-446ca6dba456" />
+        <additions>
+          <include Id="28601fd1-22e8-4fe6-9166-9b39197db382">
+            <useCaseMoniker Id="fe7c6304-20f1-45b6-be3e-91f563198019" LastKnownName="Connect To Payment Gateway" />
+            <elementDefinition Id="28ea3925-8f9d-48ff-8932-997c01f111a6" />
+          </include>
+          <include Id="213995df-638d-451b-9c7a-0f14383ce5a6">
+            <useCaseMoniker Id="20caac9b-0394-414d-86e1-08574aa2acd1" LastKnownName="Verify Payee Details" />
+            <elementDefinition Id="57ae4f79-2bc6-4b1c-b159-eed4e34810ea" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="428af794-29fd-45d6-813b-6e475ee02995" name="Connect to Facial Database" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="88cc58cc-ab74-458e-a308-309066d6b89d" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="1a3df355-5f28-412b-86d1-951672e64065" name="Initialise Kinect Sensor" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="acb371e6-5038-4b65-ab67-9a7623ec36a8" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="8d2e5abf-1833-4286-944c-1c55bc7aab18" name="Start Colour Stream" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c5c6409a-1d47-40b2-9ada-7cd5f74f827a" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="e27d8b4d-0d61-43db-92e7-4e2498ea5b81" name="Start Depth Stream" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ffde3516-f144-4126-ab59-ca9e8d7e4fa7" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="6744f84c-3917-4079-830d-4ecbc20a6fac" name="&#xD;&#xA;Stop Kinect Data Streams" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="82151fd3-dffb-4499-9a3f-087bd7bd0273" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="0650870e-6e01-4fac-9ea1-1fd10672b4b8" name="Capture Colour Frame" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="28be2e40-13d8-42a1-b626-1fb8958d7537" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="8d3c0f8d-54e1-4434-b323-185f9d7af736" name="Capture Depth Frame" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="191fb533-dafd-438f-b00c-fe42270bb233" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="146fe843-08aa-44f7-92b1-3a594ba1964c" name="Remove Background" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="59a83492-3083-40e4-9a01-624dda2864f0" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="fe7c6304-20f1-45b6-be3e-91f563198019" name="Connect To Payment Gateway" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9854161d-1669-4c21-aeef-903a7cc09d9b" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="20caac9b-0394-414d-86e1-08574aa2acd1" name="Verify Payee Details" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="01b72050-9c8c-427f-9b08-e1c047fa1ff0" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="88e20bbc-2eaf-4fd2-b617-6bf540685b82" name="Detect Faces" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="0af1f09e-8e4d-437e-98e3-97fcebc8e8cc" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="29eb068d-cbe2-4544-baab-5aa842ed6f03" name="Normalise Facial Image" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9a764369-f6ef-4dca-9267-d048b63bd29c" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="798f2fba-905d-492a-afd4-1498968ef360" name="Apply Algorithm To Facial Image" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c2c5f400-1eb4-4287-b988-70ab68171578" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="0d600c99-fb00-4fe8-a5b0-d54eb1b33d42" name="Process Facial Image Against Database" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="e9f7c99c-6094-44aa-911d-0ac587fec503" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="347ae0c4-187b-48fb-96a7-8ada72b30e4b" name="Modelling">
+    <elementDefinition Id="4ec15c01-60b7-4793-ab39-c43808bac7b9" />
+  </package>
+</useCaseModelRoot>
