@@ -19,13 +19,43 @@ colVector = reshape(imageTranspose,32256,1);
 #     4,5,6]
 #becomes [1,2,3,4,5,6] column vector, as oppsed to Octace reshape() default of [1,4,2,5,3,6]
 
+#Below code reads training set to memory
+#Takes ~30 seconds using an i5 @ 3.8Ghz, and ~150MB RAM
 trainingDatabase = readdir("~/Desktop/FYP/YaleTrainingDatabase");
+dirCount = 0;
+folderCount = numel(trainingDatabase);
 
-for i=1:length(trainingDatabase)
-  if(isdir(i))
-    i
+matrixOfColumnVectors = [];
+
+for i=1:folderCount
+  #Skip special files . and ..
+  if(regexp(trainingDatabase{i}, "^\\.\\.?$"))
+    continue;
   endif
   
-  #dir = trainingDatabase(i)
-  #dir
+  #disp(trainingDatabase(i))
+  currentFolder = ["~/Desktop/FYP/YaleTrainingDatabase/" trainingDatabase{i}]
+  
+  if(isdir(currentFolder))
+    #Read all .pgm images in that dir
+    imgDir = readdir(currentFolder);
+    
+    for j=1:numel(imgDir)
+      if(regexp(imgDir{j}, "^\\.\\.?$") || regexp(imgDir{j}, "_Ambient.pgm"))
+        continue;
+      endif
+      
+      if(regexp(imgDir{j}, ".pgm"))
+        currentImagePath = [currentFolder "/" imgDir{j}]
+        img = imread(currentImagePath);
+        
+        #Process the image
+        img = img';
+        img = reshape(img,rows(img) * columns(img),1);
+        matrixOfColumnVectors = [matrixOfColumnVectors, img];
+      endif
+    endfor
+    
+    dirCount = dirCount + 1;
+  endif
 endfor
