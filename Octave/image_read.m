@@ -50,7 +50,7 @@ for i=1:folderCount
         img = imread(currentImagePath);
         
         #Process the image
-        img = img';
+        #img = img';
         img = reshape(img,rows(img) * columns(img),1);
         matrixOfColumnVectors = [matrixOfColumnVectors, img];
       endif
@@ -59,11 +59,3 @@ for i=1:folderCount
     dirCount = dirCount + 1;
   endif
 endfor
-
-#PseudoCode to calculate the mean
-#for each row in matix of training set images
-#   row = matrix[i,:]
-#   rowMean = mean(row)
-#   store mean as column vector -> [nx1], or [2432x1]
-#endfor
-#subtract mean from training set -> is time an issue? >700 million values to compute
