@@ -16,7 +16,7 @@
 trainingDatabase = readdir("~/Desktop/FYP/YaleTrainingDatabase");
 folderCount = numel(trainingDatabase);
 
-matrixOfColumnVectors = [];
+M = [];
 
 for i=1:folderCount
   #Skip special files . and ..
@@ -24,7 +24,7 @@ for i=1:folderCount
     continue;
   endif
   
-  currentFolder = ["~/Desktop/FYP/YaleTrainingDatabase/" trainingDatabase{i}]
+  currentFolder = ["~/Desktop/FYP/YaleTrainingDatabase/" trainingDatabase{i}];
   
   if(isdir(currentFolder))
     #Read all .pgm images in that dir
@@ -36,13 +36,13 @@ for i=1:folderCount
       endif
       
       if(regexp(imgDir{j}, ".pgm"))
-        currentImagePath = [currentFolder "/" imgDir{j}]
+        currentImagePath = [currentFolder "/" imgDir{j}];
         img = imread(currentImagePath);
         
         #Process the image
         #img = img';
         img = reshape(img,rows(img) * columns(img),1);
-        matrixOfColumnVectors = [matrixOfColumnVectors, img];
+        M = [M, img];
       endif
     endfor
   endif

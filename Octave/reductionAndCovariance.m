@@ -1,5 +1,5 @@
 #Reduce matrix using mean
-reducedFaces = matrixOfColumnVectors - averageValues;
+reducedFaces = M - averageValues;
 
 #Calculate covariance matrix
 C = cov(reducedFaces);
@@ -9,7 +9,7 @@ C = cov(reducedFaces);
 #Solution is to use an MxM numbers, where M is number of training images (2432)
 #Octave's cov function will handle this process for us
 
-#Next step is PCA to calculate Eigenvectors
+#Next step is PCA to calculate Eigenvectors and Eigenvalues
 #Achieved via decomposition of the covariance matrix C
 [V,D] = eig(C);
 
@@ -17,4 +17,9 @@ C = cov(reducedFaces);
 #V is eigenvectors
 #D is diagonal matrix of eigenvalues of C
 
+#D(i,i) is the eigenvalue relative to V(:,i)
+#D(1,1) for V(:,1) -> every row for 1st column, so entire first column
+
 #Sort the columns of the eigenvector matrix V and eigenvalue matrix D in order of decreasing eigenvalue
+[D,i] = sort(diag(D), "descend");
+V = V(:,i);
