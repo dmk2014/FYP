@@ -1,9 +1,10 @@
 #Reduce matrix using mean
-#faceDatabase - average
-reducedFaces = matrixOfColumnVectors - rowMeans;
+reducedFaces = matrixOfColumnVectors - averageValues;
 
 #Calculate covariance matrix
-#faces = faces'
-facesCovariance = reducedFaces';
+c = double(reducedFaces')*double(reducedFaces);
 
-#Singular Value Decomposition
+#This will fail, ridiculously inefficient
+#Trying to calculate n^2 * n^2 matrix = 32256*32256
+
+#Solution is to use an M numbers, where M is number of training images (2432)

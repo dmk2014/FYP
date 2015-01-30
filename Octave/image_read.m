@@ -1,16 +1,8 @@
-info = imfinfo("~/Desktop/FYP/YaleTrainingDatabase/yaleB01/yaleB01_P00A-005E-10.pgm");
-
 ##Read image from file
-image = imread("~/Desktop/FYP/YaleTrainingDatabase/yaleB01/yaleB01_P00A-005E-10.pgm");
+#image = imread("~/Desktop/FYP/YaleTrainingDatabase/yaleB01/yaleB01_P00A-005E-10.pgm");
 
 #Write image to disk
-imwrite(image, "~/Desktop/FYP/Octave/testimage.png", "png");
-
-#A = A'
-imageTranspose  = image';
-
-#Converting image to column vector
-colVector = reshape(imageTranspose,32256,1);
+#imwrite(image, "~/Desktop/FYP/Octave/testimage.png", "png");
 
 #Above is for one image
 #We need to read each image from the training set and find the column vectors in turn
@@ -22,7 +14,6 @@ colVector = reshape(imageTranspose,32256,1);
 #Below code reads training set to memory
 #Takes ~30 seconds using an i5 @ 3.8Ghz, and ~150MB RAM
 trainingDatabase = readdir("~/Desktop/FYP/YaleTrainingDatabase");
-dirCount = 0;
 folderCount = numel(trainingDatabase);
 
 matrixOfColumnVectors = [];
@@ -33,7 +24,6 @@ for i=1:folderCount
     continue;
   endif
   
-  #disp(trainingDatabase(i))
   currentFolder = ["~/Desktop/FYP/YaleTrainingDatabase/" trainingDatabase{i}]
   
   if(isdir(currentFolder))
@@ -55,7 +45,5 @@ for i=1:folderCount
         matrixOfColumnVectors = [matrixOfColumnVectors, img];
       endif
     endfor
-    
-    dirCount = dirCount + 1;
   endif
 endfor
