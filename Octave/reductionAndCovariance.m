@@ -6,10 +6,10 @@ C = cov(reducedFaces);
 
 #C = A * A' will fail, ridiculously inefficient
 #Trying to calculate n^2 * n^2 matrix = 32256*32256
-#Solution is to use an MxM numbers, where M is number of training images (2432)
-#Octave's cov function will handle this process for us
+#Solution is to use an MxM numbers, where M is number of training images (2432), or C = A' * A
+#Octave's cov() function will handle this process for us
 
-#Next step is PCA to calculate Eigenvectors and Eigenvalues
+#Next step is PCA - calculates Eigenvectors and Eigenvalues
 #Achieved via decomposition of the covariance matrix C
 [V,D] = eig(C);
 
