@@ -14,6 +14,8 @@ function result = calculateMean(M)
   else
     error("calculateMean: expecting matrix argument");
   endif
+  
+  clear("row","rowMean");
 endfunction
 
 #Temporarily Persist Data

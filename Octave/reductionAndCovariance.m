@@ -1,6 +1,9 @@
+#Load database
+M = loadYaleTrainingDatabase("path");
+
 #Reduce matrix using mean
-averageValues = calculateMean(M);
-reducedFaces = M - averageValues;
+averageFace = calculateMean(M);
+reducedFaces = M - averageFace;
 
 #Calculate covariance matrix
 C = cov(reducedFaces);
@@ -24,3 +27,11 @@ C = cov(reducedFaces);
 #Sort the columns of the eigenvector matrix V and eigenvalue matrix D in order of decreasing eigenvalue
 [D,i] = sort(diag(D), "descend");
 V = V(:,i);
+
+#Select K eigenvectors
+#They must be in the original dimensionality, i.e 32256 x 2432
+# Ui = MVi
+# M "into" Vi will give corresponding eigenvector in higher dimensional space
+# where: Ui is eigenvector in higher dimensional space
+#        Vi is eigenvector in lower dimensional space
+#        M is face set
