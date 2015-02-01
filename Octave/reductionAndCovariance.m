@@ -1,4 +1,5 @@
 #Reduce matrix using mean
+averageValues = calculateMean(M);
 reducedFaces = M - averageValues;
 
 #Calculate covariance matrix
