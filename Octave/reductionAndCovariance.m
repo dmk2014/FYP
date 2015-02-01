@@ -35,3 +35,6 @@ V = V(:,i);
 # where: Ui is eigenvector in higher dimensional space
 #        Vi is eigenvector in lower dimensional space
 #        M is face set
+
+
+#imagesc(image) -> scales image and displays
