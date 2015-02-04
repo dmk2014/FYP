@@ -3,27 +3,6 @@
 #Solution is to use an MxM numbers, where M is number of training images (2432), or C = A' * A
 #Octave's cov() function will handle this process for us
 
-#Next step is PCA - calculates Eigenvectors and Eigenvalues
-#Achieved via decomposition of the covariance matrix C
-
-#where
-#V is eigenvectors
-#D is diagonal matrix of eigenvalues of C
-
-#D(i,i) is the eigenvalue relative to V(:,i)
-#D(1,1) for V(:,1) -> every row for 1st column, so entire first column
-
-#Select K eigenvectors
-#They must be in the original dimensionality, i.e 32256 x 2432
-# Ui = MVi
-# M "into" Vi will give corresponding eigenvector in higher dimensional space
-# where: Ui is eigenvector in higher dimensional space
-#        Vi is eigenvector in lower dimensional space
-#        M is face set
-
-
-#imagesc(image) -> scales image and displays
-
 function [reducedFaces, C] = reductionAndCovariance(M,averageFace)
   reducedFaces = M - averageFace;
   C = cov(reducedFaces);

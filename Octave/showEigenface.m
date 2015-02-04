@@ -1,3 +1,5 @@
+#imagesc(image) -> scales image and displays
+
 function showEigenface(U,k)
   #TODO
   #Error checking
