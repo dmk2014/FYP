@@ -1,5 +1,5 @@
 #Load database
-M = loadYaleTrainingDatabase("path");
+M = loadYaleTrainingDatabase("C:/Users/t00157675/Desktop/fyp/FYP/YaleTrainingDatabase/");
 
 #Reduce matrix using mean
 averageFace = calculateMean(M);

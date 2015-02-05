@@ -8,8 +8,11 @@
 #Takes ~30 seconds using an i5 @ 3.8Ghz, and ~150MB RAM
 
 function result = loadYaleTrainingDatabase(path)
-  #readdir(path)
-  trainingDatabase = readdir("~/Desktop/FYP/YaleTrainingDatabase");
+  #trainingDatabase = readdir("~/Desktop/fyp/FYP/YaleTrainingDatabase");
+  #trainingDatabase = readdir("C:/Users/t00157675/Desktop/fyp/FYP/YaleTrainingDatabase");
+  
+  trainingDatabase = readdir(path);
+  
   folderCount = numel(trainingDatabase);
 
   result = [];
@@ -20,7 +23,7 @@ function result = loadYaleTrainingDatabase(path)
       continue;
     endif
   
-    currentFolder = ["~/Desktop/FYP/YaleTrainingDatabase/" trainingDatabase{i}];
+    currentFolder = [path trainingDatabase{i}];
   
     if(isdir(currentFolder))
       #Read all .pgm images in that dir

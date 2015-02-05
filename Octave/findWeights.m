@@ -10,21 +10,29 @@
 
 function weights = findWeights(reducedFaces, U)
   weights = [];
-  face = [];
+  weightsForFaceI = [];
   reducedFaces = double(reducedFaces);
 
   for i=1:columns(reducedFaces)
     #i = currentFace;
     #j = currentEigenvector;
+    currentFace = reducedFaces(:,i);
   
     for j=1:columns(U)
-      weight = U(:,j)' * reducedFaces(:,i);
+      #dot product between the image and each eigenface
+      #weight = U(:,j)' * reducedFaces(:,i);
       #face = [face; (weight * U(:,j))];
-      face = [face,weight];
+      #face = [face,weight];
+      
+      currentEigenvector = U(:,j);
+      
+      #weight = reducedFaces(:,i) * U(:,j)';
+      weight = currentEigenvector' * currentFace;
+      weightsForFaceI = [weightsForFaceI,weight];
     endfor
     
-    x = columns(U);
-    face = reshape(face,columns(U),1);
-    weights = [weights,face];
+    weightsForFaceI = reshape(weightsForFaceI,rows(weightsForFaceI) * columns(weightsForFaceI),1);
+    weights = [weights,weightsForFaceI];
+    weightsForFaceI = [];
   endfor
 endfunction
