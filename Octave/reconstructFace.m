@@ -1,5 +1,5 @@
 result = zeros(32256,1);
-sumW = sum(w1);
+sumW = sum(w1); #w1 represents image 1, first col of weight
 
 for i=1:30 
   #multiply and add
