@@ -6,7 +6,6 @@
 function weights = findWeights(reducedFaces, U)
   weights = [];
   weightsForFaceI = [];
-  reducedFaces = double(reducedFaces);
 
   for i=1:columns(reducedFaces)
     currentFace = reducedFaces(:,i);
@@ -19,7 +18,10 @@ function weights = findWeights(reducedFaces, U)
       weightsForFaceI = [weightsForFaceI,weight];
     endfor
     
-    weightsForFaceI = reshape(weightsForFaceI,300,1);
+    weightsForFaceI = reshape(weightsForFaceI,
+                              rows(weightsForFaceI)*columns(weightsForFaceI),
+                              1);
+    
     weights = [weights,weightsForFaceI];
     weightsForFaceI = [];
   endfor

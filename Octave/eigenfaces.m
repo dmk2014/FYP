@@ -7,7 +7,8 @@ averageFace = calculateMean(M);
 reducedFaces = M - averageFace;
 
 #Calculate covariance matrix
-C = cov(reducedFaces);
+#C = cov(reducedFaces);
+C = reducedFaces' * reducedFaces;
 
 #Next step is PCA - calculates Eigenvectors and Eigenvalues
 #Achieved via decomposition of the covariance matrix C
@@ -25,8 +26,9 @@ C = cov(reducedFaces);
 V = V(:,i);
 
 #Retrieve k higher dimensional eigenvectors
-U = getHigherDimensionalEigenvectors(V,M,300);
+U = getHigherDimensionalEigenvectors(V,reducedFaces,30);
 
 #Represent each image in terms of the k eignenfaces
 #Find a weight vector for each training set image
 #Wj = Uj' * ReducedFacesi
+weights = findWeights(reducedFaces, U)
