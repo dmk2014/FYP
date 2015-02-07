@@ -36,7 +36,7 @@ function result = loadYaleTrainingDatabase(path)
       
         if(regexp(imgDir{j}, ".pgm"))
           currentImagePath = [currentFolder "/" imgDir{j}];
-          img = imread(currentImagePath);
+          img = double(imread(currentImagePath));
         
           #Process the image
           img = reshape(img,rows(img) * columns(img),1);
