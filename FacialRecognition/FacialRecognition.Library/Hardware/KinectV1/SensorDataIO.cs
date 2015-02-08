@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace FacialRecognition
+namespace FacialRecognition.Library.Hardware.KinectV1
 {
     public class SensorDataIO
     {

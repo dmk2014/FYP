@@ -1,14 +1,9 @@
 ﻿using Microsoft.Kinect;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FacialRecognition
+namespace FacialRecognition.Library.Hardware.KinectV1
 {
     public class SensorDataProcessor
     {
