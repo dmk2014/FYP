@@ -2,13 +2,15 @@
 using System;
 using System.Windows.Forms;
 
+using FacialRecognition.Library.Hardware.KinectV1;
+
 namespace FacialRecognition
 {
     public partial class frmFacialRecPrototype : Form
     {
         KinectSensor Sensor;
         bool SensorActive;
-        SensorDataProcessor DataProcessor;
+        SensorDataProcessor DataProcessor = new SensorDataProcessor();
 
         public frmFacialRecPrototype()
         {
@@ -42,7 +44,6 @@ namespace FacialRecognition
                 }
                 else
                 {
-                    DataProcessor = new SensorDataProcessor();
                     Sensor = KinectSensor.KinectSensors[0];
 
                     Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
@@ -143,6 +144,38 @@ namespace FacialRecognition
             //Restart the prototype
             Sensor.Dispose();
             PrototypeStartup();
+        }
+
+        ColorImageFrame c_capturedFrame;
+
+        private void btnCaptureFrame_Click(object sender, EventArgs e)
+        {
+            if (Sensor != null)
+            {
+                Sensor.Dispose();
+            }
+
+            Sensor = KinectSensor.KinectSensors[0];
+            Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+            Sensor.Start();
+
+            c_capturedFrame = Sensor.ColorStream.OpenNextFrame(1000);
+
+            pbxCapturedColorImage.Image = DataProcessor.ColorToBitmap(c_capturedFrame);
+
+            Sensor.Dispose();
+
+            btnFacialDetection.Enabled = true;
+        }
+
+        private void btnFacialDetection_Click(object sender, EventArgs e)
+        {
+            //TODO
+
+            MessageBox.Show("Under Construction!", "Facial Detection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+            var _detector = new FacialRecognition.Library.FacialDetector();
+            //_detector.DetectFaces(null);
         }
     }
 }

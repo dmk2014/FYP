@@ -33,6 +33,7 @@
             this.btnDecrElevation = new System.Windows.Forms.Button();
             this.pbxDept = new System.Windows.Forms.PictureBox();
             this.grpControls = new System.Windows.Forms.GroupBox();
+            this.btnSaveFrameData = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStartSensor = new System.Windows.Forms.Button();
             this.grpColour = new System.Windows.Forms.GroupBox();
@@ -40,12 +41,12 @@
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabStreams = new System.Windows.Forms.TabPage();
             this.tabFacialRec = new System.Windows.Forms.TabPage();
+            this.pbxCapturedColorImage = new System.Windows.Forms.PictureBox();
             this.btnPerformFacialRec = new System.Windows.Forms.Button();
             this.btnFacialDetection = new System.Windows.Forms.Button();
             this.btnCaptureFrame = new System.Windows.Forms.Button();
             this.tabPayment = new System.Windows.Forms.TabPage();
             this.btnProcessPayment = new System.Windows.Forms.Button();
-            this.btnSaveFrameData = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDept)).BeginInit();
             this.grpControls.SuspendLayout();
@@ -54,6 +55,7 @@
             this.tabMain.SuspendLayout();
             this.tabStreams.SuspendLayout();
             this.tabFacialRec.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxCapturedColorImage)).BeginInit();
             this.tabPayment.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -108,6 +110,16 @@
             this.grpControls.TabIndex = 4;
             this.grpControls.TabStop = false;
             this.grpControls.Text = "Camera Controls";
+            // 
+            // btnSaveFrameData
+            // 
+            this.btnSaveFrameData.Location = new System.Drawing.Point(122, 19);
+            this.btnSaveFrameData.Name = "btnSaveFrameData";
+            this.btnSaveFrameData.Size = new System.Drawing.Size(110, 36);
+            this.btnSaveFrameData.TabIndex = 7;
+            this.btnSaveFrameData.Text = "Save Raw Frame Data";
+            this.btnSaveFrameData.UseVisualStyleBackColor = true;
+            this.btnSaveFrameData.Click += new System.EventHandler(this.btnSaveFrameData_Click);
             // 
             // btnStop
             // 
@@ -177,6 +189,7 @@
             // tabFacialRec
             // 
             this.tabFacialRec.BackColor = System.Drawing.SystemColors.Control;
+            this.tabFacialRec.Controls.Add(this.pbxCapturedColorImage);
             this.tabFacialRec.Controls.Add(this.btnPerformFacialRec);
             this.tabFacialRec.Controls.Add(this.btnFacialDetection);
             this.tabFacialRec.Controls.Add(this.btnCaptureFrame);
@@ -187,10 +200,19 @@
             this.tabFacialRec.TabIndex = 1;
             this.tabFacialRec.Text = "Facial Recognition";
             // 
+            // pbxCapturedColorImage
+            // 
+            this.pbxCapturedColorImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbxCapturedColorImage.Location = new System.Drawing.Point(6, 89);
+            this.pbxCapturedColorImage.Name = "pbxCapturedColorImage";
+            this.pbxCapturedColorImage.Size = new System.Drawing.Size(527, 294);
+            this.pbxCapturedColorImage.TabIndex = 3;
+            this.pbxCapturedColorImage.TabStop = false;
+            // 
             // btnPerformFacialRec
             // 
             this.btnPerformFacialRec.Enabled = false;
-            this.btnPerformFacialRec.Location = new System.Drawing.Point(578, 85);
+            this.btnPerformFacialRec.Location = new System.Drawing.Point(578, 16);
             this.btnPerformFacialRec.Name = "btnPerformFacialRec";
             this.btnPerformFacialRec.Size = new System.Drawing.Size(123, 40);
             this.btnPerformFacialRec.TabIndex = 2;
@@ -200,22 +222,23 @@
             // btnFacialDetection
             // 
             this.btnFacialDetection.Enabled = false;
-            this.btnFacialDetection.Location = new System.Drawing.Point(449, 85);
+            this.btnFacialDetection.Location = new System.Drawing.Point(449, 16);
             this.btnFacialDetection.Name = "btnFacialDetection";
             this.btnFacialDetection.Size = new System.Drawing.Size(123, 40);
             this.btnFacialDetection.TabIndex = 1;
             this.btnFacialDetection.Text = "Perform Facial Detection";
             this.btnFacialDetection.UseVisualStyleBackColor = true;
+            this.btnFacialDetection.Click += new System.EventHandler(this.btnFacialDetection_Click);
             // 
             // btnCaptureFrame
             // 
-            this.btnCaptureFrame.Enabled = false;
-            this.btnCaptureFrame.Location = new System.Drawing.Point(320, 85);
+            this.btnCaptureFrame.Location = new System.Drawing.Point(320, 16);
             this.btnCaptureFrame.Name = "btnCaptureFrame";
             this.btnCaptureFrame.Size = new System.Drawing.Size(123, 40);
             this.btnCaptureFrame.TabIndex = 0;
             this.btnCaptureFrame.Text = "Capture Frame";
             this.btnCaptureFrame.UseVisualStyleBackColor = true;
+            this.btnCaptureFrame.Click += new System.EventHandler(this.btnCaptureFrame_Click);
             // 
             // tabPayment
             // 
@@ -238,16 +261,6 @@
             this.btnProcessPayment.Text = "Process Payment";
             this.btnProcessPayment.UseVisualStyleBackColor = true;
             // 
-            // btnSaveFrameData
-            // 
-            this.btnSaveFrameData.Location = new System.Drawing.Point(122, 19);
-            this.btnSaveFrameData.Name = "btnSaveFrameData";
-            this.btnSaveFrameData.Size = new System.Drawing.Size(110, 36);
-            this.btnSaveFrameData.TabIndex = 7;
-            this.btnSaveFrameData.Text = "Save Raw Frame Data";
-            this.btnSaveFrameData.UseVisualStyleBackColor = true;
-            this.btnSaveFrameData.Click += new System.EventHandler(this.btnSaveFrameData_Click);
-            // 
             // frmFacialRecPrototype
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -265,6 +278,7 @@
             this.tabMain.ResumeLayout(false);
             this.tabStreams.ResumeLayout(false);
             this.tabFacialRec.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbxCapturedColorImage)).EndInit();
             this.tabPayment.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -290,6 +304,7 @@
         private System.Windows.Forms.TabPage tabPayment;
         private System.Windows.Forms.Button btnProcessPayment;
         private System.Windows.Forms.Button btnSaveFrameData;
+        private System.Windows.Forms.PictureBox pbxCapturedColorImage;
     }
 }
 
