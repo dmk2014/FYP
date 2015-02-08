@@ -5,6 +5,7 @@ function showEigenface(U,k)
   #Error checking
   
   eigenface = U(:,k);
+  normalize(eigenface,0,255);
   eigenface = reshape(eigenface,192,168);
   imagesc(eigenface);
   colormap(gray);

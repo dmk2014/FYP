@@ -4,25 +4,17 @@ M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
 
 #Reduce matrix using mean
 averageFace = calculateMean(M);
-#reducedFaces = M - averageFace;
-
-Mcopy = M;
-
-for i=1:columns(Mcopy)
-  Mcopy(:,i) = Mcopy(:,i) - averageFace;
-endfor
-
-reducedFaces = Mcopy;
-
-clear("i","Mcopy");
+reducedFaces = reduceFaces(M);
 
 #Calculate covariance matrix
+#C = A * A' will fail, ridiculously inefficient
+#Trying to calculate n^2 * n^2 matrix = 32256*32256
+#Solution is to use an MxM numbers, where M is number of training images (2432), or C = A' * A
+#Octave's cov() function will handle this process for us
 C = cov(reducedFaces);
-#C = reducedFaces' * reducedFaces;
 
 #Next step is PCA - calculates Eigenvectors and Eigenvalues
 #Achieved via decomposition of the covariance matrix C
-
 #where
 #V is eigenvectors
 #D is diagonal matrix of eigenvalues of C
@@ -39,7 +31,6 @@ C = cov(reducedFaces);
 [uselessVariable,permutation]=sort(diag(D),'descend');
 D=D(permutation,permutation);
 V=V(:,permutation);
-
 ######
 
 #Retrieve k higher dimensional eigenvectors
