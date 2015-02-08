@@ -4,7 +4,7 @@ M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
 
 #Reduce matrix using mean
 averageFace = calculateMean(M);
-reducedFaces = reduceFaces(M);
+reducedFaces = reduceFaces(M,averageFace);
 
 #Calculate covariance matrix
 #C = A * A' will fail, ridiculously inefficient
@@ -24,13 +24,13 @@ C = cov(reducedFaces);
 [V,D] = eig(C);
 
 #Sort the columns of the eigenvector matrix V and eigenvalue matrix D in order of decreasing eigenvalue
-#[D,i] = sort(diag(D), 'descend');
-#V = V(:,i);
+[D,i] = sort(diag(D), 'descend');
+V = V(:,i);
 
 ######
-[uselessVariable,permutation]=sort(diag(D),'descend');
-D=D(permutation,permutation);
-V=V(:,permutation);
+#[uselessVariable,permutation]=sort(diag(D),'descend');
+#D=D(permutation,permutation);
+#V=V(:,permutation);
 ######
 
 #Retrieve k higher dimensional eigenvectors

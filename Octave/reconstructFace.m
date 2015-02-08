@@ -3,7 +3,7 @@ function reconstructFace(weights,U,averageFace,faceIndex)
   result = zeros(32256,1);
 
   for i=1:columns(U)
-    curWeight = faceWeights(i,:);
+    curWeight = faceWeights(i,1);
     curEig = U(:,i);
     result += curWeight * curEig;
   endfor
