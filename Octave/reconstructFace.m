@@ -1,14 +1,16 @@
-function reconstructFace(weights,U)
-  faceWeights = weights(:,10); #300x1, or EigCountx1
+function reconstructFace(weights,U,averageFace,faceIndex)
+  faceWeights = weights(:,faceIndex); #300x1, or EigCountx1
   result = zeros(32256,1);
 
-  for i=1:300
+  for i=1:columns(U)
     curWeight = faceWeights(i,:);
     curEig = U(:,i);
-    result += curWeight .* curEig;
+    result += curWeight * curEig;
   endfor
+  
+  result = normalize(result,0,255);
 
-  #result += averageFace;
+  result += averageFace;
   result = reshape(result,192,168);
   imagesc(result);
   colormap(gray);

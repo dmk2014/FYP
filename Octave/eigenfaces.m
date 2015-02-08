@@ -4,11 +4,21 @@ M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
 
 #Reduce matrix using mean
 averageFace = calculateMean(M);
-reducedFaces = M - averageFace;
+#reducedFaces = M - averageFace;
+
+Mcopy = M;
+
+for i=1:columns(Mcopy)
+  Mcopy(:,i) = Mcopy(:,i) - averageFace;
+endfor
+
+reducedFaces = Mcopy;
+
+clear("i","Mcopy");
 
 #Calculate covariance matrix
-#C = cov(reducedFaces);
-C = reducedFaces' * reducedFaces;
+C = cov(reducedFaces);
+#C = reducedFaces' * reducedFaces;
 
 #Next step is PCA - calculates Eigenvectors and Eigenvalues
 #Achieved via decomposition of the covariance matrix C
@@ -22,13 +32,20 @@ C = reducedFaces' * reducedFaces;
 [V,D] = eig(C);
 
 #Sort the columns of the eigenvector matrix V and eigenvalue matrix D in order of decreasing eigenvalue
-[D,i] = sort(diag(D), 'descend');
-V = V(:,i);
+#[D,i] = sort(diag(D), 'descend');
+#V = V(:,i);
+
+######
+[uselessVariable,permutation]=sort(diag(D),'descend');
+D=D(permutation,permutation);
+V=V(:,permutation);
+
+######
 
 #Retrieve k higher dimensional eigenvectors
-U = getHigherDimensionalEigenvectors(V,reducedFaces,30);
+U = getHigherDimensionalEigenvectors(V,reducedFaces,100);
 
 #Represent each image in terms of the k eignenfaces
 #Find a weight vector for each training set image
 #Wj = Uj' * ReducedFacesi
-weights = findWeights(reducedFaces, U)
+weights = findWeights(reducedFaces, U);

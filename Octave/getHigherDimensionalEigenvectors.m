@@ -14,16 +14,11 @@ function U = getHigherDimensionalEigenvectors(V, M, k)
     usage("calculateMean(lower dimensional eigenvectors, original face set, number of eigenvectors to retrieve)");
   endif
   
-  U = [];
-  
   if(k > columns(V))
     error("getHigherDimensionalEigenvectors: k must be less than the number of faces in the set");
   else
     for i=1:k
-      Ui = M * V(:,i);
-      U = [U,Ui];
+      U(:,i) = M * V(:,i);
     endfor
   endif 
-  
-  clear("i","Ui");
 endfunction
