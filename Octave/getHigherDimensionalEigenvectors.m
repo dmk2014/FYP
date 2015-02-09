@@ -18,7 +18,7 @@ function U = getHigherDimensionalEigenvectors(V, M, k)
     error("getHigherDimensionalEigenvectors: k must be less than the number of faces in the set");
   else
     for i=1:k
-      U(:,i) = M * V(:,i);
+      U(:,i) = M * V(:,i); #Debug and verify
     endfor
   endif 
 endfunction

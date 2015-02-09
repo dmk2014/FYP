@@ -3,7 +3,8 @@
 M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
 
 #Reduce matrix using mean
-averageFace = calculateMean(M);
+#averageFace = calculateMean(M);
+averageFace = mean(M,2); 
 reducedFaces = reduceFaces(M,averageFace);
 
 #Calculate covariance matrix
@@ -27,16 +28,29 @@ C = cov(reducedFaces);
 [D,i] = sort(diag(D), 'descend');
 V = V(:,i);
 
+#for h=1:columns(V)
+#  V(:,h) = normalize(V(:,h),0,255);
+#endfor
+
 ######
 #[uselessVariable,permutation]=sort(diag(D),'descend');
 #D=D(permutation,permutation);
 #V=V(:,permutation);
 ######
 
-#Retrieve k higher dimensional eigenvectors
+#Retrieve k higher dimensional eigenvectors & normalize data [0-255]
 U = getHigherDimensionalEigenvectors(V,reducedFaces,100);
+
+for h=1:columns(U)
+  U(:,h) = normalize(U(:,h),0,255);
+endfor
 
 #Represent each image in terms of the k eignenfaces
 #Find a weight vector for each training set image
 #Wj = Uj' * ReducedFacesi
 weights = findWeights(reducedFaces, U);
+
+#Normalize weights
+for h=1:columns(weights)
+  weights(:,h) = normalize(weights(:,h),0,255);
+endfor
