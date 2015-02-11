@@ -7,10 +7,7 @@ M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
 averageFace = calculateMean(M);
 reducedFaces = reduceFaces(M,averageFace);
 
-#SVD is an alternate method of performing PCA
-#Results much more accurate than original algorithm
-[U S V] = svd(reducedFaces,"econ");
-
+#Get eigenfaces using SVD method
 U = getEigenfacesSVD(reducedFaces,150) #returns top 150 eigenvectors
 
 #Represent each image in terms of the k eignenfaces
