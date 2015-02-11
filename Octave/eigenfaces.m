@@ -5,36 +5,11 @@ M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
 averageFace = calculateMean(M);
 reducedFaces = reduceFaces(M,averageFace);
 
-#Calculate covariance matrix
-#C = A * A' will fail, ridiculously inefficient
-#Trying to calculate n^2 * n^2 matrix = 32256*32256
-#Solution is to use an MxM numbers, where M is number of training images (2432), or C = A' * A
-#Octave's cov() function will handle this process for us
-#C = cov(reducedFaces);
-
-#Next step is PCA - calculates Eigenvectors and Eigenvalues
-#Achieved via decomposition of the covariance matrix C
-#where
-#V is eigenvectors
-#D is diagonal matrix of eigenvalues of C
-
-#D(i,i) is the eigenvalue relative to V(:,i)
-#D(1,1) for V(:,1) -> every row for 1st column, so entire first column
-#[V D] = eig(C);
-
-#Sort the columns of the eigenvector matrix V and eigenvalue matrix D in order of decreasing eigenvalue
-#[D,i] = sort(diag(D), 'descend');
-#V = V(:,i);
-
 #SVD is an alternate method of performing PCA
-#Results here appear vastly more accurate
+#Results much more accurate than original algorithm
 [U S V] = svd(reducedFaces,"econ");
 
-U = U(:,1:50); #Select first 50 eigenfaces
-
-#Retrieve k higher dimensional eigenvectors
-#U = getHigherDimensionalEigenvectors(V,reducedFaces,50);
-#U = reducedFaces * V;
+U = U(:,1:150); #Select first 50 eigenfaces
 
 #Represent each image in terms of the k eignenfaces
 #Find a weight vector for each training set image
