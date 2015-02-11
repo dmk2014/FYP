@@ -7,5 +7,5 @@ function U = getEigenfacesSVD(M,k)
   [U S V] = svd(M,"econ");
   
   #Select top k eigenfaces to keep
-  U = U(:,k);
+  U = U(:,1:k);
 endfunction
