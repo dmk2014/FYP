@@ -1,4 +1,4 @@
-function result = getEigenfacesSVD(M,k)
+function U = getEigenfacesSVD(M,k)
   #SVD is an alternate method of performing PCA
   #Results much more accurate than original algorithm
 
@@ -7,5 +7,5 @@ function result = getEigenfacesSVD(M,k)
   [U S V] = svd(M,"econ");
   
   #Select top k eigenfaces to keep
-  U(:,k);
+  U = U(:,k);
 endfunction
