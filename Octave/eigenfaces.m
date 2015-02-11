@@ -1,3 +1,5 @@
+tic;
+
 #M = loadYaleTrainingDatabase("C:/Users/t00157675/Desktop/fyp/FYP/YaleTrainingDatabase/");
 M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
 
@@ -9,9 +11,11 @@ reducedFaces = reduceFaces(M,averageFace);
 #Results much more accurate than original algorithm
 [U S V] = svd(reducedFaces,"econ");
 
-U = U(:,1:150); #Select first 50 eigenfaces
+U = getEigenfacesSVD(reducedFaces,150) #returns top 150 eigenvectors
 
 #Represent each image in terms of the k eignenfaces
 #Find a weight vector for each training set image
 #Wj = Uj' * ReducedFacesi
 weights = findWeights(reducedFaces, U);
+
+timeElapsed = toc;
