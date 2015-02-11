@@ -1,5 +1,5 @@
 #Proejecting New Face
-image = double(imread("~/Desktop/FYP/YaleTrainingDatabase/yaleB01/yaleB01_P00_Ambient.pgm"));
+image = double(imread("~/Desktop/yaleB01_P00A+000E+00.pgm"));
 
 image = reshape(image,rows(image) * columns(image),1);
 
