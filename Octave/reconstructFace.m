@@ -1,20 +1,12 @@
-function reconstructFace(weights,U,averageFace,faceIndex)
-  faceWeights = weights(:,faceIndex); #300x1, or EigCountx1
-  #result = double(zeros(32256,1));
-
-  #for i=1:columns(U)
-  #  curWeight = faceWeights(i,1);
-  #  curEig = U(:,i);
-  #  result += curWeight * curEig;
-  #endfor
+function result = reconstructFace(weights,U,averageFace,i)
+  #reconstructs face i in the training set
   
+  #select the weights that were calculated for that face
+  faceWeights = weights(:,i); #column vector of dim cols(U) x 1
+  
+  #multiply the weights for face i by all eigenfaces
+  #and then add back the average face
   result = U * faceWeights;
-  
-  result = normalize(result,0,255);
-
+  result = normalize(result,0,255)
   result += averageFace;
-
-  result = reshape(result,192,168);
-  imagesc(result);
-  colormap(gray);
 endfunction
