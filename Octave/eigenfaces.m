@@ -8,7 +8,7 @@ averageFace = calculateMean(M);
 reducedFaces = reduceFaces(M,averageFace);
 
 #Get eigenfaces using SVD method
-U = getEigenfacesSVD(reducedFaces,150) #returns top 150 eigenvectors
+U = getEigenfacesSVD(reducedFaces,150); #returns top 150 eigenvectors
 
 #Represent each image in terms of the k eignenfaces
 #Find a weight vector for each training set image
