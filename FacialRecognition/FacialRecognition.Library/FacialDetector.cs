@@ -6,7 +6,7 @@ using Emgu.CV.Structure;
 
 namespace FacialRecognition.Library
 {
-    public class FacialDetector
+    public class FacialDetector : FacialRecognition.Library.IFacialDetector
     {
         public Rectangle[] DetectFaces(Bitmap image)
         {
