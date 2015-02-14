@@ -1,0 +1,8 @@
+#Ignore Directory Contens
+
+*
+
+#Except
+
+!.gitignore
+!Readme.txt
