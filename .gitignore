@@ -6,6 +6,12 @@
 *.user
 *.sln.docstates
 
+#Emgu CVV contents
+FacialRecognition.Library/x64/*.dll
+FacialRecognition.Library/x86/*.dll
+FacialRecognition.Library/x64/*.exe
+FacialRecognition.Library/x86/*.exe
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
