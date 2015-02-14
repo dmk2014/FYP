@@ -1,0 +1,1 @@
+Please copy EmguCV x64 bin folder contents to here
