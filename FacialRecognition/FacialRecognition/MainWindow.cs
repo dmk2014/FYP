@@ -1,6 +1,7 @@
 ﻿using Microsoft.Kinect;
 using System;
 using System.Windows.Forms;
+using System.Drawing;
 
 using FacialRecognition.Library.Hardware.KinectV1;
 
@@ -170,12 +171,26 @@ namespace FacialRecognition
 
         private void btnFacialDetection_Click(object sender, EventArgs e)
         {
-            //TODO
-
-            MessageBox.Show("Under Construction!", "Facial Detection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
             var _detector = new FacialRecognition.Library.FacialDetector();
-            //_detector.DetectFaces(null);
+
+            var _faces = _detector.DetectFaces(DataProcessor.ColorToBitmap(c_capturedFrame));
+
+            if (_faces.Length < 1)
+            {
+                MessageBox.Show("No faces detected");
+            }
+            else
+            {
+                var g = pbxCapturedColorImage.CreateGraphics();
+                var _pen = new Pen(Color.Green, 3);
+                var _i = 0;
+
+                do
+                {
+                    g.DrawRectangle(_pen,_faces[_i]);
+                    _i++;
+                } while (_i < _faces.Length);
+            }
         }
     }
 }
