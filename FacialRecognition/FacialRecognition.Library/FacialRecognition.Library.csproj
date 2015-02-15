@@ -91,6 +91,8 @@
     <Compile Include="Hardware\IImagingHardware.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataIO.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataProcessor.cs" />
+    <Compile Include="IFacialDetector.cs" />
+    <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
