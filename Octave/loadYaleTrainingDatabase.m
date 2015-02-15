@@ -4,18 +4,17 @@
 #Write image to disk
 #imwrite(image, "~/Desktop/FYP/Octave/testimage.png", "png");
 
-#Below code reads training set to memory
-#Takes ~30 seconds using an i5 @ 3.8Ghz, and ~150MB RAM
-
 function result = loadYaleTrainingDatabase(path)
   #trainingDatabase = readdir("~/Desktop/fyp/FYP/YaleTrainingDatabase");
   #trainingDatabase = readdir("C:/Users/t00157675/Desktop/fyp/FYP/YaleTrainingDatabase");
   
   trainingDatabase = readdir(path);
-  
   folderCount = numel(trainingDatabase);
-
-  result = [];
+  
+  #result = struct("data",{1,32256},"label",{1,1});
+  #result = [];
+  data = [];
+  label = {};
 
   for i=1:folderCount
     #Skip special files . and ..
@@ -24,7 +23,9 @@ function result = loadYaleTrainingDatabase(path)
     endif
   
     currentFolder = [path trainingDatabase{i}];
-  
+    test = trainingDatabase(i,:);
+    test1 = trainingDatabase{i};
+    
     if(isdir(currentFolder))
       #Read all .pgm images in that dir
       imgDir = readdir(currentFolder);
@@ -40,12 +41,14 @@ function result = loadYaleTrainingDatabase(path)
         
           #Process the image
           img = reshape(img,rows(img) * columns(img),1);
-          result = [result, img];
+          data = [data, img];          
+          #label = [label; test1]; #label will be folder name/subject name
+          label = [label; test];
         endif
       endfor
     endif
   endfor
-
-  clear("trainingDatabase","folderCount","currentFolder","imgDir","currentImagePath","img","i","j");
-
+  
+  result.data = data;
+  result.label = label;
 endfunction
