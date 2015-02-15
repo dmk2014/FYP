@@ -1,5 +1,3 @@
-#Script to save session data
-
 #Save training set
 saveMatrixData(M,"training_set");
 
