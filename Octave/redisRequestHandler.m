@@ -5,7 +5,7 @@ function redisRequestHandler(R,request)
   global REQUEST_RELOAD;
   global REQUEST_SAVE;
   global RESPONSE_OK;
-  global REPONSE_FAIL;
+  global RESPONSE_FAIL;
   
   data = redisGet(R,"facial.request.data");
   #parse request
@@ -24,6 +24,9 @@ function redisRequestHandler(R,request)
     catch
       redisSendResponse(R,"200","Octave: save session failed");
     end_try_catch
+  else
+    #invalid request
+    redisSendResponse(R,"200","Octave: invalid request");
   endif
   
   disp("Request Parsed & Response Sent");
