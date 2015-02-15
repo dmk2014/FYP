@@ -87,6 +87,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\IDatabase.cs" />
     <Compile Include="FacialDetector.cs" />
     <Compile Include="Hardware\IImagingHardware.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataIO.cs" />
@@ -95,9 +96,7 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Database\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="x64\cudart64_65.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
