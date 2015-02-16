@@ -2,7 +2,7 @@
 
 namespace FacialRecognition.Library.Models
 {
-    class Person
+    public class Person
     {
         public int _id;
         public String Forename { get; set; }

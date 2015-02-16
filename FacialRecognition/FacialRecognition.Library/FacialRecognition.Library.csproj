@@ -105,9 +105,12 @@
     <Compile Include="Hardware\KinectV1\SensorDataIO.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataProcessor.cs" />
     <Compile Include="IFacialDetector.cs" />
+    <Compile Include="IFacialRecogniser.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="OctaveInterface.cs" />
     <Compile Include="OctaveMessage.cs" />
+    <Compile Include="OctaveMessageType.cs" />
+    <Compile Include="OctaveRecogniser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

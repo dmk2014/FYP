@@ -15,10 +15,10 @@ namespace FacialRecognition.Library.Database
         //Retrieve a person
         //Retrieve all persons
 
-        public Boolean Store(FacialRecognition.Library.Models.Person Person);
-        public Boolean Update(FacialRecognition.Library.Models.Person Person);
+        Boolean Store(FacialRecognition.Library.Models.Person Person);
+        Boolean Update(FacialRecognition.Library.Models.Person Person);
 
-        public FacialRecognition.Library.Models.Person Retrieve();
-        public FacialRecognition.Library.Models.Person RetrieveAll();
+        FacialRecognition.Library.Models.Person Retrieve();
+        FacialRecognition.Library.Models.Person RetrieveAll();
     }
 }
