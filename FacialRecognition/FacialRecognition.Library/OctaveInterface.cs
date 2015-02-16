@@ -18,11 +18,11 @@ namespace FacialRecognition.Library
             this.c_Client = Client;
         }
 
-        public Boolean SendRequest(OctaveMessageType Type, String Data)
+        public Boolean SendRequest(OctaveMessage Message)
         {
             var _transaction = new RedisTransaction(c_Client);
-            _transaction.QueueCommand(r => r.Set("facial.request.code", Type));
-            _transaction.QueueCommand(r => r.Set("facial.request.data", Data));
+            _transaction.QueueCommand(r => r.Set("facial.request.code", Message.Code));
+            _transaction.QueueCommand(r => r.Set("facial.request.data", Message.Data));
 
             return _transaction.Commit();
         }
@@ -46,13 +46,14 @@ namespace FacialRecognition.Library
                 }
             }
 
-            if (_response == null)
+            if (_response != null)
             {
-                throw new TimeoutException("A response was not received from Octave in the specified time (" + Timeout + "ms)");
+                return _response;
+                
             }
             else
             {
-                return _response;
+                throw new TimeoutException("A response was not received from Octave in the specified time (" + Timeout + "ms)");
             }
         }
     }
