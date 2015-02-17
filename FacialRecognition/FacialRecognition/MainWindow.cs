@@ -1,26 +1,32 @@
-﻿using Microsoft.Kinect;
-using System;
-using System.Windows.Forms;
-using System.Drawing;
-
-using FacialRecognition.Library.Hardware.KinectV1;
-using FacialRecognition.Library.Core;
+﻿using FacialRecognition.Library.Hardware.KinectV1;
 using FacialRecognition.Library.Octave;
+using Microsoft.Kinect;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace FacialRecognition
 {
     public partial class frmFacialRecPrototype : Form
     {
-        KinectSensor Sensor;
-        bool SensorActive;
-        SensorDataProcessor DataProcessor = new SensorDataProcessor();
+        KinectSensor c_Sensor;
+        SensorDataProcessor c_DataProcessor;
 
         public frmFacialRecPrototype()
         {
             InitializeComponent();
             this.CenterToScreen();
+
+            c_DataProcessor = new SensorDataProcessor();
         }
 
+        private void frmTest_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (c_Sensor.IsRunning)
+                c_Sensor.Stop();
+        }
+
+        #region CameraStreamsTab
         private void btnStartSensor_Click(object sender, EventArgs e)
         {
             PrototypeStartup();         
@@ -28,16 +34,15 @@ namespace FacialRecognition
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            if (Sensor.IsRunning)
+            if (c_Sensor.IsRunning)
             {
-                Sensor.Stop();
-                SensorActive = false;
+                c_Sensor.Stop();
                 btnStartSensor.Enabled = true;
                 btnStop.Enabled = false;
             }
         }
 
-        public void PrototypeStartup()
+        private void PrototypeStartup()
         {
             try
             {
@@ -47,17 +52,16 @@ namespace FacialRecognition
                 }
                 else
                 {
-                    Sensor = KinectSensor.KinectSensors[0];
+                    c_Sensor = KinectSensor.KinectSensors[0];
 
-                    Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
-                    Sensor.ColorFrameReady += runtime_VideoFrameReady;
+                    c_Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+                    c_Sensor.ColorFrameReady += runtime_VideoFrameReady;
 
-                    Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
-                    Sensor.DepthFrameReady += runtime_DeptFrameReady;
+                    c_Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+                    c_Sensor.DepthFrameReady += runtime_DeptFrameReady;
 
-                    Sensor.Start();
+                    c_Sensor.Start();
 
-                    SensorActive = true;
                     btnStartSensor.Enabled = false;
                     btnIncrElevation.Enabled = true;
                     btnDecrElevation.Enabled = true;
@@ -77,7 +81,7 @@ namespace FacialRecognition
 
             if (_frame != null)
             {
-                pbxDept.Image = DataProcessor.DepthToBitmap(_frame);
+                pbxDept.Image = c_DataProcessor.DepthToBitmap(_frame);
             }
         }
 
@@ -87,24 +91,18 @@ namespace FacialRecognition
 
             if (_frame != null)
             {
-                pbxImage.Image = DataProcessor.ColorToBitmap(_frame);   
+                pbxImage.Image = c_DataProcessor.ColorToBitmap(_frame);   
             }
-        }
-
-        private void frmTest_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (Sensor.IsRunning)
-                Sensor.Stop();
         }
 
         private void btnIncrElevation_Click(object sender, EventArgs e)
         {
             try
             {
-                var _max = Sensor.MaxElevationAngle;
+                var _max = c_Sensor.MaxElevationAngle;
 
-                if (Sensor.ElevationAngle + 15 <= _max)
-                    Sensor.ElevationAngle = Sensor.ElevationAngle + 5; ;
+                if (c_Sensor.ElevationAngle + 15 <= _max)
+                    c_Sensor.ElevationAngle = c_Sensor.ElevationAngle + 5; ;
             }
             catch (Exception ex)
             {
@@ -116,10 +114,10 @@ namespace FacialRecognition
         {
             try
             {
-                var _min = Sensor.MinElevationAngle;
+                var _min = c_Sensor.MinElevationAngle;
 
-                if (Sensor.ElevationAngle - 15 >= _min)
-                    Sensor.ElevationAngle = Sensor.ElevationAngle - 5;
+                if (c_Sensor.ElevationAngle - 15 >= _min)
+                    c_Sensor.ElevationAngle = c_Sensor.ElevationAngle - 5;
             }
             catch (Exception ex)
             {
@@ -133,54 +131,69 @@ namespace FacialRecognition
 
             //Dispose the running sensor instance
             //Create new instance and then poll for frames
-            Sensor.Dispose();
+            c_Sensor.Dispose();
 
-            Sensor = KinectSensor.KinectSensors[0];
-            Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
-            Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
-            Sensor.Start();
+            c_Sensor = KinectSensor.KinectSensors[0];
+            c_Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+            c_Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+            c_Sensor.Start();
 
-            var _colourFrame = Sensor.ColorStream.OpenNextFrame(1000);
-            var _depthFrame = Sensor.DepthStream.OpenNextFrame(1000);
+            var _colourFrame = c_Sensor.ColorStream.OpenNextFrame(1000);
+            var _depthFrame = c_Sensor.DepthStream.OpenNextFrame(1000);
 
             _io.SaveRawPixelDataColour(_colourFrame);
             _io.SaveRawPixelDataDepth(_depthFrame);
 
             //Dispose the running sensor used only by this method
             //Restart the prototype
-            Sensor.Dispose();
+            c_Sensor.Dispose();
             PrototypeStartup();
         }
+        #endregion
 
-        ColorImageFrame c_capturedFrame;
+        #region FacialRecognitionTab
+        KinectV1Sensor c_Kinect;
+        Bitmap c_capturedFrame;
         Rectangle[] c_Faces;
+
+        private void PrepareKinectSensor()
+        {
+
+            if (KinectSensor.KinectSensors.Count > 0)
+            {
+                c_Kinect = new KinectV1Sensor(KinectSensor.KinectSensors[0]);
+            }
+            else
+            {
+                MessageBox.Show("Could find a Kinect sensor attached to this system","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+        }
 
         private void btnCaptureFrame_Click(object sender, EventArgs e)
         {
-            if (Sensor != null)
+            try
             {
-                Sensor.Dispose();
+                this.PrepareKinectSensor();
+
+                if (c_Kinect != null)
+                {
+                    c_capturedFrame = this.c_Kinect.CaptureImage();
+                    pbxCapturedColorImage.Image = c_capturedFrame;
+                    btnFacialDetection.Enabled = true;
+                    btnPerformFacialRec.Enabled = true;
+                }
             }
-
-            Sensor = KinectSensor.KinectSensors[0];
-            Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
-            Sensor.Start();
-
-            c_capturedFrame = Sensor.ColorStream.OpenNextFrame(1000);
-
-            pbxCapturedColorImage.Image = DataProcessor.ColorToBitmap(c_capturedFrame);
-
-            Sensor.Dispose();
-
-            btnFacialDetection.Enabled = true;
-            btnPerformFacialRec.Enabled = true;
+            catch(Exception _ex)
+            {
+                MessageBox.Show(_ex.Message);
+            }
         }
 
         private void btnFacialDetection_Click(object sender, EventArgs e)
         {
             var _detector = new FacialRecognition.Library.Core.FacialDetector();
 
-            c_Faces = _detector.DetectFaces(DataProcessor.ColorToBitmap(c_capturedFrame));
+            c_Faces = _detector.DetectFaces(c_capturedFrame);
 
             if (c_Faces.Length < 1)
             {
@@ -192,23 +205,31 @@ namespace FacialRecognition
                 var _pen = new Pen(Color.Green, 3);
                 var _i = 0;
 
-                do
+                while (_i < c_Faces.Length)
                 {
                     g.DrawRectangle(_pen,c_Faces[_i]);
                     _i++;
-                } while (_i < c_Faces.Length);
+                }
             }
         }
 
         private void btnPerformFacialRec_Click(object sender, EventArgs e)
         {
-            var _recogniser = new OctaveRecogniser(new OctaveInterface(new ServiceStack.Redis.RedisClient()));
+            try
+            {
+                var _recogniser = new OctaveRecogniser(new OctaveInterface(new ServiceStack.Redis.RedisClient()));
 
-            var _face = DataProcessor.ColorToBitmap(c_capturedFrame).Clone(c_Faces[0],System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                var _face = c_capturedFrame.Clone(c_Faces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
 
-            var _result = _recogniser.ClassifyFace(_face);
+                var _result = _recogniser.ClassifyFace(_face);
 
-            MessageBox.Show("Result: " + _result._id);
+                MessageBox.Show("Result: " + _result._id);
+            }
+            catch (Exception _ex)
+            {
+                MessageBox.Show(_ex.Message);
+            }
         }
+        #endregion
     }
 }
