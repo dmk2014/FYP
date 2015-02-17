@@ -1,20 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FacialRecognition.Library
+﻿namespace FacialRecognition.Library
 {
     public class OctaveRecogniser : IFacialRecogniser
     {
+        private OctaveInterface c_Interface;
+
+        public OctaveRecogniser(OctaveInterface Interface)
+        {
+            this.SetInterface(Interface);
+        }
+
+        public void SetInterface(OctaveInterface Interface)
+        {
+            this.c_Interface = Interface;
+        }
+
         public Models.Person ClassifyFace(System.Drawing.Bitmap FacialImage)
         {
             //Normalize request image -> maybe should be done earlier than here
-            //Send recognition request to Octave
-            //Send response request
-            //Handle response received, if any
-            throw new NotImplementedException();
+            var _message = new OctaveMessage(OctaveMessageType.REQUEST_REC, FacialImage.ToString());
+            c_Interface.SendRequest(_message);
+
+            var _response = c_Interface.ReceiveResponse(15000);
+            var _result = new Models.Person();
+            _result._id = _response.Data;
+
+            return _result;
         }
     }
 }
