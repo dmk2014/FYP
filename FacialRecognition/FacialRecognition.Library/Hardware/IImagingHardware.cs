@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace FacialRecognition.Library.Hardware
 {
@@ -14,6 +15,6 @@ namespace FacialRecognition.Library.Hardware
 
         //e.g capture frame for Kinect should also handle background removal
 
-        void CaptureImage();
+        Bitmap CaptureImage();
     }
 }
