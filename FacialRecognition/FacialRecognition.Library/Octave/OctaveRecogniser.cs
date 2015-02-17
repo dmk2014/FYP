@@ -17,7 +17,7 @@
         public Models.Person ClassifyFace(System.Drawing.Bitmap FacialImage)
         {
             //Normalize request image -> maybe should be done earlier than here
-            var _message = new OctaveMessage(OctaveMessageType.REQUEST_REC, FacialImage.ToString());
+            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_REC, FacialImage.ToString());
             c_Interface.SendRequest(_message);
 
             var _response = c_Interface.ReceiveResponse(15000);

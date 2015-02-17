@@ -23,6 +23,7 @@ namespace FacialRecognition.Library.Octave
             var _transaction = new RedisTransaction(c_Client);
             _transaction.QueueCommand(r => r.Set("facial.request.code", Message.Code));
             _transaction.QueueCommand(r => r.Set("facial.request.data", Message.Data));
+            _transaction.QueueCommand(r => r.Set("facial.response.code", (int)OctaveMessageType.NO_DATA));
 
             return _transaction.Commit();
         }
@@ -36,19 +37,18 @@ namespace FacialRecognition.Library.Octave
             while (_watch.ElapsedMilliseconds <= Timeout)
             {
                 var _responseCodeString = c_Client.Get("facial.response.code").ToString();
-                var _reponseCode = int.Parse(_responseCodeString);
-
-                if (_reponseCode != (int)OctaveMessageType.NO_DATA)
+                
+                if (_responseCodeString != OctaveMessageType.NO_DATA.ToString())
                 {
+                    var _reponseCode = int.Parse(_responseCodeString);
                     var _reponseData = c_Client.Get("facial.response.data").ToString();
-                    _response = new OctaveMessage((OctaveMessageType) _reponseCode, _reponseData);
+                    _response = new OctaveMessage(_reponseCode, _reponseData);
                     break;
                 }
             }
 
             if (_response != null)
             {
-                c_Client.Set("facial.response.code", (int)OctaveMessageType.NO_DATA);
                 return _response;
             }
             else
