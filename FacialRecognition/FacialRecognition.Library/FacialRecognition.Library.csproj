@@ -102,6 +102,7 @@
     <Compile Include="Database\IDatabase.cs" />
     <Compile Include="FacialDetector.cs" />
     <Compile Include="Hardware\IImagingHardware.cs" />
+    <Compile Include="Hardware\KinectV1\KinectV1Sensor.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataIO.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataProcessor.cs" />
     <Compile Include="IFacialDetector.cs" />
