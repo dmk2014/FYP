@@ -10,7 +10,7 @@ namespace FacialRecognition.Library
 
         public OctaveInterface(RedisClient Client)
         {
-            this.c_Client = Client;
+            this.SetRedisClient(Client);
         }
 
         public void SetRedisClient(RedisClient Client)
@@ -30,10 +30,10 @@ namespace FacialRecognition.Library
         public OctaveMessage ReceiveResponse(int Timeout)
         {
             OctaveMessage _response = null;
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
+            var _watch = new Stopwatch();
+            _watch.Start();
 
-            while (watch.ElapsedMilliseconds <= Timeout)
+            while (_watch.ElapsedMilliseconds <= Timeout)
             {
                 var _responseCodeString = c_Client.Get("facial.response.code").ToString();
                 var _reponseCode = int.Parse(_responseCodeString);
@@ -48,8 +48,8 @@ namespace FacialRecognition.Library
 
             if (_response != null)
             {
+                c_Client.Set("facial.response.code", (int)OctaveMessageType.NO_DATA);
                 return _response;
-                
             }
             else
             {
