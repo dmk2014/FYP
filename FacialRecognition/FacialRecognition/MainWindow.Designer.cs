@@ -70,6 +70,7 @@
             // 
             // btnIncrElevation
             // 
+            this.btnIncrElevation.Enabled = false;
             this.btnIncrElevation.Location = new System.Drawing.Point(238, 19);
             this.btnIncrElevation.Name = "btnIncrElevation";
             this.btnIncrElevation.Size = new System.Drawing.Size(110, 36);
@@ -80,6 +81,7 @@
             // 
             // btnDecrElevation
             // 
+            this.btnDecrElevation.Enabled = false;
             this.btnDecrElevation.Location = new System.Drawing.Point(354, 19);
             this.btnDecrElevation.Name = "btnDecrElevation";
             this.btnDecrElevation.Size = new System.Drawing.Size(110, 36);
@@ -113,6 +115,7 @@
             // 
             // btnSaveFrameData
             // 
+            this.btnSaveFrameData.Enabled = false;
             this.btnSaveFrameData.Location = new System.Drawing.Point(122, 19);
             this.btnSaveFrameData.Name = "btnSaveFrameData";
             this.btnSaveFrameData.Size = new System.Drawing.Size(110, 36);
@@ -202,6 +205,7 @@
             // 
             // pbxCapturedColorImage
             // 
+            this.pbxCapturedColorImage.BackColor = System.Drawing.SystemColors.Control;
             this.pbxCapturedColorImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbxCapturedColorImage.Location = new System.Drawing.Point(6, 89);
             this.pbxCapturedColorImage.Name = "pbxCapturedColorImage";
@@ -218,6 +222,7 @@
             this.btnPerformFacialRec.TabIndex = 2;
             this.btnPerformFacialRec.Text = "Perform Facial Recognition";
             this.btnPerformFacialRec.UseVisualStyleBackColor = true;
+            this.btnPerformFacialRec.Click += new System.EventHandler(this.btnPerformFacialRec_Click);
             // 
             // btnFacialDetection
             // 

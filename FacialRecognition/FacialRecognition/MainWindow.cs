@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using System.Drawing;
 
 using FacialRecognition.Library.Hardware.KinectV1;
+using FacialRecognition.Library.Core;
+using FacialRecognition.Library.Octave;
 
 namespace FacialRecognition
 {
@@ -57,6 +59,9 @@ namespace FacialRecognition
 
                     SensorActive = true;
                     btnStartSensor.Enabled = false;
+                    btnIncrElevation.Enabled = true;
+                    btnDecrElevation.Enabled = true;
+                    btnSaveFrameData.Enabled = true;
                     btnStop.Enabled = true;
                 }
             }
@@ -148,6 +153,7 @@ namespace FacialRecognition
         }
 
         ColorImageFrame c_capturedFrame;
+        Rectangle[] c_Faces;
 
         private void btnCaptureFrame_Click(object sender, EventArgs e)
         {
@@ -167,15 +173,16 @@ namespace FacialRecognition
             Sensor.Dispose();
 
             btnFacialDetection.Enabled = true;
+            btnPerformFacialRec.Enabled = true;
         }
 
         private void btnFacialDetection_Click(object sender, EventArgs e)
         {
             var _detector = new FacialRecognition.Library.Core.FacialDetector();
 
-            var _faces = _detector.DetectFaces(DataProcessor.ColorToBitmap(c_capturedFrame));
+            c_Faces = _detector.DetectFaces(DataProcessor.ColorToBitmap(c_capturedFrame));
 
-            if (_faces.Length < 1)
+            if (c_Faces.Length < 1)
             {
                 MessageBox.Show("No faces detected");
             }
@@ -187,10 +194,21 @@ namespace FacialRecognition
 
                 do
                 {
-                    g.DrawRectangle(_pen,_faces[_i]);
+                    g.DrawRectangle(_pen,c_Faces[_i]);
                     _i++;
-                } while (_i < _faces.Length);
+                } while (_i < c_Faces.Length);
             }
+        }
+
+        private void btnPerformFacialRec_Click(object sender, EventArgs e)
+        {
+            var _recogniser = new OctaveRecogniser(new OctaveInterface(new ServiceStack.Redis.RedisClient()));
+
+            var _face = DataProcessor.ColorToBitmap(c_capturedFrame).Clone(c_Faces[0],System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+
+            var _result = _recogniser.ClassifyFace(_face);
+
+            MessageBox.Show("Result: " + _result._id);
         }
     }
 }
