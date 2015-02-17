@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FacialRecognition.Library
+namespace FacialRecognition.Library.Octave
 {
     public class OctaveMessage
     {

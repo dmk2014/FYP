@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace FacialRecognition.Library
+namespace FacialRecognition.Library.Octave
 {
     public class OctaveInterface
     {

@@ -171,7 +171,7 @@ namespace FacialRecognition
 
         private void btnFacialDetection_Click(object sender, EventArgs e)
         {
-            var _detector = new FacialRecognition.Library.FacialDetector();
+            var _detector = new FacialRecognition.Library.Core.FacialDetector();
 
             var _faces = _detector.DetectFaces(DataProcessor.ColorToBitmap(c_capturedFrame));
 

@@ -1,5 +1,6 @@
 ﻿using System;
-namespace FacialRecognition.Library
+
+namespace FacialRecognition.Library.Core
 {
     interface IFacialDetector
     {

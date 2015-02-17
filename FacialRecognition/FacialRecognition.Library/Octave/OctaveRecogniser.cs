@@ -1,6 +1,6 @@
-﻿namespace FacialRecognition.Library
+﻿namespace FacialRecognition.Library.Octave
 {
-    public class OctaveRecogniser : IFacialRecogniser
+    public class OctaveRecogniser : Core.IFacialRecogniser
     {
         private OctaveInterface c_Interface;
 

@@ -1,12 +1,10 @@
-﻿using System.Drawing;
-
-using Emgu.CV;
-using Emgu.Util;
+﻿using Emgu.CV;
 using Emgu.CV.Structure;
+using System.Drawing;
 
-namespace FacialRecognition.Library
+namespace FacialRecognition.Library.Core
 {
-    public class FacialDetector : FacialRecognition.Library.IFacialDetector
+    public class FacialDetector : FacialRecognition.Library.Core.IFacialDetector
     {
         public Rectangle[] DetectFaces(Bitmap image)
         {
