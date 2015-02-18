@@ -1,13 +1,13 @@
 function redisListener(R)
   #R = redisConnection
   #Load globals 
-  redisGlobals
-  global NO_REQUEST
-  global REQUEST_REC
-  global REQUEST_RELOAD
-  global REQUEST_SAVE
-  global RESPONSE_OK
-  global RESPONSE_FAIL
+  #redisGlobals
+  global NO_REQUEST = 0;
+  global REQUEST_REC = 100;
+  global REQUEST_RELOAD = 200;
+  global REQUEST_SAVE = 300;
+  global RESPONSE_OK = 100;
+  global RESPONSE_FAIL = 200;
 
   sentinel = 0;
   
