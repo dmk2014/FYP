@@ -1,4 +1,4 @@
-global NO_REQUEST = 0;
+global NO_REQUEST = 50;
 global REQUEST_REC = 100;
 global REQUEST_RELOAD = 200;
 global REQUEST_SAVE = 300;
