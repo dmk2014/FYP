@@ -2,7 +2,7 @@
 {
     public enum OctaveMessageType
     {
-        NO_DATA = 0,
+        NO_DATA = 50,
         REQUEST_REC = 100,
         REQUEST_RELOAD = 200,
         REQUEST_SAVE = 300,
