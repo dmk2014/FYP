@@ -217,7 +217,7 @@ namespace FacialRecognition
         {
             try
             {
-                var _recogniser = new OctaveRecogniser(new OctaveInterface(new ServiceStack.Redis.RedisClient()));
+                var _recogniser = new OctaveRecogniser(new OctaveInterface("localhost","6379"));
 
                 var _face = c_capturedFrame.Clone(c_Faces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);//normalise this face
 

@@ -1,31 +1,31 @@
-﻿using ServiceStack.Redis;
-using System;
+﻿using System;
 using System.Diagnostics;
+
+using StackExchange.Redis;
 
 namespace FacialRecognition.Library.Octave
 {
     public class OctaveInterface
     {
-        private RedisClient c_Client;
+        //This should be a global constant, may move
+        private ConnectionMultiplexer c_Connection;
+        private IDatabase c_redisDatabase;
 
-        public OctaveInterface(RedisClient Client)
+        public OctaveInterface(String Host, String Port)
         {
-            this.SetRedisClient(Client);
-        }
-
-        public void SetRedisClient(RedisClient Client)
-        {
-            this.c_Client = Client;
+            this.c_Connection = ConnectionMultiplexer.Connect(Host + ":" + Port);
+            this.c_redisDatabase = c_Connection.GetDatabase();
         }
 
         public Boolean SendRequest(OctaveMessage Message)
         {
-            var _transaction = new RedisTransaction(c_Client);
-            _transaction.QueueCommand(r => r.Set("facial.request.code", Message.Code));
-            _transaction.QueueCommand(r => r.Set("facial.request.data", Message.Data));
-            _transaction.QueueCommand(r => r.Set("facial.response.code", (int)OctaveMessageType.NO_DATA));
+            var _transaction = c_redisDatabase.CreateTransaction();
 
-            return _transaction.Commit();
+            _transaction.StringSetAsync("facial.request.code", Message.Code);
+            _transaction.StringSetAsync("facial.request.data", Message.Data);
+            _transaction.StringSetAsync("facial.response.code", (int)OctaveMessageType.NO_DATA);
+
+            return _transaction.Execute();
         }
 
         public OctaveMessage ReceiveResponse(int Timeout)
@@ -36,13 +36,13 @@ namespace FacialRecognition.Library.Octave
 
             while (_watch.ElapsedMilliseconds <= Timeout)
             {
-                var _responseCodeString = c_Client.GetValue("facial.response.code");
+                var _responseCodeString = c_redisDatabase.StringGet("facial.response.code");
                 var _responseCode = int.Parse(_responseCodeString);
 
                 if (_responseCode != (int)OctaveMessageType.NO_DATA)
                 {
                     var _reponseCode = int.Parse(_responseCodeString);
-                    var _reponseData = c_Client.GetValue("facial.response.data");
+                    var _reponseData = c_redisDatabase.StringGet("facial.response.data");
                     _response = new OctaveMessage(_reponseCode, _reponseData);
                     break;
                 }
