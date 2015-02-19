@@ -36,12 +36,13 @@ namespace FacialRecognition.Library.Octave
 
             while (_watch.ElapsedMilliseconds <= Timeout)
             {
-                var _responseCodeString = c_Client.Get("facial.response.code").ToString();
-                
-                if (_responseCodeString != OctaveMessageType.NO_DATA.ToString())
+                var _responseCodeString = c_Client.GetValue("facial.response.code");
+                var _responseCode = int.Parse(_responseCodeString);
+
+                if (_responseCode != (int)OctaveMessageType.NO_DATA)
                 {
                     var _reponseCode = int.Parse(_responseCodeString);
-                    var _reponseData = c_Client.Get("facial.response.data").ToString();
+                    var _reponseData = c_Client.GetValue("facial.response.data");
                     _response = new OctaveMessage(_reponseCode, _reponseData);
                     break;
                 }
