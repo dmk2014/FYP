@@ -21,7 +21,10 @@ function redisListener(R)
       #Do work
       #Send response -> facial.response
       
-      redisRequestHandler(R,request);
+      sessionData.requestCode = request;
+      sessionData.requestData = redisGet(R,"facial.request.data");
+      
+      sessionData = redisRequestHandler(R,request,sessionData);
       
       #Work is done, so clear request for use before next loop
       redisSet(R,"facial.request.code","50");

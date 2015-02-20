@@ -1,20 +1,16 @@
-global M;
-global averageFace;
-global reducedFaces;
-global U;
-global weights;
+function saveSession(sessionData)
+  #Save training set
+  saveMatrixData(sessionData.M,"training_set");
 
-#Save training set
-saveMatrixData(M,"training_set");
+  #Save average face
+  saveMatrixData(sessionData.averageFace,"average_face");
 
-#Save average face
-saveMatrixData(averageFace,"average_face");
+  #Save reduced faces
+  saveMatrixData(sessionData.reducedFaces,"reduced_faces");
 
-#Save reduced faces
-saveMatrixData(reducedFaces,"reduced_faces");
+  #Save eigenfaces
+  saveMatrixData(sessionData.U,"eigenfaces");
 
-#Save eigenfaces
-saveMatrixData(U,"eigenfaces");
-
-#Save weights
-saveMatrixData(weights,"weights");
+  #Save weights
+  saveMatrixData(sessionData.weights,"weights");
+endfunction
