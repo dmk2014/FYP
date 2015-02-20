@@ -1,4 +1,4 @@
-function sessionData = redisRequestHandler(R,request, sessionData)
+function sessionData = redisRequestHandler(R, sessionData)
   #Load globals
   global NO_REQUEST = 50;
   global REQUEST_REC = 100;
@@ -8,6 +8,7 @@ function sessionData = redisRequestHandler(R,request, sessionData)
   global RESPONSE_OK = 100;
   global RESPONSE_FAIL = 200;
   
+  request = sessionData.requestCode;
   data = sessionData.requestData;
   
   #parse request
@@ -21,11 +22,13 @@ function sessionData = redisRequestHandler(R,request, sessionData)
   
     #reload all data
     try
+      clear("sessionData");
       sessionData = loadSession();
       redisSendResponse(R,"100","Octave: reload session success");
       disp("Response Sent: 100...reload succeeded");
     catch
       redisSendResponse(R,"200","Octave: load session failed");
+      disp(lasterror.message);
     end_try_catch
     
   elseif (request == REQUEST_SAVE)
@@ -36,22 +39,24 @@ function sessionData = redisRequestHandler(R,request, sessionData)
       redisSendResponse(R,"100","Octave: save session success");
     catch
       redisSendResponse(R,"200","Octave: save session failed");
+      disp(lasterror.message);
     end_try_catch
   
   elseif (request == REQUEST_RETRAIN)  
     
     #reload entire sessionData
     try
+      clear("sessionData");
       sessionData = trainRecogniser();
+      redisSendResponse(R,"100","Octave: retraining recogniser success");
     catch
       redisSendResponse(R,"200","Octave: retraining recogniser failed");
+      disp(lasterror.message);
     end_try_catch
     
   else
-  
     #invalid request
     redisSendResponse(R,"200","Octave: invalid request");
-    
   endif
   
   disp("Request Parsed & Response Sent");

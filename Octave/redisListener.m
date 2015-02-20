@@ -1,4 +1,8 @@
 function redisListener(R)
+  if(nargin != 1)
+    usage("redisListener: redisConnection");
+  endif
+  
   #R = redisConnection
   #Load globals 
   #redisGlobals
@@ -25,7 +29,7 @@ function redisListener(R)
       sessionData.requestCode = request;
       sessionData.requestData = redisGet(R,"facial.request.data");
       
-      sessionData = redisRequestHandler(R,request,sessionData);
+      sessionData = redisRequestHandler(R,sessionData);
       
       #Work is done, so clear request for use before next loop
       redisSet(R,"facial.request.code","50");
