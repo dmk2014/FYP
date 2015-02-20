@@ -1,18 +1,18 @@
 tic;
 
 #M = loadYaleTrainingDatabase("C:/Users/t00157675/Desktop/fyp/FYP/YaleTrainingDatabase/");
-M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
+sessionData.M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
 
 #Reduce matrix using mean
-averageFace = calculateMean(M);
-reducedFaces = reduceFaces(M,averageFace);
+sessionData.averageFace = calculateMean(sessionData.M.data);
+sessionData.reducedFaces = reduceFaces(sessionData.M.data,sessionData.averageFace);
 
 #Get eigenfaces using SVD method
-U = getEigenfacesSVD(reducedFaces,250); #returns top k eigenvectors
+sessionData.U = getEigenfacesSVD(sessionData.reducedFaces,250); #returns top k eigenvectors
 
 #Represent each image in terms of the k eignenfaces
 #Find a weight vector for each training set image
 #Wj = Uj' * ReducedFacesi
-weights = findWeights(reducedFaces, U);
+sessionData.weights = findWeights(sessionData.reducedFaces, sessionData.U);
 
 timeElapsed = toc;
