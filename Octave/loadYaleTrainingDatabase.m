@@ -4,7 +4,7 @@
 #Write image to disk
 #imwrite(image, "~/Desktop/FYP/Octave/testimage.png", "png");
 
-function result = loadYaleTrainingDatabase(path)
+function [data,labels] = loadYaleTrainingDatabase(path)
   #trainingDatabase = readdir("~/Desktop/fyp/FYP/YaleTrainingDatabase");
   #trainingDatabase = readdir("C:/Users/t00157675/Desktop/fyp/FYP/YaleTrainingDatabase");
   
@@ -14,7 +14,7 @@ function result = loadYaleTrainingDatabase(path)
   #result = struct("data",{1,32256},"label",{1,1});
   #result = [];
   data = [];
-  label = {};
+  labels = {};
 
   for i=1:folderCount
     #Skip special files . and ..
@@ -43,12 +43,9 @@ function result = loadYaleTrainingDatabase(path)
           img = reshape(img,rows(img) * columns(img),1);
           data = [data, img];          
           #label = [label; test1]; #label will be folder name/subject name
-          label = [label; test];
+          labels = [labels; test];
         endif
       endfor
     endif
   endfor
-  
-  result.data = data;
-  result.label = label;
 endfunction
