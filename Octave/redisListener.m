@@ -6,6 +6,7 @@ function redisListener(R)
   global REQUEST_REC = 100;
   global REQUEST_RELOAD = 200;
   global REQUEST_SAVE = 300;
+  global REQUEST_RETRAIN = 400;
   global RESPONSE_OK = 100;
   global RESPONSE_FAIL = 200;
 

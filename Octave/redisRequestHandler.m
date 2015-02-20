@@ -4,6 +4,7 @@ function sessionData = redisRequestHandler(R,request, sessionData)
   global REQUEST_REC = 100;
   global REQUEST_RELOAD = 200;
   global REQUEST_SAVE = 300;
+  global REQUEST_RETRAIN = 400;
   global RESPONSE_OK = 100;
   global RESPONSE_FAIL = 200;
   
@@ -35,6 +36,15 @@ function sessionData = redisRequestHandler(R,request, sessionData)
       redisSendResponse(R,"100","Octave: save session success");
     catch
       redisSendResponse(R,"200","Octave: save session failed");
+    end_try_catch
+  
+  elseif (request == REQUEST_RETRAIN)  
+    
+    #reload entire sessionData
+    try
+      sessionData = trainRecogniser();
+    catch
+      redisSendResponse(R,"200","Octave: retraining recogniser failed");
     end_try_catch
     
   else
