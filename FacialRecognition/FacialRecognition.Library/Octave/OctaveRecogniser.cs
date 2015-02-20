@@ -1,4 +1,6 @@
-﻿namespace FacialRecognition.Library.Octave
+﻿using System;
+
+namespace FacialRecognition.Library.Octave
 {
     public class OctaveRecogniser : Core.IFacialRecogniser
     {
@@ -21,10 +23,36 @@
             c_Interface.SendRequest(_message);
 
             var _response = c_Interface.ReceiveResponse(15000);
-            var _result = new Models.Person();
-            _result._id = _response.Data;
 
-            return _result;
+            if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            {
+                var _result = new Models.Person();
+                _result._id = _response.Data;
+                return _result;
+            }
+            else
+            {
+                throw new Exception(_response.Data);
+            }
+        }
+
+        public bool SaveSession()
+        {
+            //Save Octave session to disk
+            throw new NotImplementedException();
+        }
+
+        public bool ReloadSession()
+        {
+            //Load saved Octave session from disk
+            throw new NotImplementedException();
+        }
+
+        public bool RetrainRecogniser()
+        {
+            //Train recogniser from beginning
+            //Long process ~ 15-20mins
+            throw new NotImplementedException();
         }
     }
 }
