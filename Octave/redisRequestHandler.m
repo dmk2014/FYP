@@ -21,7 +21,7 @@ function sessionData = redisRequestHandler(R,request, sessionData)
   
     #reload all data
     try
-      sessionData = loadSession(sessionData);
+      sessionData = loadSession();
       redisSendResponse(R,"100","Octave: reload session success");
       disp("Response Sent: 100...reload succeeded");
     catch

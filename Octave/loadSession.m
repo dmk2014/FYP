@@ -1,4 +1,4 @@
-function sessionData = loadSession(sessionData)
+function sessionData = loadSession()
   #clear("M","averageFace","reducedFaces","U","weights");
    
   #Load training set
