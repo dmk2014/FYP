@@ -14,9 +14,9 @@ function redisListener(R)
   while (sentinel == 0)
     request = redisGet(R,"facial.request.code");
     
-    if(!request == NO_REQUEST)
-      disp("Request Received: "), disp(request);
-      #pause(1);
+    if(request != NO_REQUEST)
+      out = strcat("Request Received: ", num2str(request));
+      disp(out);
       
       #Do work
       #Send response -> facial.response
@@ -24,7 +24,7 @@ function redisListener(R)
       redisRequestHandler(R,request);
       
       #Work is done, so clear request for use before next loop
-      redisSet(R,"facial.request.code","0");
+      redisSet(R,"facial.request.code","50");
       disp("Request Code Reset to 0");
     endif
     

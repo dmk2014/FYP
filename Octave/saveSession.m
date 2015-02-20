@@ -1,3 +1,9 @@
+global M;
+global averageFace;
+global reducedFaces;
+global U;
+global weights;
+
 #Save training set
 saveMatrixData(M,"training_set");
 

@@ -15,7 +15,14 @@ function redisRequestHandler(R,request)
     redisSendResponse(R,"200","Octave: not implemented <facial rec>");
   elseif (request == REQUEST_RELOAD)
     #reload all data
-    redisSendResponse(R,"200","Octave: not implemented <reload>");
+    try
+      sessionGlobals;
+      loadSession;
+      redisSendResponse(R,"100","Octave: reload session success");
+      disp("Response Sent: 100...reload succeeded");
+    catch
+      redisSendResponse(R,"200","Octave: load session failed");
+    end_try_catch
   elseif (request == REQUEST_SAVE)
     #save all data to disk
     try
