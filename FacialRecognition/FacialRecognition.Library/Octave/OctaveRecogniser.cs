@@ -36,23 +36,55 @@ namespace FacialRecognition.Library.Octave
             }
         }
 
-        public bool SaveSession()
+        public Boolean SaveSession()
         {
-            //Save Octave session to disk
-            throw new NotImplementedException();
+            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_SAVE, String.Empty);
+            c_Interface.SendRequest(_message);
+
+            var _response = c_Interface.ReceiveResponse(30000);
+
+            if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception(_response.Data);
+            }
         }
 
-        public bool ReloadSession()
+        public Boolean ReloadSession()
         {
-            //Load saved Octave session from disk
-            throw new NotImplementedException();
+            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_RELOAD, String.Empty);
+            c_Interface.SendRequest(_message);
+
+            var _response = c_Interface.ReceiveResponse(30000);
+
+            if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception(_response.Data);
+            }
         }
 
-        public bool RetrainRecogniser()
+        public Boolean RetrainRecogniser()
         {
-            //Train recogniser from beginning
-            //Long process ~ 15-20mins
-            throw new NotImplementedException();
+            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_RETRAIN, String.Empty);
+            c_Interface.SendRequest(_message);
+
+            var _response = c_Interface.ReceiveResponse(1800000); //30 mins
+
+            if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception(_response.Data);
+            }
         }
     }
 }
