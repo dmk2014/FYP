@@ -16,8 +16,6 @@ namespace FacialRecognition
         {
             InitializeComponent();
             this.CenterToScreen();
-
-            c_DataProcessor = new SensorDataProcessor();
         }
 
         private void frmTest_FormClosing(object sender, FormClosingEventArgs e)
@@ -52,6 +50,7 @@ namespace FacialRecognition
                 }
                 else
                 {
+                    c_DataProcessor = new SensorDataProcessor();
                     c_Sensor = KinectSensor.KinectSensors[0];
 
                     c_Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
@@ -184,7 +183,7 @@ namespace FacialRecognition
             }
             catch(Exception _ex)
             {
-                MessageBox.Show(_ex.Message);
+                MessageBox.Show(_ex.Message + "\n\n" + _ex.StackTrace);
             }
         }
 
@@ -210,21 +209,30 @@ namespace FacialRecognition
                     _i++;
                 }
 
+                lblDetectedFaces.Text = "Detected Faces: " + c_Faces.Length;
                 btnNormalise.Enabled = true;
             }
         }
 
         private void btnNormalise_Click(object sender, EventArgs e)
         {
-            var _normaliser = new FacialRecognition.Library.OctaveNormaliser();
+            try
+            {
+                var _normaliser = new FacialRecognition.Library.OctaveNormaliser();
+                var _face = c_capturedFrame.Clone(c_Faces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
 
-            var _face = c_capturedFrame.Clone(c_Faces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                pbxSourceFace.Size = _face.Size;
+                pbxSourceFace.Image = _face;
 
-            var _result =_normaliser.NormaliseImage(_face,168,192);
+                var _result = _normaliser.NormaliseImage(_face, 168, 192);
 
-            pbxNormalisedFace.Image = _result;
-
-            btnPerformFacialRec.Enabled = true;
+                pbxNormalisedFace.Image = _result;
+                btnPerformFacialRec.Enabled = true;
+            }
+            catch (Exception _ex)
+            {
+                MessageBox.Show(_ex.Message);
+            }
         }
 
         private void btnPerformFacialRec_Click(object sender, EventArgs e)
