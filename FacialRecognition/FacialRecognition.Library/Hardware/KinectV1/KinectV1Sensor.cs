@@ -14,6 +14,15 @@ namespace FacialRecognition.Library.Hardware.KinectV1
             this.c_Sensor = Sensor;
         }
 
+        public void AdjustElevation(int Angle)
+        {
+            if (this.c_Sensor.ElevationAngle + Angle >= this.c_Sensor.MinElevationAngle &&
+                this.c_Sensor.ElevationAngle + Angle <= this.c_Sensor.MaxElevationAngle)
+            {
+                this.c_Sensor.ElevationAngle = this.c_Sensor.ElevationAngle + Angle;
+            }
+        }
+
         public Bitmap CaptureImage()
         {
             if(!c_Sensor.IsRunning)
