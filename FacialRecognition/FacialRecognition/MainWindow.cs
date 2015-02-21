@@ -180,7 +180,6 @@ namespace FacialRecognition
                     c_capturedFrame = this.c_Kinect.CaptureImage();
                     pbxCapturedColorImage.Image = c_capturedFrame;
                     btnFacialDetection.Enabled = true;
-                    btnPerformFacialRec.Enabled = true;
                 }
             }
             catch(Exception _ex)
@@ -210,7 +209,22 @@ namespace FacialRecognition
                     g.DrawRectangle(_pen,c_Faces[_i]);
                     _i++;
                 }
+
+                btnNormalise.Enabled = true;
             }
+        }
+
+        private void btnNormalise_Click(object sender, EventArgs e)
+        {
+            var _normaliser = new FacialRecognition.Library.OctaveNormaliser();
+
+            var _face = c_capturedFrame.Clone(c_Faces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+
+            var _result =_normaliser.NormaliseImage(_face,168,192);
+
+            pbxNormalisedFace.Image = _result;
+
+            btnPerformFacialRec.Enabled = true;
         }
 
         private void btnPerformFacialRec_Click(object sender, EventArgs e)
@@ -219,7 +233,7 @@ namespace FacialRecognition
             {
                 var _recogniser = new OctaveRecogniser(new OctaveInterface("localhost","6379"));
 
-                var _face = c_capturedFrame.Clone(c_Faces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);//normalise this face
+                var _face = new Bitmap(pbxNormalisedFace.Image);
 
                 var _result = _recogniser.ClassifyFace(_face);
 
@@ -230,6 +244,6 @@ namespace FacialRecognition
                 MessageBox.Show(_ex.Message);
             }
         }
-        #endregion
+        #endregion    
     }
 }

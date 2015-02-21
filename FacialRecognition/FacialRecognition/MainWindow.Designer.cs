@@ -47,6 +47,8 @@
             this.btnCaptureFrame = new System.Windows.Forms.Button();
             this.tabPayment = new System.Windows.Forms.TabPage();
             this.btnProcessPayment = new System.Windows.Forms.Button();
+            this.pbxNormalisedFace = new System.Windows.Forms.PictureBox();
+            this.btnNormalise = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDept)).BeginInit();
             this.grpControls.SuspendLayout();
@@ -57,6 +59,7 @@
             this.tabFacialRec.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxCapturedColorImage)).BeginInit();
             this.tabPayment.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxNormalisedFace)).BeginInit();
             this.SuspendLayout();
             // 
             // pbxImage
@@ -192,6 +195,8 @@
             // tabFacialRec
             // 
             this.tabFacialRec.BackColor = System.Drawing.SystemColors.Control;
+            this.tabFacialRec.Controls.Add(this.btnNormalise);
+            this.tabFacialRec.Controls.Add(this.pbxNormalisedFace);
             this.tabFacialRec.Controls.Add(this.pbxCapturedColorImage);
             this.tabFacialRec.Controls.Add(this.btnPerformFacialRec);
             this.tabFacialRec.Controls.Add(this.btnFacialDetection);
@@ -216,7 +221,7 @@
             // btnPerformFacialRec
             // 
             this.btnPerformFacialRec.Enabled = false;
-            this.btnPerformFacialRec.Location = new System.Drawing.Point(578, 16);
+            this.btnPerformFacialRec.Location = new System.Drawing.Point(688, 16);
             this.btnPerformFacialRec.Name = "btnPerformFacialRec";
             this.btnPerformFacialRec.Size = new System.Drawing.Size(123, 40);
             this.btnPerformFacialRec.TabIndex = 2;
@@ -227,7 +232,7 @@
             // btnFacialDetection
             // 
             this.btnFacialDetection.Enabled = false;
-            this.btnFacialDetection.Location = new System.Drawing.Point(449, 16);
+            this.btnFacialDetection.Location = new System.Drawing.Point(430, 16);
             this.btnFacialDetection.Name = "btnFacialDetection";
             this.btnFacialDetection.Size = new System.Drawing.Size(123, 40);
             this.btnFacialDetection.TabIndex = 1;
@@ -237,7 +242,7 @@
             // 
             // btnCaptureFrame
             // 
-            this.btnCaptureFrame.Location = new System.Drawing.Point(320, 16);
+            this.btnCaptureFrame.Location = new System.Drawing.Point(301, 16);
             this.btnCaptureFrame.Name = "btnCaptureFrame";
             this.btnCaptureFrame.Size = new System.Drawing.Size(123, 40);
             this.btnCaptureFrame.TabIndex = 0;
@@ -266,6 +271,27 @@
             this.btnProcessPayment.Text = "Process Payment";
             this.btnProcessPayment.UseVisualStyleBackColor = true;
             // 
+            // pbxNormalisedFace
+            // 
+            this.pbxNormalisedFace.BackColor = System.Drawing.SystemColors.Control;
+            this.pbxNormalisedFace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbxNormalisedFace.Location = new System.Drawing.Point(750, 132);
+            this.pbxNormalisedFace.Name = "pbxNormalisedFace";
+            this.pbxNormalisedFace.Size = new System.Drawing.Size(168, 192);
+            this.pbxNormalisedFace.TabIndex = 4;
+            this.pbxNormalisedFace.TabStop = false;
+            // 
+            // btnNormalise
+            // 
+            this.btnNormalise.Enabled = false;
+            this.btnNormalise.Location = new System.Drawing.Point(559, 16);
+            this.btnNormalise.Name = "btnNormalise";
+            this.btnNormalise.Size = new System.Drawing.Size(123, 40);
+            this.btnNormalise.TabIndex = 5;
+            this.btnNormalise.Text = "Perform Facial Normalisation";
+            this.btnNormalise.UseVisualStyleBackColor = true;
+            this.btnNormalise.Click += new System.EventHandler(this.btnNormalise_Click);
+            // 
             // frmFacialRecPrototype
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -285,6 +311,7 @@
             this.tabFacialRec.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbxCapturedColorImage)).EndInit();
             this.tabPayment.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbxNormalisedFace)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -310,6 +337,8 @@
         private System.Windows.Forms.Button btnProcessPayment;
         private System.Windows.Forms.Button btnSaveFrameData;
         private System.Windows.Forms.PictureBox pbxCapturedColorImage;
+        private System.Windows.Forms.PictureBox pbxNormalisedFace;
+        private System.Windows.Forms.Button btnNormalise;
     }
 }
 
