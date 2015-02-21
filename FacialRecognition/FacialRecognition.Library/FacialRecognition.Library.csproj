@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="Database\IDatabase.cs" />
     <Compile Include="Core\FacialDetector.cs" />
+    <Compile Include="FacialImageNormaliser.cs" />
     <Compile Include="Hardware\IImagingHardware.cs" />
     <Compile Include="Hardware\KinectV1\KinectV1Sensor.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataIO.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Core\IFacialDetector.cs" />
     <Compile Include="Core\IFacialRecogniser.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="OctaveNormaliser.cs" />
     <Compile Include="Octave\OctaveInterface.cs" />
     <Compile Include="Octave\OctaveMessage.cs" />
     <Compile Include="Octave\OctaveMessageType.cs" />
