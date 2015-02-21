@@ -28,7 +28,7 @@ namespace FacialRecognition.Library
             //Reference: http://tech.pro/tutorial/660/csharp-tutorial-convert-a-color-image-to-grayscale
 
             var _originalImage = new Bitmap(Source);
-            var _result = new Bitmap(Source.Width, Source.Height, PixelFormat.Format16bppGrayScale);
+            var _result = new Bitmap(Source.Width, Source.Height);
 
             for (int i = 0; i < Source.Width; i++)
             {

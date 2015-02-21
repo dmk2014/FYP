@@ -12,13 +12,11 @@ namespace FacialRecognition.Library
         public Image NormaliseImage(Image SourceImage, int Width, int Height)
         {
             Image _normalisedImage;
-            //Resize
+
             _normalisedImage = this.Resize(SourceImage, Width, Height);
+            _normalisedImage = this.SetColormap(_normalisedImage);
 
-            //Convert to Grayscale
-            _normalisedImage = this.SetColormap(SourceImage);
-
-            throw new NotImplementedException();
+            return _normalisedImage;
         }
 
         public abstract Image Resize(Image Source, int Width, int Height);
