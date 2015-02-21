@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace FacialRecognition.Library.Octave
 {
@@ -16,10 +17,12 @@ namespace FacialRecognition.Library.Octave
             this.c_Interface = Interface;
         }
 
-        public Models.Person ClassifyFace(System.Drawing.Bitmap FacialImage)
+        public Models.Person ClassifyFace(Image FacialImage)
         {
-            //Normalize request image -> maybe should be done earlier than here
-            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_REC, FacialImage.ToString());
+            //FacialImage is normales, need to marshal it to a string
+            var _imageAsString = this.MarshalFacialImage(FacialImage);
+
+            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_REC, _imageAsString);
             c_Interface.SendRequest(_message);
 
             var _response = c_Interface.ReceiveResponse(15000);
@@ -34,6 +37,29 @@ namespace FacialRecognition.Library.Octave
             {
                 throw new Exception(_response.Data);
             }
+        }
+
+        private String MarshalFacialImage(Image FacialImage)
+        {
+            var _facialBitmap = new Bitmap(FacialImage);
+            var _data = String.Empty;
+
+            for (int i = 0; i < FacialImage.Height; i++)
+            {
+                for (int j = 0; j < FacialImage.Width; j++)
+                {
+                    //BGR all have same value, we'll take one for now
+                    var _pixel = _facialBitmap.GetPixel(j, i);
+                    var _value = _pixel.B;
+                    _data += _value + ",";
+                }
+            }
+
+            //Remove trailing ','
+
+            _data = _data.TrimEnd(',');
+
+            return _data;
         }
 
         public Boolean SaveSession()

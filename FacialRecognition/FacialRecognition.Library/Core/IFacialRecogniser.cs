@@ -1,7 +1,9 @@
-﻿namespace FacialRecognition.Library.Core
+﻿using System.Drawing;
+
+namespace FacialRecognition.Library.Core
 {
     interface IFacialRecogniser
     {
-        Models.Person ClassifyFace(System.Drawing.Bitmap FacialImage);
+        Models.Person ClassifyFace(Image FacialImage);
     }
 }
