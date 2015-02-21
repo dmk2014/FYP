@@ -23,8 +23,8 @@ namespace FacialRecognition.Library.Hardware.KinectV1
                 c_Sensor.Start();
             }
 
-            var _colorFrame = c_Sensor.ColorStream.OpenNextFrame(40);
-            var _depthFrame = c_Sensor.DepthStream.OpenNextFrame(10);
+            var _colorFrame = c_Sensor.ColorStream.OpenNextFrame(10);
+            var _depthFrame = c_Sensor.DepthStream.OpenNextFrame(500);
 
             var _dataProcessor = new SensorDataProcessor();
             var _colorBitmap = _dataProcessor.ColorToBitmap(_colorFrame);
