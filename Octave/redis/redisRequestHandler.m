@@ -9,14 +9,19 @@ function sessionData = redisRequestHandler(R, sessionData)
   global RESPONSE_FAIL = 200;
   
   request = sessionData.requestCode;
-  data = sessionData.requestData;
   
   #parse request
   #decide what to do
   if(request == REQUEST_REC)
   
     #recognise a face
-    redisSendResponse(R,"200","Octave: not implemented <facial rec>");
+    try
+      sessionData = redisRecognitionRequestHandler(sessionData);
+      redisSendResponse(R,sessionData.responseCode,sessionData.responseData);
+      #disp("Response Sent: " sessionData.responseCode sessionData.responseData);
+    catch
+      redisSendResponse(R,"200","Octave: facial recognition failed with an exception");
+    end_try_catch
     
   elseif (request == REQUEST_RELOAD)
   
