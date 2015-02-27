@@ -18,8 +18,11 @@ namespace FacialRecognition.Library.Database
 
         public bool Store(Models.Person Person)
         {
-            var _response = c_Couch.Entities.PostAsync(Person);
-            throw new NotImplementedException();
+            var _post = c_Couch.Entities.PostAsync(Person);
+
+            var _result = _post.Result;
+
+            return _result.IsSuccess;
         }
 
         public bool Update(Models.Person Person)
