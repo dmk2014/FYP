@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace FacialRecognition.Library.Database
 {
-    class CouchDatabase : IDatabase
+    public class CouchDatabase : IDatabase
     {
         private MyCouchClient c_Couch;
  
