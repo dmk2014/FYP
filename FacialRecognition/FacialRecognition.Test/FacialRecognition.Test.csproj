@@ -50,7 +50,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CouchDB_CRUD_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CouchDB_Connection_Test.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FacialRecognition.Library\FacialRecognition.Library.csproj">
+      <Project>{49864109-6b1d-4327-9fc3-90f95240dd7a}</Project>
+      <Name>FacialRecognition.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
