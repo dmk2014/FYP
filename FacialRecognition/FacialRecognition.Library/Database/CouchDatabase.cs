@@ -1,12 +1,24 @@
-﻿using System;
+﻿using MyCouch;
+using System;
 using System.Collections.Generic;
 
 namespace FacialRecognition.Library.Database
 {
     class CouchDatabase : IDatabase
     {
+        private MyCouchClient c_Couch;
+ 
+        public CouchDatabase(String Host, int Port, String Database)
+        {
+            var _uri = new MyCouchUriBuilder(Host + ":" + Port)
+                .SetDbName(Database);
+
+            c_Couch = new MyCouchClient(_uri.Build());
+        }
+
         public bool Store(Models.Person Person)
         {
+            var _response = c_Couch.Entities.PostAsync(Person);
             throw new NotImplementedException();
         }
 
