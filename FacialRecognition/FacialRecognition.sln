@@ -9,6 +9,8 @@ Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Modelling", "Modelling\Mode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacialRecognition.Library", "FacialRecognition.Library\FacialRecognition.Library.csproj", "{49864109-6B1D-4327-9FC3-90F95240DD7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacialRecognition.Test", "FacialRecognition.Test\FacialRecognition.Test.csproj", "{845B38B3-B781-49B5-A8EB-57BA51171CEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,14 @@ Global
 		{49864109-6B1D-4327-9FC3-90F95240DD7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{49864109-6B1D-4327-9FC3-90F95240DD7A}.Release|x64.ActiveCfg = Release|Any CPU
 		{49864109-6B1D-4327-9FC3-90F95240DD7A}.Release|x86.ActiveCfg = Release|Any CPU
+		{845B38B3-B781-49B5-A8EB-57BA51171CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{845B38B3-B781-49B5-A8EB-57BA51171CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{845B38B3-B781-49B5-A8EB-57BA51171CEC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{845B38B3-B781-49B5-A8EB-57BA51171CEC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{845B38B3-B781-49B5-A8EB-57BA51171CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{845B38B3-B781-49B5-A8EB-57BA51171CEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{845B38B3-B781-49B5-A8EB-57BA51171CEC}.Release|x64.ActiveCfg = Release|Any CPU
+		{845B38B3-B781-49B5-A8EB-57BA51171CEC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
