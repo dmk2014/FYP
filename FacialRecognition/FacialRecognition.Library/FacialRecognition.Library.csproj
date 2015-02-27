@@ -72,7 +72,17 @@
     <Reference Include="Emgu.Util">
       <HintPath>..\..\..\..\..\..\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\bin\Emgu.Util.dll</HintPath>
     </Reference>
+    <Reference Include="EnsureThat">
+      <HintPath>..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Kinect, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="MyCouch.Net45">
+      <HintPath>..\packages\MyCouch.3.1.0\lib\net45\MyCouch.Net45.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="StackExchange.Redis">
       <HintPath>..\packages\StackExchange.Redis.1.0.394\lib\net45\StackExchange.Redis.dll</HintPath>
@@ -81,6 +91,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -90,6 +101,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\CouchDatabase.cs" />
     <Compile Include="Database\IDatabase.cs" />
     <Compile Include="Core\FacialDetector.cs" />
     <Compile Include="Core\FacialImageNormaliser.cs" />
