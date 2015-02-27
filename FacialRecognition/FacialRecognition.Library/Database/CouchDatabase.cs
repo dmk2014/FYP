@@ -10,7 +10,7 @@ namespace FacialRecognition.Library.Database
  
         public CouchDatabase(String Host, int Port, String Database)
         {
-            var _uri = new MyCouchUriBuilder(Host + ":" + Port)
+            var _uri = new MyCouchUriBuilder("http://" + Host + ":" + Port)
                 .SetDbName(Database);
 
             c_Couch = new MyCouchClient(_uri.Build());
