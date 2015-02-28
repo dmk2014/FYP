@@ -1,19 +1,20 @@
-﻿using LoveSeat;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using DreamSeat;
 
 namespace FacialRecognition.Library.Database
 {
     public class CouchDatabase : IDatabase
     {
-        private CouchClient c_Couch;
-        private LoveSeat.CouchDatabase c_Database;
- 
+        private DreamSeat.CouchClient c_Couch;
+        private DreamSeat.CouchDatabase c_Database;
+
         public CouchDatabase(String Host, int Port, String Database)
         {
             c_Couch = new CouchClient();
 
-            this.ConfigureDatabase("");
+            this.ConfigureDatabase(Database);
         }
 
         public void ConfigureDatabase(String Database)
