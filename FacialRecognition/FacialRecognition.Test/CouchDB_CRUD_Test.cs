@@ -24,7 +24,8 @@ namespace FacialRecognition.Test
             _person.Forename = "Unit";
             _person.Surname = "Test";
 
-            c_DB.Store(_person);
+            var _result = c_DB.Store(_person);
+            Assert.IsTrue(_result);
         }
     }
 }
