@@ -11,7 +11,7 @@ namespace FacialRecognition.Library.Database
  
         public CouchDatabase(String Host, int Port, String Database)
         {
-            c_Couch = new CouchClient(Host, Port, null, null, false, AuthenticationType.Basic);
+            c_Couch = new CouchClient();
 
             this.ConfigureDatabase("");
         }
