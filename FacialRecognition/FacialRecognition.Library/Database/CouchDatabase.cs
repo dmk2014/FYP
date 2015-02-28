@@ -17,7 +17,7 @@ namespace FacialRecognition.Library.Database
             this.ConfigureDatabase(Database);
         }
 
-        public void ConfigureDatabase(String Database)
+        private void ConfigureDatabase(String Database)
         {
             if (!c_Couch.HasDatabase(Database))
             {
