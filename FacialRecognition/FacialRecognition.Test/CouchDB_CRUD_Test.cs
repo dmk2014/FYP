@@ -13,7 +13,7 @@ namespace FacialRecognition.Test
         [TestInitialize]
         public void Setup()
         {
-            c_DB = new CouchDatabase("localhost", 5984, "People");
+            c_DB = new CouchDatabase("localhost", 5984, "people");
         }
 
         [TestMethod]

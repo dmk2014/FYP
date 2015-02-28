@@ -13,7 +13,7 @@ namespace FacialRecognition.Test
         [TestMethod]
         public void TestCouchConnection()
         {
-            var _db = new CouchDatabase("localhost", 5984, "People");
+            var _db = new CouchDatabase("localhost", 5984, "people");
         }
     }
 }
