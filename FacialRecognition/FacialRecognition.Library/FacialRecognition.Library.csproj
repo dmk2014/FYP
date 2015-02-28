@@ -117,6 +117,7 @@
     <Compile Include="Core\IFacialDetector.cs" />
     <Compile Include="Core\IFacialRecogniser.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\PersonCouchDB.cs" />
     <Compile Include="Octave\OctaveNormaliser.cs" />
     <Compile Include="Octave\OctaveInterface.cs" />
     <Compile Include="Octave\OctaveMessage.cs" />

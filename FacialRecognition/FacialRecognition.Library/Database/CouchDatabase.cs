@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FacialRecognition.Library.Models;
 
 using DreamSeat;
 
@@ -29,7 +30,14 @@ namespace FacialRecognition.Library.Database
 
         public Boolean Store(Models.Person Person)
         {
-            throw new NotImplementedException();
+            var _couchModel = new PersonCouchDB();
+            _couchModel._id = Person._id;
+            _couchModel.Forename = Person.Forename;
+            _couchModel.Surname = Person.Surname;
+
+            c_Database.CreateDocument<Models.PersonCouchDB>(_couchModel);
+
+            return true;
         }
 
         public bool Update(Models.Person Person)
