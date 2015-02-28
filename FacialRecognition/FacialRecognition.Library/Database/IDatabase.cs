@@ -1,6 +1,7 @@
 ﻿using FacialRecognition.Library.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FacialRecognition.Library.Database
 {

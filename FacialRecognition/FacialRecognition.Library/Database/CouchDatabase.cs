@@ -1,4 +1,4 @@
-﻿using MyCouch;
+﻿using LoveSeat;
 using System;
 using System.Collections.Generic;
 
@@ -6,23 +6,29 @@ namespace FacialRecognition.Library.Database
 {
     public class CouchDatabase : IDatabase
     {
-        private MyCouchClient c_Couch;
+        private CouchClient c_Couch;
+        private LoveSeat.CouchDatabase c_Database;
  
         public CouchDatabase(String Host, int Port, String Database)
         {
-            var _uri = new MyCouchUriBuilder("http://" + Host + ":" + Port)
-                .SetDbName(Database);
+            c_Couch = new CouchClient(Host, Port, null, null, false, AuthenticationType.Basic);
 
-            c_Couch = new MyCouchClient(_uri.Build());
+            this.ConfigureDatabase("");
         }
 
-        public bool Store(Models.Person Person)
+        public void ConfigureDatabase(String Database)
         {
-            var _post = c_Couch.Entities.PostAsync(Person);
+            if (!c_Couch.HasDatabase(Database))
+            {
+                c_Couch.CreateDatabase(Database);
+            }
 
-            var _result = _post.Result;
+            c_Database = c_Couch.GetDatabase(Database);
+        }
 
-            return _result.IsSuccess;
+        public Boolean Store(Models.Person Person)
+        {
+            throw new NotImplementedException();
         }
 
         public bool Update(Models.Person Person)
