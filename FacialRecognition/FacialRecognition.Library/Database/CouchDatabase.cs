@@ -74,7 +74,14 @@ namespace FacialRecognition.Library.Database
 
         public Models.Person Retrieve(string ID)
         {
-            throw new NotImplementedException();
+            if (c_Database.DocumentExists(ID))
+            {
+                return c_Database.GetDocument<PersonCouchDB>(ID);
+            }
+            else
+            {
+                throw new Exception("The specified document was not found in the database");
+            }
         }
 
         public List<Models.Person> RetrieveAll()
