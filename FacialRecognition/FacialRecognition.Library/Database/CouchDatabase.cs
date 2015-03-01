@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DreamSeat;
 using FacialRecognition.Library.Models;
-
-using DreamSeat;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace FacialRecognition.Library.Database
 {
@@ -69,7 +68,24 @@ namespace FacialRecognition.Library.Database
 
         public bool Update(Models.Person Person)
         {
-            throw new NotImplementedException();
+            if (c_Database.DocumentExists(Person.Id))
+            {
+                //Retrieve existing document to acquire revision number
+                var _existingDoc = (PersonCouchDB)this.Retrieve(Person.Id);
+                
+                var _couchModel = new PersonCouchDB();
+                _couchModel.Id = Person.Id;
+                _couchModel.Rev = _existingDoc.Rev;
+                _couchModel.Forename = Person.Forename;
+                _couchModel.Surname = Person.Surname;
+
+                c_Database.UpdateDocument<PersonCouchDB>(_couchModel);
+                return true;
+            }
+            else
+            {
+                return this.Store(Person);
+            }
         }
 
         public Models.Person Retrieve(string ID)
