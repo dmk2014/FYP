@@ -30,7 +30,7 @@ namespace FacialRecognition.Library.Octave
             if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
             {
                 var _result = new Models.Person();
-                _result._id = _response.Data;
+                _result.Id = _response.Data;
                 return _result;
             }
             else

@@ -245,7 +245,7 @@ namespace FacialRecognition
 
                 var _result = _recogniser.ClassifyFace(_face);
 
-                MessageBox.Show("Result: " + _result._id);
+                MessageBox.Show("Result: " + _result.Id);
             }
             catch (Exception _ex)
             {
