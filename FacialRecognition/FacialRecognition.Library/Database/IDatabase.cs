@@ -7,6 +7,8 @@ namespace FacialRecognition.Library.Database
 {
     public interface IDatabase
     {
+        void CreateDatabase(String Database);
+        void DeleteDatabase(String Database);
         Boolean Store(Person Person);
         Boolean Update(Person Person);
         Person Retrieve(String ID);
