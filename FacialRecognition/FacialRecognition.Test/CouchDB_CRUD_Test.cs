@@ -43,6 +43,17 @@ namespace FacialRecognition.Test
         }
 
         [TestMethod]
+        public void TestRetrieveAPerson()
+        {
+            var _result = c_DB.Retrieve("person1");
+
+            Assert.AreEqual("person1", _result.Id);
+            Assert.AreEqual("Unit", _result.Forename);
+            Assert.AreEqual("Test", _result.Surname);
+            Assert.IsInstanceOfType(_result, typeof(Person));
+        }
+
+        [TestMethod]
         public void TestRetrieveAll()
         {
             var _result = c_DB.RetrieveAll();
