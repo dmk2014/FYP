@@ -152,7 +152,7 @@ namespace FacialRecognition
 
         #region FacialRecognitionTab
         KinectV1Sensor c_Kinect;
-        Bitmap c_capturedFrame;
+        Bitmap c_SourceImage;
         Rectangle[] c_Faces;
 
         private void PrepareKinectSensor()
@@ -176,8 +176,8 @@ namespace FacialRecognition
 
                 if (c_Kinect != null)
                 {
-                    c_capturedFrame = this.c_Kinect.CaptureImage();
-                    pbxCapturedColorImage.Image = c_capturedFrame;
+                    c_SourceImage = this.c_Kinect.CaptureImage();
+                    pbxCapturedColorImage.Image = c_SourceImage;
                     btnFacialDetection.Enabled = true;
                 }
             }
@@ -191,7 +191,7 @@ namespace FacialRecognition
         {
             var _detector = new FacialRecognition.Library.Core.FacialDetector();
 
-            c_Faces = _detector.DetectFaces(c_capturedFrame);
+            c_Faces = _detector.DetectFaces(c_SourceImage);
 
             if (c_Faces.Length < 1)
             {
@@ -218,8 +218,8 @@ namespace FacialRecognition
         {
             try
             {
-                var _normaliser = new FacialRecognition.Library.OctaveNormaliser();
-                var _face = c_capturedFrame.Clone(c_Faces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                var _normaliser = new FacialRecognition.Library.Octave.OctaveNormaliser();
+                var _face = c_SourceImage.Clone(c_Faces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
 
                 pbxSourceFace.Size = _face.Size;
                 pbxSourceFace.Image = _face;
@@ -253,5 +253,40 @@ namespace FacialRecognition
             }
         }
         #endregion    
+
+        private void btnLoadImage_Click(object sender, EventArgs e)
+        {
+            var _openFileResult = diaOpenFile.ShowDialog();
+
+            if(_openFileResult == DialogResult.OK)
+            {
+                var _filePath = diaOpenFile.FileName;
+                Image _image = Image.FromFile(_filePath);
+                
+                //Move this section to a library class
+                //Method such as resize while constraining proportions
+                if (_image.Height > pbxCapturedColorImage.Height || _image.Width > pbxCapturedColorImage.Width)
+                {
+                    var _normaliser = new FacialRecognition.Library.Octave.OctaveNormaliser();
+                    var _contrastRatio = pbxCapturedColorImage.Width / pbxCapturedColorImage.Height;
+                    var _sourceImageRatio = _image.Width / _image.Height;
+
+                    if(_sourceImageRatio <= _contrastRatio)
+                    {
+                        _image = _normaliser.Resize(_image, pbxCapturedColorImage.Height * _contrastRatio, pbxCapturedColorImage.Height);
+                    }
+                    else
+                    {
+                        _image = _normaliser.Resize(_image, pbxCapturedColorImage.Width, pbxCapturedColorImage.Width / _contrastRatio);
+                    }
+                }
+
+                pbxCapturedColorImage.Width = _image.Width;
+                pbxCapturedColorImage.Height = _image.Height;
+                c_SourceImage = (Bitmap)_image;
+                pbxCapturedColorImage.Image = c_SourceImage;
+                btnFacialDetection.Enabled = true;
+            }
+        }
     }
 }
