@@ -13,7 +13,11 @@ function redisListener(R)
   global REQUEST_RETRAIN = 400;
   global RESPONSE_OK = 100;
   global RESPONSE_FAIL = 200;
-
+  
+  #Ensure initial setup of request code & data
+  #Infinite loop occurs if it is "nil"
+  redisSet(R,"facial.request.code","200");
+  redisSet(R,"facial.request.data","NULL");
   sentinel = 0;
   
   while (sentinel == 0)
