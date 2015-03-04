@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-namespace FacialRecognition.Library
+namespace FacialRecognition.Library.Octave
 {
     public class OctaveNormaliser : FacialImageNormaliser
     {
