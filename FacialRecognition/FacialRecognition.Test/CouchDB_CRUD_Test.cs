@@ -2,6 +2,7 @@
 using FacialRecognition.Library.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Drawing;
 
 namespace FacialRecognition.Test
 {
@@ -9,7 +10,8 @@ namespace FacialRecognition.Test
     public class CouchDB_CRUD_Test
     {
         IDatabase c_DB;
-        private const String DATABASE_NAME = "testing";
+        private readonly String DATABASE_NAME = "testing";
+        private readonly Image TEST_IMAGE = FacialRecognition.Test.Properties.Resources.FacialImage;
 
         [TestInitialize]
         public void Setup()
@@ -106,6 +108,70 @@ namespace FacialRecognition.Test
             var _result = c_DB.RetrieveAll();
 
             Assert.IsTrue(_result.Count > 0);
+        }
+
+        [TestMethod]
+        public void TestStorePersonWithAttachment()
+        {
+            var _person = new Person();
+            _person.Id = "personattach";
+            _person.Forename = "Unit";
+            _person.Surname = "Test";
+            _person.Images.Add(this.TEST_IMAGE);
+
+            c_DB.Store(_person);
+        }
+
+        [TestMethod]
+        public void TestUpdatePersonWithAttachment()
+        {
+            var _person = new Person();
+            _person.Id = "personattachupdate";
+            _person.Forename = "Unit";
+            _person.Surname = "Test";
+            _person.Images.Add(this.TEST_IMAGE);
+
+            c_DB.Store(_person);
+
+            //Now we will add another attachment and update the doc
+            _person.Images.Add(this.TEST_IMAGE);
+            c_DB.Update(_person);
+        }
+
+        [TestMethod]
+        public void TestRetrievePersonWithAttachment()
+        {
+            var _person = new Person();
+            _person.Id = "personattachretrieve";
+            _person.Forename = "Unit";
+            _person.Surname = "Test";
+            _person.Images.Add(this.TEST_IMAGE);
+
+            c_DB.Store(_person);
+
+            var _result = c_DB.Retrieve(_person.Id);
+
+            Assert.IsTrue(_result.Images.Count == 1);
+            Assert.AreEqual(_result.Images[0].Size, this.TEST_IMAGE.Size);
+        }
+
+        [TestMethod]
+        public void TestRetrieveAllWithAttachments()
+        {
+            var _person = new Person();
+            _person.Id = "personattachretrieveall";
+            _person.Forename = "Unit";
+            _person.Surname = "Test";
+
+            _person.Images.Add(this.TEST_IMAGE);
+            c_DB.Store(_person);
+
+            var _result = c_DB.RetrieveAll();
+
+            var _attemptToFindPerson = _result.Find(p => p.Id == _person.Id);
+
+            Assert.AreNotEqual(null, _attemptToFindPerson);
+            Assert.IsTrue(_attemptToFindPerson.Images.Count == 1);
         }
     }
 }
