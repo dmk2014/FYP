@@ -3,6 +3,9 @@ using FacialRecognition.Library.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Drawing;
+using System.Text;
 
 namespace FacialRecognition.Library.Database
 {
@@ -61,8 +64,14 @@ namespace FacialRecognition.Library.Database
             _couchModel.Forename = Person.Forename;
             _couchModel.Surname = Person.Surname;
 
-            c_Database.CreateDocument<Models.PersonCouchDB>(_couchModel);
+            var _result = c_Database.CreateDocument<Models.PersonCouchDB>(_couchModel);
 
+            //Add attachments if applicable
+            if (Person.Images.Count > 0)
+            {
+                this.AddAttachments(_result.Id, Person.Images);
+            }
+            
             return true;
         }
 
@@ -80,6 +89,13 @@ namespace FacialRecognition.Library.Database
                 _couchModel.Surname = Person.Surname;
 
                 c_Database.UpdateDocument<PersonCouchDB>(_couchModel);
+
+                //Attachment
+                if (Person.Images.Count > 0)
+                {
+                    this.AddAttachments(_couchModel.Id, Person.Images);
+                }
+
                 return true;
             }
             else
@@ -88,16 +104,55 @@ namespace FacialRecognition.Library.Database
             }
         }
 
+        private void AddAttachments(String DocumentID, List<Image> Images)
+        {
+            for (int _i = 0; _i < Images.Count; _i++)
+            {
+                c_Database.AddAttachment(DocumentID, new MemoryStream(this.ImageToByteArray(Images[_i])), _i + ".bmp");
+            }
+        }
+
+        private byte[] ImageToByteArray(Image Image)
+        {
+            //Reference: http://stackoverflow.com/questions/17352061/fastest-way-to-convert-image-to-byte-array
+            var _stream = new MemoryStream();
+            Image.Save(_stream, System.Drawing.Imaging.ImageFormat.Bmp);
+            return _stream.ToArray();
+        }
+
         public Models.Person Retrieve(string ID)
         {
             if (c_Database.DocumentExists(ID))
             {
-                return c_Database.GetDocument<PersonCouchDB>(ID);
+                var _result = c_Database.GetDocument<PersonCouchDB>(ID);
+                _result.Images = this.RetrieveAttachments(ID);
+                
+                return _result;
             }
             else
             {
                 throw new Exception("The specified document was not found in the database");
             }
+        }
+
+        private List<Image> RetrieveAttachments(String PersonID)
+        {
+            var _result = new List<Image>();
+            var _person = c_Database.GetDocument<CouchDocument>(PersonID);
+
+            if (_person.HasAttachment)
+            {
+                var _attachmentNames = _person.GetAttachmentNames();
+
+                foreach (var _name in _attachmentNames)
+                {
+                    var _attachmentStream = c_Database.GetAttachment(PersonID, _name);
+                    var _image = Image.FromStream(_attachmentStream);
+                    _result.Add(_image);
+                }
+            }
+
+            return _result;
         }
 
         public List<Models.Person> RetrieveAll()
@@ -117,10 +172,11 @@ namespace FacialRecognition.Library.Database
                 var _documentValues = _currentDocument.value;
 
                 var _curPerson = new PersonCouchDB();
-                _curPerson.Id = _documentValues.id;
-                _curPerson.Rev = _documentValues._rev;
-                _curPerson.Forename = _documentValues.forename;
-                _curPerson.Surname = _documentValues.surname;
+                _curPerson.Id = (String)_documentValues.id;
+                _curPerson.Rev = (String)_documentValues._rev;
+                _curPerson.Forename = (String)_documentValues.forename;
+                _curPerson.Surname = (String)_documentValues.surname;
+                _curPerson.Images = this.RetrieveAttachments(_curPerson.Id);
                 _result.Add(_curPerson);
             }
 
