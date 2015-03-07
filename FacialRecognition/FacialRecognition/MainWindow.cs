@@ -323,6 +323,7 @@ namespace FacialRecognition
                 if (DatabaseUIGlobals.DISPLAYED_USER.Images.Count > 0)
                 {
                     pbxPersonFacialImages.Image = DatabaseUIGlobals.DISPLAYED_USER.Images[0];
+                    DatabaseUIGlobals.DISPLAYED_IMAGE_INDEX = 0;
                 }
 
                 txtPersonID.Text = _person.Id;
@@ -395,6 +396,7 @@ namespace FacialRecognition
 
                 txtPersonForename.Text = String.Empty;
                 txtPersonSurname.Text = String.Empty;
+                pbxPersonFacialImages.Image = null;
             }
             this.UpdateDatabaseDisplay();
         }
@@ -443,6 +445,8 @@ namespace FacialRecognition
                 
                 //Add to user images
                 DatabaseUIGlobals.DISPLAYED_USER.Images.Add(_result);
+                pbxPersonFacialImages.Image = DatabaseUIGlobals.DISPLAYED_USER.Images[DatabaseUIGlobals.DISPLAYED_USER.Images.Count - 1];
+                DatabaseUIGlobals.DISPLAYED_IMAGE_INDEX = DatabaseUIGlobals.DISPLAYED_USER.Images.Count - 1;
             }
             catch (Exception _ex)
             {
