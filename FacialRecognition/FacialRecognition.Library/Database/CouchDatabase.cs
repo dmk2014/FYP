@@ -178,7 +178,7 @@ namespace FacialRecognition.Library.Database
                 var _documentValues = _currentDocument.value;
 
                 var _curPerson = new PersonCouchDB();
-                _curPerson.Id = (String)_documentValues.id;
+                _curPerson.Id = (String)_documentValues._id;
                 _curPerson.Rev = (String)_documentValues._rev;
                 _curPerson.Forename = (String)_documentValues.forename;
                 _curPerson.Surname = (String)_documentValues.surname;
