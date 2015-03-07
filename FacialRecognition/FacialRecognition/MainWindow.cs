@@ -1,4 +1,5 @@
-﻿using FacialRecognition.Library.Hardware.KinectV1;
+﻿using FacialRecognition.Library.Database;
+using FacialRecognition.Library.Hardware.KinectV1;
 using FacialRecognition.Library.Octave;
 using Microsoft.Kinect;
 using System;
@@ -9,13 +10,18 @@ namespace FacialRecognition
 {
     public partial class frmFacialRecPrototype : Form
     {
-        KinectSensor c_Sensor;
-        SensorDataProcessor c_DataProcessor;
+        private KinectSensor c_Sensor;
+        private SensorDataProcessor c_DataProcessor;
+        private IDatabase c_Database;
 
         public frmFacialRecPrototype()
         {
             InitializeComponent();
             this.CenterToScreen();
+
+            c_Database = new CouchDatabase("localhost", 5984, "facial1");
+            this.UpdateDatabaseDisplay();
+            cboSelectCRUDMode.SelectedIndex = 0;
         }
 
         private void frmTest_FormClosing(object sender, FormClosingEventArgs e)
@@ -287,6 +293,88 @@ namespace FacialRecognition
                 pbxCapturedColorImage.Image = c_SourceImage;
                 btnFacialDetection.Enabled = true;
             }
+        }
+
+        private void UpdateDatabaseDisplay()
+        {
+            var _people = c_Database.RetrieveAll();
+            grdUsers.DataSource = _people;
+        }
+
+        private void grdUsers_SelectionChanged(object sender, EventArgs e)
+        {
+            if (c_Editing)
+            {
+                this.DisplayPersonDetailsToEdit();
+            }
+        }
+
+        private void DisplayPersonDetailsToEdit()
+        {
+            var _selection = grdUsers.SelectedRows;
+
+            if (_selection.Count == 1 && c_Editing == true)
+            {
+
+                var _selectedID = _selection[0].Cells["colIdentifier"].Value.ToString();
+
+                var _person = c_Database.Retrieve(_selectedID);
+
+                txtPersonID.Text = _person.Id;
+                txtPersonForename.Text = _person.Forename;
+                txtPersonSurname.Text = _person.Surname;
+            }
+        }
+
+        private Boolean c_Editing = false;
+
+        private void cboSelectCRUDMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboSelectCRUDMode.SelectedIndex == 0)
+            {
+                c_Editing = false;
+                txtPersonID.Text = "auto-assigned";
+                txtPersonForename.Text = String.Empty;
+                txtPersonSurname.Text = String.Empty;
+                btnSavePersonToDatabase.Text = "Save Person";
+            }
+            else if (cboSelectCRUDMode.SelectedIndex == 1)
+            {
+                c_Editing = true;
+                this.DisplayPersonDetailsToEdit();
+                btnSavePersonToDatabase.Text = "Update Person";
+            }
+        }
+
+        private void btnSavePersonToDatabase_Click(object sender, EventArgs e)
+        {
+            //TODO - validation
+            if (c_Editing)
+            {
+                var _personToUpdate = c_Database.Retrieve(txtPersonID.Text);
+
+                _personToUpdate.Forename = txtPersonForename.Text;
+                _personToUpdate.Surname = txtPersonSurname.Text;
+
+                c_Database.Update(_personToUpdate);
+
+                MessageBox.Show("Person Updated");
+            }
+            else if (!c_Editing)
+            {
+
+                var _person = new FacialRecognition.Library.Models.Person();
+                _person.Forename = txtPersonForename.Text;
+                _person.Surname = txtPersonSurname.Text;
+
+                c_Database.Store(_person);
+
+                MessageBox.Show("Person Stored");
+
+                txtPersonForename.Text = String.Empty;
+                txtPersonSurname.Text = String.Empty;
+            }
+            this.UpdateDatabaseDisplay();
         }
     }
 }

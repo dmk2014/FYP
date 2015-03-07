@@ -39,7 +39,6 @@
             this.grpColour = new System.Windows.Forms.GroupBox();
             this.grpDepth = new System.Windows.Forms.GroupBox();
             this.tabMain = new System.Windows.Forms.TabControl();
-            this.tabStreams = new System.Windows.Forms.TabPage();
             this.tabFacialRec = new System.Windows.Forms.TabPage();
             this.btnLoadImage = new System.Windows.Forms.Button();
             this.pbxSourceFace = new System.Windows.Forms.PictureBox();
@@ -50,21 +49,44 @@
             this.btnPerformFacialRec = new System.Windows.Forms.Button();
             this.btnFacialDetection = new System.Windows.Forms.Button();
             this.btnCaptureFrame = new System.Windows.Forms.Button();
+            this.tabDatabase = new System.Windows.Forms.TabPage();
+            this.btnSavePersonToDatabase = new System.Windows.Forms.Button();
+            this.txtPersonID = new System.Windows.Forms.TextBox();
+            this.lblNewPersonID = new System.Windows.Forms.Label();
+            this.txtPersonSurname = new System.Windows.Forms.TextBox();
+            this.txtPersonForename = new System.Windows.Forms.TextBox();
+            this.lblNewPersonSurname = new System.Windows.Forms.Label();
+            this.lblNewPersonForename = new System.Windows.Forms.Label();
+            this.grdUsers = new System.Windows.Forms.DataGridView();
+            this.colIdentifier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colForename = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSurname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colImageCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabStreams = new System.Windows.Forms.TabPage();
             this.tabPayment = new System.Windows.Forms.TabPage();
             this.btnProcessPayment = new System.Windows.Forms.Button();
             this.diaOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.pbxPersonFacialImages = new System.Windows.Forms.PictureBox();
+            this.cboSelectCRUDMode = new System.Windows.Forms.ComboBox();
+            this.lblChooseMode = new System.Windows.Forms.Label();
+            this.btnPersonImagesBack = new System.Windows.Forms.Button();
+            this.btnPersonImagesForward = new System.Windows.Forms.Button();
+            this.btnPersonImagesDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDept)).BeginInit();
             this.grpControls.SuspendLayout();
             this.grpColour.SuspendLayout();
             this.grpDepth.SuspendLayout();
             this.tabMain.SuspendLayout();
-            this.tabStreams.SuspendLayout();
             this.tabFacialRec.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxSourceFace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxNormalisedFace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxCapturedColorImage)).BeginInit();
+            this.tabDatabase.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdUsers)).BeginInit();
+            this.tabStreams.SuspendLayout();
             this.tabPayment.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxPersonFacialImages)).BeginInit();
             this.SuspendLayout();
             // 
             // pbxImage
@@ -176,6 +198,7 @@
             // tabMain
             // 
             this.tabMain.Controls.Add(this.tabFacialRec);
+            this.tabMain.Controls.Add(this.tabDatabase);
             this.tabMain.Controls.Add(this.tabStreams);
             this.tabMain.Controls.Add(this.tabPayment);
             this.tabMain.Location = new System.Drawing.Point(12, 12);
@@ -183,19 +206,6 @@
             this.tabMain.SelectedIndex = 0;
             this.tabMain.Size = new System.Drawing.Size(1120, 472);
             this.tabMain.TabIndex = 7;
-            // 
-            // tabStreams
-            // 
-            this.tabStreams.BackColor = System.Drawing.SystemColors.Control;
-            this.tabStreams.Controls.Add(this.grpColour);
-            this.tabStreams.Controls.Add(this.grpControls);
-            this.tabStreams.Controls.Add(this.grpDepth);
-            this.tabStreams.Location = new System.Drawing.Point(4, 22);
-            this.tabStreams.Name = "tabStreams";
-            this.tabStreams.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStreams.Size = new System.Drawing.Size(1112, 446);
-            this.tabStreams.TabIndex = 0;
-            this.tabStreams.Text = "Camera Streams";
             // 
             // tabFacialRec
             // 
@@ -309,6 +319,156 @@
             this.btnCaptureFrame.UseVisualStyleBackColor = true;
             this.btnCaptureFrame.Click += new System.EventHandler(this.btnCaptureFrame_Click);
             // 
+            // tabDatabase
+            // 
+            this.tabDatabase.BackColor = System.Drawing.SystemColors.Control;
+            this.tabDatabase.Controls.Add(this.btnPersonImagesDelete);
+            this.tabDatabase.Controls.Add(this.btnPersonImagesForward);
+            this.tabDatabase.Controls.Add(this.btnPersonImagesBack);
+            this.tabDatabase.Controls.Add(this.lblChooseMode);
+            this.tabDatabase.Controls.Add(this.cboSelectCRUDMode);
+            this.tabDatabase.Controls.Add(this.pbxPersonFacialImages);
+            this.tabDatabase.Controls.Add(this.btnSavePersonToDatabase);
+            this.tabDatabase.Controls.Add(this.txtPersonID);
+            this.tabDatabase.Controls.Add(this.lblNewPersonID);
+            this.tabDatabase.Controls.Add(this.txtPersonSurname);
+            this.tabDatabase.Controls.Add(this.txtPersonForename);
+            this.tabDatabase.Controls.Add(this.lblNewPersonSurname);
+            this.tabDatabase.Controls.Add(this.lblNewPersonForename);
+            this.tabDatabase.Controls.Add(this.grdUsers);
+            this.tabDatabase.Location = new System.Drawing.Point(4, 22);
+            this.tabDatabase.Name = "tabDatabase";
+            this.tabDatabase.Size = new System.Drawing.Size(1112, 446);
+            this.tabDatabase.TabIndex = 3;
+            this.tabDatabase.Text = "Database";
+            // 
+            // btnSavePersonToDatabase
+            // 
+            this.btnSavePersonToDatabase.Location = new System.Drawing.Point(973, 150);
+            this.btnSavePersonToDatabase.Name = "btnSavePersonToDatabase";
+            this.btnSavePersonToDatabase.Size = new System.Drawing.Size(123, 40);
+            this.btnSavePersonToDatabase.TabIndex = 9;
+            this.btnSavePersonToDatabase.Text = "Save Person";
+            this.btnSavePersonToDatabase.UseVisualStyleBackColor = true;
+            this.btnSavePersonToDatabase.Click += new System.EventHandler(this.btnSavePersonToDatabase_Click);
+            // 
+            // txtPersonID
+            // 
+            this.txtPersonID.Enabled = false;
+            this.txtPersonID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPersonID.Location = new System.Drawing.Point(898, 73);
+            this.txtPersonID.Name = "txtPersonID";
+            this.txtPersonID.Size = new System.Drawing.Size(198, 20);
+            this.txtPersonID.TabIndex = 8;
+            this.txtPersonID.Text = "auto-assigned";
+            this.txtPersonID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // lblNewPersonID
+            // 
+            this.lblNewPersonID.AutoSize = true;
+            this.lblNewPersonID.Location = new System.Drawing.Point(833, 76);
+            this.lblNewPersonID.Name = "lblNewPersonID";
+            this.lblNewPersonID.Size = new System.Drawing.Size(47, 13);
+            this.lblNewPersonID.TabIndex = 7;
+            this.lblNewPersonID.Text = "Identifier";
+            // 
+            // txtPersonSurname
+            // 
+            this.txtPersonSurname.Location = new System.Drawing.Point(898, 124);
+            this.txtPersonSurname.Name = "txtPersonSurname";
+            this.txtPersonSurname.Size = new System.Drawing.Size(198, 20);
+            this.txtPersonSurname.TabIndex = 6;
+            // 
+            // txtPersonForename
+            // 
+            this.txtPersonForename.Location = new System.Drawing.Point(898, 98);
+            this.txtPersonForename.Name = "txtPersonForename";
+            this.txtPersonForename.Size = new System.Drawing.Size(198, 20);
+            this.txtPersonForename.TabIndex = 5;
+            // 
+            // lblNewPersonSurname
+            // 
+            this.lblNewPersonSurname.AutoSize = true;
+            this.lblNewPersonSurname.Location = new System.Drawing.Point(833, 127);
+            this.lblNewPersonSurname.Name = "lblNewPersonSurname";
+            this.lblNewPersonSurname.Size = new System.Drawing.Size(49, 13);
+            this.lblNewPersonSurname.TabIndex = 4;
+            this.lblNewPersonSurname.Text = "Surname";
+            // 
+            // lblNewPersonForename
+            // 
+            this.lblNewPersonForename.AutoSize = true;
+            this.lblNewPersonForename.Location = new System.Drawing.Point(833, 101);
+            this.lblNewPersonForename.Name = "lblNewPersonForename";
+            this.lblNewPersonForename.Size = new System.Drawing.Size(54, 13);
+            this.lblNewPersonForename.TabIndex = 3;
+            this.lblNewPersonForename.Text = "Forename";
+            // 
+            // grdUsers
+            // 
+            this.grdUsers.AllowUserToAddRows = false;
+            this.grdUsers.AllowUserToDeleteRows = false;
+            this.grdUsers.AllowUserToOrderColumns = true;
+            this.grdUsers.AllowUserToResizeRows = false;
+            this.grdUsers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.grdUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdUsers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colIdentifier,
+            this.colForename,
+            this.colSurname,
+            this.colImageCount});
+            this.grdUsers.Location = new System.Drawing.Point(3, 5);
+            this.grdUsers.MultiSelect = false;
+            this.grdUsers.Name = "grdUsers";
+            this.grdUsers.ReadOnly = true;
+            this.grdUsers.RowHeadersVisible = false;
+            this.grdUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.grdUsers.ShowEditingIcon = false;
+            this.grdUsers.Size = new System.Drawing.Size(603, 223);
+            this.grdUsers.TabIndex = 2;
+            this.grdUsers.SelectionChanged += new System.EventHandler(this.grdUsers_SelectionChanged);
+            // 
+            // colIdentifier
+            // 
+            this.colIdentifier.DataPropertyName = "Id";
+            this.colIdentifier.HeaderText = "Identifier";
+            this.colIdentifier.Name = "colIdentifier";
+            this.colIdentifier.ReadOnly = true;
+            // 
+            // colForename
+            // 
+            this.colForename.DataPropertyName = "Forename";
+            this.colForename.HeaderText = "Forename";
+            this.colForename.Name = "colForename";
+            this.colForename.ReadOnly = true;
+            // 
+            // colSurname
+            // 
+            this.colSurname.DataPropertyName = "Surname";
+            this.colSurname.HeaderText = "Surname";
+            this.colSurname.Name = "colSurname";
+            this.colSurname.ReadOnly = true;
+            // 
+            // colImageCount
+            // 
+            this.colImageCount.DataPropertyName = "Images";
+            this.colImageCount.HeaderText = "Image Count";
+            this.colImageCount.Name = "colImageCount";
+            this.colImageCount.ReadOnly = true;
+            // 
+            // tabStreams
+            // 
+            this.tabStreams.BackColor = System.Drawing.SystemColors.Control;
+            this.tabStreams.Controls.Add(this.grpColour);
+            this.tabStreams.Controls.Add(this.grpControls);
+            this.tabStreams.Controls.Add(this.grpDepth);
+            this.tabStreams.Location = new System.Drawing.Point(4, 22);
+            this.tabStreams.Name = "tabStreams";
+            this.tabStreams.Padding = new System.Windows.Forms.Padding(3);
+            this.tabStreams.Size = new System.Drawing.Size(1112, 446);
+            this.tabStreams.TabIndex = 0;
+            this.tabStreams.Text = "Camera Streams";
+            // 
             // tabPayment
             // 
             this.tabPayment.BackColor = System.Drawing.SystemColors.Control;
@@ -330,6 +490,68 @@
             this.btnProcessPayment.Text = "Process Payment";
             this.btnProcessPayment.UseVisualStyleBackColor = true;
             // 
+            // pbxPersonFacialImages
+            // 
+            this.pbxPersonFacialImages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbxPersonFacialImages.Location = new System.Drawing.Point(622, 64);
+            this.pbxPersonFacialImages.Name = "pbxPersonFacialImages";
+            this.pbxPersonFacialImages.Size = new System.Drawing.Size(168, 192);
+            this.pbxPersonFacialImages.TabIndex = 17;
+            this.pbxPersonFacialImages.TabStop = false;
+            // 
+            // cboSelectCRUDMode
+            // 
+            this.cboSelectCRUDMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSelectCRUDMode.FormattingEnabled = true;
+            this.cboSelectCRUDMode.Items.AddRange(new object[] {
+            "Create New User",
+            "Edit Existing User"});
+            this.cboSelectCRUDMode.Location = new System.Drawing.Point(814, 30);
+            this.cboSelectCRUDMode.Name = "cboSelectCRUDMode";
+            this.cboSelectCRUDMode.Size = new System.Drawing.Size(121, 21);
+            this.cboSelectCRUDMode.TabIndex = 19;
+            this.cboSelectCRUDMode.SelectedIndexChanged += new System.EventHandler(this.cboSelectCRUDMode_SelectedIndexChanged);
+            // 
+            // lblChooseMode
+            // 
+            this.lblChooseMode.AutoSize = true;
+            this.lblChooseMode.Location = new System.Drawing.Point(704, 34);
+            this.lblChooseMode.Name = "lblChooseMode";
+            this.lblChooseMode.Size = new System.Drawing.Size(104, 13);
+            this.lblChooseMode.TabIndex = 20;
+            this.lblChooseMode.Text = "Select CRUD Mode:";
+            // 
+            // btnPersonImagesBack
+            // 
+            this.btnPersonImagesBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPersonImagesBack.Location = new System.Drawing.Point(625, 262);
+            this.btnPersonImagesBack.Name = "btnPersonImagesBack";
+            this.btnPersonImagesBack.Size = new System.Drawing.Size(50, 26);
+            this.btnPersonImagesBack.TabIndex = 21;
+            this.btnPersonImagesBack.Text = "<";
+            this.btnPersonImagesBack.UseVisualStyleBackColor = true;
+            // 
+            // btnPersonImagesForward
+            // 
+            this.btnPersonImagesForward.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPersonImagesForward.Location = new System.Drawing.Point(737, 262);
+            this.btnPersonImagesForward.Name = "btnPersonImagesForward";
+            this.btnPersonImagesForward.Size = new System.Drawing.Size(50, 26);
+            this.btnPersonImagesForward.TabIndex = 22;
+            this.btnPersonImagesForward.Text = ">";
+            this.btnPersonImagesForward.UseVisualStyleBackColor = true;
+            // 
+            // btnPersonImagesDelete
+            // 
+            this.btnPersonImagesDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPersonImagesDelete.ForeColor = System.Drawing.Color.Red;
+            this.btnPersonImagesDelete.Location = new System.Drawing.Point(681, 262);
+            this.btnPersonImagesDelete.Name = "btnPersonImagesDelete";
+            this.btnPersonImagesDelete.Size = new System.Drawing.Size(50, 26);
+            this.btnPersonImagesDelete.TabIndex = 23;
+            this.btnPersonImagesDelete.Text = "X";
+            this.btnPersonImagesDelete.UseVisualStyleBackColor = true;
+            // 
             // frmFacialRecPrototype
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -345,13 +567,17 @@
             this.grpColour.ResumeLayout(false);
             this.grpDepth.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
-            this.tabStreams.ResumeLayout(false);
             this.tabFacialRec.ResumeLayout(false);
             this.tabFacialRec.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxSourceFace)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxNormalisedFace)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxCapturedColorImage)).EndInit();
+            this.tabDatabase.ResumeLayout(false);
+            this.tabDatabase.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdUsers)).EndInit();
+            this.tabStreams.ResumeLayout(false);
             this.tabPayment.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbxPersonFacialImages)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -383,6 +609,25 @@
         private System.Windows.Forms.PictureBox pbxSourceFace;
         private System.Windows.Forms.Button btnLoadImage;
         private System.Windows.Forms.OpenFileDialog diaOpenFile;
+        private System.Windows.Forms.TabPage tabDatabase;
+        private System.Windows.Forms.DataGridView grdUsers;
+        private System.Windows.Forms.TextBox txtPersonSurname;
+        private System.Windows.Forms.TextBox txtPersonForename;
+        private System.Windows.Forms.Label lblNewPersonSurname;
+        private System.Windows.Forms.Label lblNewPersonForename;
+        private System.Windows.Forms.TextBox txtPersonID;
+        private System.Windows.Forms.Label lblNewPersonID;
+        private System.Windows.Forms.Button btnSavePersonToDatabase;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIdentifier;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colForename;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSurname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colImageCount;
+        private System.Windows.Forms.Label lblChooseMode;
+        private System.Windows.Forms.ComboBox cboSelectCRUDMode;
+        private System.Windows.Forms.PictureBox pbxPersonFacialImages;
+        private System.Windows.Forms.Button btnPersonImagesDelete;
+        private System.Windows.Forms.Button btnPersonImagesForward;
+        private System.Windows.Forms.Button btnPersonImagesBack;
     }
 }
 
