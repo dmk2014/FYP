@@ -303,7 +303,7 @@ namespace FacialRecognition
 
         private void grdUsers_SelectionChanged(object sender, EventArgs e)
         {
-            if (c_Editing)
+            if (c_Editing == DatabaseEditingMode.UPDATING_EXISTING_USER)
             {
                 this.DisplayPersonDetailsToEdit();
             }
@@ -313,7 +313,7 @@ namespace FacialRecognition
         {
             var _selection = grdUsers.SelectedRows;
 
-            if (_selection.Count == 1 && c_Editing == true)
+            if (_selection.Count == 1 && c_Editing == DatabaseEditingMode.UPDATING_EXISTING_USER)
             {
 
                 var _selectedID = _selection[0].Cells["colIdentifier"].Value.ToString();
@@ -326,30 +326,32 @@ namespace FacialRecognition
             }
         }
 
-        private Boolean c_Editing = false;
+        private DatabaseEditingMode c_Editing = DatabaseEditingMode.ADDING_NEW_USER;
 
         private void cboSelectCRUDMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboSelectCRUDMode.SelectedIndex == 0)
             {
-                c_Editing = false;
+                c_Editing = DatabaseEditingMode.ADDING_NEW_USER;
                 txtPersonID.Text = "auto-assigned";
                 txtPersonForename.Text = String.Empty;
                 txtPersonSurname.Text = String.Empty;
                 btnSavePersonToDatabase.Text = "Save Person";
+                txtPersonForename.Focus();
             }
             else if (cboSelectCRUDMode.SelectedIndex == 1)
             {
-                c_Editing = true;
+                c_Editing = DatabaseEditingMode.UPDATING_EXISTING_USER;
                 this.DisplayPersonDetailsToEdit();
                 btnSavePersonToDatabase.Text = "Update Person";
+                grdUsers.Focus();
             }
         }
 
         private void btnSavePersonToDatabase_Click(object sender, EventArgs e)
         {
             //TODO - validation
-            if (c_Editing)
+            if (c_Editing == DatabaseEditingMode.UPDATING_EXISTING_USER)
             {
                 var _personToUpdate = c_Database.Retrieve(txtPersonID.Text);
 
@@ -360,7 +362,7 @@ namespace FacialRecognition
 
                 MessageBox.Show("Person Updated");
             }
-            else if (!c_Editing)
+            else if (c_Editing == DatabaseEditingMode.ADDING_NEW_USER)
             {
 
                 var _person = new FacialRecognition.Library.Models.Person();
