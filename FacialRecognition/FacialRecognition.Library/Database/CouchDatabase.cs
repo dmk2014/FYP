@@ -49,6 +49,11 @@ namespace FacialRecognition.Library.Database
             c_Database = c_Couch.GetDatabase(Database);
         }
 
+        private void ValidateDatabaseName(String Database)
+        {
+            //TODO
+        }
+
         public void DeleteDatabase(String Database)
         {
             if (c_Couch.HasDatabase(Database))
