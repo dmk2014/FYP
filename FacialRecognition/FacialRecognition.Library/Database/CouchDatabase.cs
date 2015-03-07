@@ -13,7 +13,8 @@ namespace FacialRecognition.Library.Database
     {
         private DreamSeat.CouchClient c_Couch;
         private DreamSeat.CouchDatabase c_Database;
-        private const String VIEW_DOCUMENT_IDENTIFIER = "people";
+        private const String DESIGN_DOCUMENTS = "_design/";
+        private const String DESIGN_DOCUMENT_NAME = "people";
         private const String ALL_DOCUMENTS_VIEW_NAME = "all";
 
         public CouchDatabase(String Host, int Port, String Database)
@@ -29,9 +30,9 @@ namespace FacialRecognition.Library.Database
             this.CreateDatabase(Database);
 
             //Ensure View to retrieve all documents exists
-            if (!c_Database.DocumentExists(VIEW_DOCUMENT_IDENTIFIER))
+            if (!c_Database.DocumentExists(DESIGN_DOCUMENTS + DESIGN_DOCUMENT_NAME))
             {
-                var _designDoc = new CouchDesignDocument(VIEW_DOCUMENT_IDENTIFIER);
+                var _designDoc = new CouchDesignDocument(DESIGN_DOCUMENT_NAME);
                 var _view = new CouchView("function(doc) {emit(null, doc)}");
 
                 _designDoc.Views.Add(ALL_DOCUMENTS_VIEW_NAME, _view);
@@ -164,7 +165,7 @@ namespace FacialRecognition.Library.Database
         {
             var _result = new List<Models.Person>();
 
-            var _allPeopleViewResult = c_Database.GetView(VIEW_DOCUMENT_IDENTIFIER, ALL_DOCUMENTS_VIEW_NAME).ToString();
+            var _allPeopleViewResult = c_Database.GetView(DESIGN_DOCUMENT_NAME, ALL_DOCUMENTS_VIEW_NAME).ToString();
 
             var _deserializedResult = JsonConvert.DeserializeObject<dynamic>(_allPeopleViewResult);
 
