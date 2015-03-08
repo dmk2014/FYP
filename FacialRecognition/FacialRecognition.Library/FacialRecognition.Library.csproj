@@ -131,6 +131,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="x64\cudart64_65.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
