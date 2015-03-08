@@ -22,8 +22,7 @@ function [data,labels] = loadYaleTrainingDatabase(path)
     endif
   
     currentFolder = [path trainingDatabase{i}];
-    test = trainingDatabase(i,:);
-    test1 = trainingDatabase{i};
+    currentPersonLabel = trainingDatabase(i,:);
     
     if(isdir(currentFolder))
       #Read all .pgm images in that dir
@@ -40,9 +39,8 @@ function [data,labels] = loadYaleTrainingDatabase(path)
         
           #Process the image
           img = reshape(img,rows(img) * columns(img),1);
-          data = [data, img];          
-          #label = [label; test1]; #label will be folder name/subject name
-          labels = [labels; test];
+          data = [data, img];
+          labels = [labels; currentPersonLabel];
         endif
       endfor
     endif
