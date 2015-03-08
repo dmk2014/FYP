@@ -14,7 +14,7 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
   endfor
   
   #Result is face label
-  result = classifyAnUnknownFace(sessionData.U, face, sessionData.averageFace, sessionData.labels)
+  result = classifyAnUnknownFace(sessionData.U, sessionData.weights, face, sessionData.averageFace, sessionData.labels)
   
   sessionData.responseCode = 100;
   sessionData.responseData = result;

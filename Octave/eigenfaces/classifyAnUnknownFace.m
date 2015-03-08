@@ -1,10 +1,10 @@
-function result = classifyAnUnknownFace(U,face,averageFace,faceLabels)
-  if(nargin != 3)
-    usage("classifyAnUnknownFace(U, unknownFace, averageFace, faceLabels");
+function result = classifyAnUnknownFace(U,weights,face,averageFace,faceLabels)
+  if(nargin != 5)
+    usage("classifyAnUnknownFace(U, weights, unknownFace, averageFace, faceLabels)");
   endif
   
-  weightOfUnknownFace = projectFace(sessionData.U,face,sessionData.averageFace);  
-  idxOfClosestMatch = nearestMatchEuclideanDistance(sessionData.weights, weightOfUnknownFace)
+  weightOfUnknownFace = projectFace(U,face,averageFace);  
+  idxOfClosestMatch = nearestMatchEuclideanDistance(weights, weightOfUnknownFace)
   
-  result = faceLabels(idxOfClosestMatch);
+  result = faceLabels(idxOfClosestMatch,:);
 endfunction
