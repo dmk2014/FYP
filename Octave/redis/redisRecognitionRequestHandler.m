@@ -13,17 +13,9 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
     face = [face;curPixel]; #construct column vector of facial image
   endfor
   
-  #Extract to recognition methods
-  #This code is duplicated in multiple functions
-  weightOfUnknownFace = projectFace(sessionData.U,face,sessionData.averageFace);
-  
-  for i=1:columns(sessionData.weights)
-    ED(1,i) = norm(sessionData.weights(:,i) - weightOfUnknownFace, 2);
-  endfor
-  
-  [distance idx] = min(ED);
+  #Result is face label
+  result = classifyAnUnknownFace(sessionData.M, sessionData.U, face, sessionData.averageFace)
   
   sessionData.responseCode = 100;
-  sessionData.responseData = idx; #change to face label
-  
+  sessionData.responseData = result;
 endfunction
