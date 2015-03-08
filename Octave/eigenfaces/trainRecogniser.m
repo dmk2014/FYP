@@ -1,6 +1,8 @@
 function sessionData = trainRecogniser()
-  [sessionData.M, sessionData.labels] = loadYaleTrainingDatabase("C:/FacialRecognition/FYP/YaleTrainingDatabase/");
-
+  #Labels will be a cell array, converted to a matrix here
+  [sessionData.M, labels] = loadYaleTrainingDatabase("C:/FacialRecognition/FYP/YaleTrainingDatabase/");
+  sessionData.labels = cell2mat(labels);
+  
   #Reduce matrix using mean
   sessionData.averageFace = calculateMean(sessionData.M);
   sessionData.reducedFaces = reduceFaces(sessionData.M,sessionData.averageFace);
