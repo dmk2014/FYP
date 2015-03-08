@@ -1,5 +1,5 @@
 function sessionData = trainRecogniser()
-  [sessionData.M, labels] = loadYaleTrainingDatabase("C:/FacialRecognition/FYP/YaleTrainingDatabase/");
+  [sessionData.M, sessionData.labels] = loadYaleTrainingDatabase("C:/FacialRecognition/FYP/YaleTrainingDatabase/");
 
   #Reduce matrix using mean
   sessionData.averageFace = calculateMean(sessionData.M);
