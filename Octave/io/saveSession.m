@@ -5,6 +5,9 @@ function saveSession(sessionData)
   
   #Save training set
   saveMatrixData(sessionData.M,"training_set");
+  
+  #Save face labels
+  saveMatrixData(sessionData.labels,"face_labels");
 
   #Save average face
   saveMatrixData(sessionData.averageFace,"average_face");
