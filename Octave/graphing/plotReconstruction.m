@@ -1,4 +1,8 @@
 function plotReconstruction(originalFace, reconstructedFace, k)
+  if(nargin != 3)
+    usage("plotReconstruction(originalFace, reconsructedFace, k)");
+  endif
+  
   subplot(1,2,1);
   originalFace = reshape(originalFace,192,168); #TODO: remove hard-coded values
   imshow(originalFace, []);

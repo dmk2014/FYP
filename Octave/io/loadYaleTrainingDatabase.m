@@ -5,14 +5,13 @@
 #imwrite(image, "~/Desktop/FYP/Octave/testimage.png", "png");
 
 function [data,labels] = loadYaleTrainingDatabase(path)
-  #trainingDatabase = readdir("~/Desktop/fyp/FYP/YaleTrainingDatabase");
-  #trainingDatabase = readdir("C:/Users/t00157675/Desktop/fyp/FYP/YaleTrainingDatabase");
+  if(nargin != 1)
+    usage("loadYaleTrainingDatabase(path)");
+  endif
   
   trainingDatabase = readdir(path);
   folderCount = numel(trainingDatabase);
   
-  #result = struct("data",{1,32256},"label",{1,1});
-  #result = [];
   data = [];
   labels = {};
 

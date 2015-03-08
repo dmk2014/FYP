@@ -1,4 +1,8 @@
 function [image distance idx] = testRecogniser(U,weights,averageFace,facePath)
+  if(nargin != 4)
+    usage("testRecogniser(U, weights, averageFace, facePath)");
+  endif
+  
   #Projecting New Face
   image = double(imread(facePath));
   #"~/Desktop/yaleB01_P00A+000E+00.pgm"

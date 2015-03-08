@@ -1,4 +1,8 @@
 function sessionData = redisRequestHandler(R, sessionData)
+  if(nargin != 2)
+    usage("redisRequestHandler(R, sessionData)");
+  endif
+  
   #Load globals
   global NO_REQUEST = 50;
   global REQUEST_REC = 100;

@@ -17,8 +17,3 @@ function result = calculateMean(M)
   
   clear("row","rowMean");
 endfunction
-
-#Temporarily Persist Data
-#averageFace = reshape(averageValues,192,168);
-#averageFace = uint8(averageFace);
-#imwrite(averageFace,"~/Desktop/FYP/Octave/averageFace.png","png");

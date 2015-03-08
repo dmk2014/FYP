@@ -1,4 +1,8 @@
 function weights = findWeights(reducedFaces, U)
+  if(nargin != 2)
+    usage("findWeights(reducedFaces, eigenfaces");
+  endif
+  
   for i=1:columns(reducedFaces)
     currentFace = reducedFaces(:,i);
   

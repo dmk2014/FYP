@@ -1,4 +1,8 @@
 function plotRecognition(M,unknownFace,idxFound)
+  if(nargin != 3)
+    usage("plotRecognition(M, unknownFace, idxFound)");
+  endif
+  
   #M = face set
   #unknownFace = face to be recognised
   #idxFound = index of closest match in database

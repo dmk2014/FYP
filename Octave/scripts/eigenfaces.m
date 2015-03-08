@@ -1,7 +1,6 @@
 tic;
 
-#M = loadYaleTrainingDatabase("C:/Users/t00157675/Desktop/fyp/FYP/YaleTrainingDatabase/");
-sessionData.M = loadYaleTrainingDatabase("~/Desktop/FYP/YaleTrainingDatabase/");
+sessionData.M = loadYaleTrainingDatabase("C:/FacialRecognition/FYP/YaleTrainingDatabase/");
 
 #Reduce matrix using mean
 sessionData.averageFace = calculateMean(sessionData.M.data);

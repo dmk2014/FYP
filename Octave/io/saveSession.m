@@ -1,4 +1,8 @@
 function saveSession(sessionData)
+  if(nargin != 1)
+    usage("saveSession(sessionData)");
+  endif
+  
   #Save training set
   saveMatrixData(sessionData.M,"training_set");
 

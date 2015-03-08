@@ -1,4 +1,7 @@
 function sessionData = redisRecognitionRequestHandler(sessionData)
+  if(nargin != 1)
+    usage("redisRecognitionRequestHandler(sessionData)");
+  endif
 
   faceAsString = sessionData.requestData; #format "1,2,3.......,32256"
   faceSplit = strsplit(faceAsString,",");
@@ -10,6 +13,8 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
     face = [face;curPixel]; #construct column vector of facial image
   endfor
   
+  #Extract to recognition methods
+  #This code is duplicated in multiple functions
   weightOfUnknownFace = projectFace(sessionData.U,face,sessionData.averageFace);
   
   for i=1:columns(sessionData.weights)

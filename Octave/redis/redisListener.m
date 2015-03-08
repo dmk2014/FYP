@@ -37,7 +37,7 @@ function redisListener(R)
       
       #Work is done, so clear request for use before next loop
       redisSet(R,"facial.request.code","50");
-      disp("Request Code Reset to 0");
+      disp("Request Code Reset to 50");
     endif
     
     usleep(100); #sleep 100 millisecs

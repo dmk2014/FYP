@@ -1,7 +1,6 @@
 function redisSendResponse(R,code,data)
-  
-  if (nargin < 2)
-    error("Reponse code and data required");
+  if (nargin != 3)
+    usage("redisSendResponse(R, code, data)");
   endif
   
   redisSet(R,"facial.response.code",code);

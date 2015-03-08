@@ -1,4 +1,8 @@
 function U = getEigenfacesPCA(M,k)
+  if(nargin != 2)
+    usage("getEigenfacesPCA(M, k)");
+  endif
+  
   #code maintained for prosperity
   #eigenfaces as described by Turk & Pentland
   #values returned are unstable and do not give accurate results

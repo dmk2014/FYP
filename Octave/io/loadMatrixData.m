@@ -1,9 +1,15 @@
 function result = loadMatrixData(fileName)
-  #load the requested file from disk
-  #error check: if in data then an error is thrown
+  if(nargin != 1)
+    usage("loadMatrixData(fileName)");
+  endif
+  
+  #Load the requested matrix from disk
+  #Reset directory when complete
   dir = pwd();
   cd("C:/FacialRecognition/data");
   result = load(fileName);
-  result = result.M; #as files is loaded as struct data type
+  
+  #corresponding save method stores data in M field of struct, so retrieve that field
+  result = result.M; 
   cd(dir);
 endfunction
