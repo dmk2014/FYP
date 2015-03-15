@@ -33,9 +33,8 @@
             this.btnDecrElevation = new System.Windows.Forms.Button();
             this.pbxDept = new System.Windows.Forms.PictureBox();
             this.grpControls = new System.Windows.Forms.GroupBox();
+            this.btnCaptureFrames = new System.Windows.Forms.Button();
             this.btnSaveFrameData = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
-            this.btnStartSensor = new System.Windows.Forms.Button();
             this.grpColour = new System.Windows.Forms.GroupBox();
             this.grpDepth = new System.Windows.Forms.GroupBox();
             this.tabMain = new System.Windows.Forms.TabControl();
@@ -105,7 +104,6 @@
             // 
             // btnIncrElevation
             // 
-            this.btnIncrElevation.Enabled = false;
             this.btnIncrElevation.Location = new System.Drawing.Point(238, 19);
             this.btnIncrElevation.Name = "btnIncrElevation";
             this.btnIncrElevation.Size = new System.Drawing.Size(110, 36);
@@ -116,7 +114,6 @@
             // 
             // btnDecrElevation
             // 
-            this.btnDecrElevation.Enabled = false;
             this.btnDecrElevation.Location = new System.Drawing.Point(354, 19);
             this.btnDecrElevation.Name = "btnDecrElevation";
             this.btnDecrElevation.Size = new System.Drawing.Size(110, 36);
@@ -136,17 +133,26 @@
             // 
             // grpControls
             // 
+            this.grpControls.Controls.Add(this.btnCaptureFrames);
             this.grpControls.Controls.Add(this.btnSaveFrameData);
-            this.grpControls.Controls.Add(this.btnStop);
-            this.grpControls.Controls.Add(this.btnStartSensor);
             this.grpControls.Controls.Add(this.btnIncrElevation);
             this.grpControls.Controls.Add(this.btnDecrElevation);
-            this.grpControls.Location = new System.Drawing.Point(260, 342);
+            this.grpControls.Location = new System.Drawing.Point(320, 342);
             this.grpControls.Name = "grpControls";
-            this.grpControls.Size = new System.Drawing.Size(593, 73);
+            this.grpControls.Size = new System.Drawing.Size(473, 73);
             this.grpControls.TabIndex = 4;
             this.grpControls.TabStop = false;
             this.grpControls.Text = "Camera Controls";
+            // 
+            // btnCaptureFrames
+            // 
+            this.btnCaptureFrames.Location = new System.Drawing.Point(6, 19);
+            this.btnCaptureFrames.Name = "btnCaptureFrames";
+            this.btnCaptureFrames.Size = new System.Drawing.Size(110, 36);
+            this.btnCaptureFrames.TabIndex = 8;
+            this.btnCaptureFrames.Text = "Capture Frames";
+            this.btnCaptureFrames.UseVisualStyleBackColor = true;
+            this.btnCaptureFrames.Click += new System.EventHandler(this.btnCaptureFrames_Click);
             // 
             // btnSaveFrameData
             // 
@@ -158,27 +164,6 @@
             this.btnSaveFrameData.Text = "Save Raw Frame Data";
             this.btnSaveFrameData.UseVisualStyleBackColor = true;
             this.btnSaveFrameData.Click += new System.EventHandler(this.btnSaveFrameData_Click);
-            // 
-            // btnStop
-            // 
-            this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(470, 19);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(110, 36);
-            this.btnStop.TabIndex = 6;
-            this.btnStop.Text = "Stop Sensor";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
-            // btnStartSensor
-            // 
-            this.btnStartSensor.Location = new System.Drawing.Point(6, 19);
-            this.btnStartSensor.Name = "btnStartSensor";
-            this.btnStartSensor.Size = new System.Drawing.Size(110, 36);
-            this.btnStartSensor.TabIndex = 3;
-            this.btnStartSensor.Text = "Start Sensor";
-            this.btnStartSensor.UseVisualStyleBackColor = true;
-            this.btnStartSensor.Click += new System.EventHandler(this.btnStartSensor_Click);
             // 
             // grpColour
             // 
@@ -640,10 +625,8 @@
         private System.Windows.Forms.Button btnDecrElevation;
         private System.Windows.Forms.PictureBox pbxDept;
         private System.Windows.Forms.GroupBox grpControls;
-        private System.Windows.Forms.Button btnStartSensor;
         private System.Windows.Forms.GroupBox grpColour;
         private System.Windows.Forms.GroupBox grpDepth;
-        private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.TabPage tabStreams;
         private System.Windows.Forms.TabPage tabFacialRec;
@@ -683,6 +666,7 @@
         private System.Windows.Forms.Button btnUserCaptureImage;
         private System.Windows.Forms.PictureBox pbxUserImage;
         private System.Windows.Forms.Button btnUserAddFace;
+        private System.Windows.Forms.Button btnCaptureFrames;
     }
 }
 
