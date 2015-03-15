@@ -12,6 +12,15 @@ namespace FacialRecognition.Library.Hardware.KinectV1
         {
             //May reconsider this
             this.c_Sensor = Sensor;
+
+            this.ConfigureSensor();
+        }
+
+        private void ConfigureSensor()
+        {
+            c_Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+            c_Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+            c_Sensor.Start();
         }
 
         public void AdjustElevation(int Angle)
@@ -27,9 +36,7 @@ namespace FacialRecognition.Library.Hardware.KinectV1
         {
             if(!c_Sensor.IsRunning)
             {
-                c_Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
-                c_Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
-                c_Sensor.Start();
+                this.ConfigureSensor();
             }
 
             var _colorFrame = c_Sensor.ColorStream.OpenNextFrame(10);
@@ -43,6 +50,21 @@ namespace FacialRecognition.Library.Hardware.KinectV1
             //Depth reduction
 
             return _colorBitmap;
+        }
+
+        public Bitmap CaptureDepthImage()
+        {
+            if (!c_Sensor.IsRunning)
+            {
+                this.ConfigureSensor();
+            }
+
+            var _depthFrame = c_Sensor.DepthStream.OpenNextFrame(500);
+
+            var _dataProcessor = new SensorDataProcessor();
+            var _depthBitmap = _dataProcessor.DepthToBitmap(_depthFrame);
+
+            return _depthBitmap;
         }
 
         private Bitmap RemoveBackground(ColorImageFrame Color, DepthImageFrame Depth)
