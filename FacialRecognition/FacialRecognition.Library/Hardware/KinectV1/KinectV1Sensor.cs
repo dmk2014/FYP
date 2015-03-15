@@ -71,5 +71,21 @@ namespace FacialRecognition.Library.Hardware.KinectV1
         {
             throw new NotImplementedException();
         }
+
+        public void SaveFrameData()
+        {
+            if (!c_Sensor.IsRunning)
+            {
+                this.ConfigureSensor();
+            }
+
+            var _io = new SensorDataIO();
+
+            var _colourFrame = c_Sensor.ColorStream.OpenNextFrame(1000);
+            var _depthFrame = c_Sensor.DepthStream.OpenNextFrame(1000);
+
+            _io.SaveRawPixelDataColour(_colourFrame);
+            _io.SaveRawPixelDataDepth(_depthFrame);
+        }
     }
 }
