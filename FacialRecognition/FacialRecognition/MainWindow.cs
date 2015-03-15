@@ -25,13 +25,7 @@ namespace FacialRecognition
             this.PrepareKinectSensor();
         }
 
-        private void frmTest_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //if (c_Sensor.IsRunning)
-            //    c_Sensor.Stop();
-        }
-
-        #region CameraStreamsTab       
+        #region CameraStreamsTab
         private void btnCaptureFrames_Click(object sender, EventArgs e)
         {
             try 
@@ -71,28 +65,16 @@ namespace FacialRecognition
 
         private void btnSaveFrameData_Click(object sender, EventArgs e)
         {
-            //TODO
-            //Add method to KinectV1 class to SaveRawData
-            //var _io = new SensorDataIO();
+            try
+            {
+                c_Kinect.SaveFrameData();
 
-            //Dispose the running sensor instance
-            //Create new instance and then poll for frames
-            //c_Sensor.Dispose();
-
-            //c_Sensor = KinectSensor.KinectSensors[0];
-            //c_Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
-            //c_Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
-            //c_Sensor.Start();
-
-            //var _colourFrame = c_Sensor.ColorStream.OpenNextFrame(1000);
-            //var _depthFrame = c_Sensor.DepthStream.OpenNextFrame(1000);
-
-            //_io.SaveRawPixelDataColour(_colourFrame);
-            //_io.SaveRawPixelDataDepth(_depthFrame);
-
-            ////Dispose the running sensor used only by this method
-            ////Restart the prototype
-            //c_Sensor.Dispose();
+                MessageBox.Show("Data saved successfully to your Desktop", "Facial Recognition", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
         }
         #endregion
 
@@ -284,13 +266,7 @@ namespace FacialRecognition
 
                 //TODO
                 //Extract this code
-                DatabaseUIGlobals.DISPLAYED_USER = new FacialRecognition.Library.Models.Person();
-                
-                if (DatabaseUIGlobals.DISPLAYED_USER.Images.Count > 0)
-                {
-                    pbxPersonFacialImages.Image = DatabaseUIGlobals.DISPLAYED_USER.Images[0];
-                }
-                
+                DatabaseUIGlobals.DISPLAYED_USER = new FacialRecognition.Library.Models.Person();               
                 DatabaseUIGlobals.DISPLAYED_IMAGE_INDEX = 0;
 
                 txtPersonForename.Focus();

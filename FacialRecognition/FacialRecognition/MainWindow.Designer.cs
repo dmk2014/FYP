@@ -156,7 +156,6 @@
             // 
             // btnSaveFrameData
             // 
-            this.btnSaveFrameData.Enabled = false;
             this.btnSaveFrameData.Location = new System.Drawing.Point(122, 19);
             this.btnSaveFrameData.Name = "btnSaveFrameData";
             this.btnSaveFrameData.Size = new System.Drawing.Size(110, 36);
