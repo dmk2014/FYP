@@ -2,7 +2,7 @@
 
 namespace FacialRecognition.Library.Core
 {
-    interface IFacialRecogniser
+    public interface IFacialRecogniser
     {
         Models.Person ClassifyFace(Image FacialImage);
     }
