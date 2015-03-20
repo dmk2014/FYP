@@ -51,20 +51,23 @@ function sessionData = redisRequestHandler(R, sessionData)
       disp(lasterror.message);
     end_try_catch
   
-  elseif (request == REQUEST_RETRAIN)  
-    
-    #reload entire sessionData
+  elseif (request == REQUEST_RETRAIN)      
+    # Retrain the database
+    # Call dedicated retrain handler that will read all data from Redis
+    # and pass it to the trainRecogniser function
     try
       clear("sessionData");
-      sessionData = redisRetrainRequestHandler();
+      sessionData = redisRetrainRequestHandler(R);
       redisSendResponse(R,"100","Octave: retraining recogniser success");
+      disp("Response Sent: 100...retrain completed successfully");
     catch
       redisSendResponse(R,"200","Octave: retraining recogniser failed");
+      disp("Response sent: 200...retrain encountered an error and failed");
       disp(lasterror.message);
     end_try_catch
     
   else
-    #invalid request
+    # An invalid request code was received
     redisSendResponse(R,"200","Octave: invalid request");
   endif
   

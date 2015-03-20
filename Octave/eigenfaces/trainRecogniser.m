@@ -1,6 +1,6 @@
 function sessionData = trainRecogniser()
   #Labels will be a cell array, converted to a matrix here
-  [sessionData.M, labels] = loadYaleTrainingDatabase("C:/FacialRecognition/FYP/YaleTrainingDatabase/");
+  [sessionData.M, labels] = loadYaleTrainingDatabase("C:/FacialRecognition/data/YaleTrainingDatabase/");
   sessionData.labels = cell2mat(labels);
   
   #Reduce matrix using mean
