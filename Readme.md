@@ -22,10 +22,6 @@ The IntrumentControl and go-redis packages are required. These allow communicati
 server.
 
 
-##YaleTrainingDatabase
-This is the current database being used to train the recogniser.
-
-
 ##Execution Instructions
 1. Start Redis server, currently only accepting defaults on localhost
 
