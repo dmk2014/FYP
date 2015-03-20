@@ -17,6 +17,11 @@ namespace FacialRecognition.Library.Octave
             this.c_redisDatabase = c_Connection.GetDatabase();
         }
 
+        public void SendPersonDataToCache(String PersonLabel, String ImageAsString)
+        {
+            throw new NotImplementedException();
+        }
+
         public Boolean SendRequest(OctaveMessage Message)
         {
             var _transaction = c_redisDatabase.CreateTransaction();
