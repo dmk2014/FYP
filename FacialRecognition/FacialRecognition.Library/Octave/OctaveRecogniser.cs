@@ -99,10 +99,16 @@ namespace FacialRecognition.Library.Octave
 
         public Boolean RetrainRecogniser(List<Models.Person> PeopleInDatabase)
         {
+            // Prepare the data for retraining
+            this.SendDataToCacheForRetraining(PeopleInDatabase);
+
+            // Send a request to retrain the recogniser
             var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_RETRAIN, String.Empty);
             c_Interface.SendRequest(_message);
 
-            var _response = c_Interface.ReceiveResponse(1800000); //30 mins
+            // Wait for a response
+            int timeoutThirtyMinutes = 1800000;
+            var _response = c_Interface.ReceiveResponse(timeoutThirtyMinutes);
 
             if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
             {
@@ -111,6 +117,17 @@ namespace FacialRecognition.Library.Octave
             else
             {
                 throw new Exception(_response.Data);
+            }
+        }
+
+        private void SendDataToCacheForRetraining(List<Models.Person> PeopleInDatabase)
+        {
+            foreach(var person in PeopleInDatabase)
+            {
+                foreach(var image in person.Images)
+                {
+                    c_Interface.SendPersonDataToCache(person.Id, this.MarshalFacialImage(image));
+                }
             }
         }
     }
