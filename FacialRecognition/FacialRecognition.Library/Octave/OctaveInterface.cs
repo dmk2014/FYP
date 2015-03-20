@@ -20,7 +20,7 @@ namespace FacialRecognition.Library.Octave
         public void SendPersonDataToCache(String PersonLabel, String ImageAsString)
         {
             var labelListKey = "facial.database.labels";
-            var dataListKey = "facial.data.data";
+            var dataListKey = "facial.database.data";
 
             var _transaction = c_redisDatabase.CreateTransaction();
 
