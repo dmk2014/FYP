@@ -56,7 +56,7 @@ function sessionData = redisRequestHandler(R, sessionData)
     #reload entire sessionData
     try
       clear("sessionData");
-      sessionData = trainRecogniser();
+      sessionData = redisRetrainRequestHandler();
       redisSendResponse(R,"100","Octave: retraining recogniser success");
     catch
       redisSendResponse(R,"200","Octave: retraining recogniser failed");
