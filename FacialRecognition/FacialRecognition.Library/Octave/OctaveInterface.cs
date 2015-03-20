@@ -19,7 +19,15 @@ namespace FacialRecognition.Library.Octave
 
         public void SendPersonDataToCache(String PersonLabel, String ImageAsString)
         {
-            throw new NotImplementedException();
+            var labelListKey = "facial.database.labels";
+            var dataListKey = "facial.data.data";
+
+            var _transaction = c_redisDatabase.CreateTransaction();
+
+            _transaction.ListRightPushAsync(labelListKey, PersonLabel);
+            _transaction.ListRightPushAsync(dataListKey, ImageAsString);
+
+            _transaction.Execute();
         }
 
         public Boolean SendRequest(OctaveMessage Message)
