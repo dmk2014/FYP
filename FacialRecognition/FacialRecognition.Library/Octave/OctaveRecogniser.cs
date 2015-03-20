@@ -122,6 +122,7 @@ namespace FacialRecognition.Library.Octave
 
         private void SendDataToCacheForRetraining(List<Models.Person> PeopleInDatabase)
         {
+            // Send all data to the cache
             foreach(var person in PeopleInDatabase)
             {
                 foreach(var image in person.Images)
@@ -129,6 +130,9 @@ namespace FacialRecognition.Library.Octave
                     c_Interface.SendPersonDataToCache(person.Id, this.MarshalFacialImage(image));
                 }
             }
+
+            // Mark end of data in the cache - required by Octave
+            c_Interface.SendPersonDataToCache(((int)OctaveMessageType.NO_DATA).ToString(), ((int)OctaveMessageType.NO_DATA).ToString());
         }
     }
 }
