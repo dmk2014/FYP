@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace FacialRecognition.Library.Octave
 {
@@ -96,7 +97,7 @@ namespace FacialRecognition.Library.Octave
             }
         }
 
-        public Boolean RetrainRecogniser()
+        public Boolean RetrainRecogniser(List<Models.Person> PeopleInDatabase)
         {
             var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_RETRAIN, String.Empty);
             c_Interface.SendRequest(_message);
