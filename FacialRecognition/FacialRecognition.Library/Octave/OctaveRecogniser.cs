@@ -42,25 +42,29 @@ namespace FacialRecognition.Library.Octave
 
         private String MarshalFacialImage(Image FacialImage)
         {
-            var _facialBitmap = new Bitmap(FacialImage);
-            var _data = String.Empty;
+            var facialBitmap = new Bitmap(FacialImage);
+            var faceAsString = String.Empty;
 
-            for (int i = 0; i < FacialImage.Height; i++)
+            for (int column = 0; column < FacialImage.Width; column++)
             {
-                for (int j = 0; j < FacialImage.Width; j++)
+                for (int row = 0; row < FacialImage.Height; row++)
                 {
-                    //BGR all have same value, we'll take one for now
-                    var _pixel = _facialBitmap.GetPixel(j, i);
-                    var _value = _pixel.B;
-                    _data += _value + ",";
+                    // BGR all have same values - can use any one of these to produce 8 bit grayscale image
+                    // Octave requires that data is passed in column major order
+                    // column1
+                    // column2
+                    // columnN
+                    var pixel = facialBitmap.GetPixel(column, row);
+                    var value = pixel.B;
+                    faceAsString += value + ",";
                 }
             }
 
             //Remove trailing ','
 
-            _data = _data.TrimEnd(',');
+            faceAsString = faceAsString.TrimEnd(',');
 
-            return _data;
+            return faceAsString;
         }
 
         public Boolean SaveSession()
