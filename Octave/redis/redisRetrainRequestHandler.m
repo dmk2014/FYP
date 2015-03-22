@@ -22,10 +22,10 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
     if (!dataRemaining)
       faceLabels = [faceLabels; label];
       
-      # TODO
-      # Unmarshal the facial data
+      # Pop the facial data from Redis, unmarshal it, and add it to the face array
       faceData = redisListLPOP(redisConnection, redisListData);
-      faces = [faces, faceData];
+      face = redisUnmarshalFacialData(faceData)
+      faces = [faces, face];
     else
       done = true;
     endif
