@@ -38,5 +38,5 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
   disp("Reading database contents...DONE");
   
   # Pass data and labels acquired from Redis to the trainRecogniser function
-  sessionData = trainRecogniser(faces, faceLabels)
+  sessionData = trainRecogniser(faces, faceLabels);
 endfunction
