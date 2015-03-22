@@ -34,10 +34,6 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
   # Convert labels cell array to a matrix - required for data persistence
   faceLabels = cell2mat(faceLabels);
   
-  sessionData.M = faces;
-  sessionData.labels = faceLabels;
-  
-  # TODO
   # Pass data and labels acquired from Redis to the trainRecogniser function
-  # sessionData = trainRecogniser();
+  sessionData = trainRecogniser(faces, faceLabels)
 endfunction
