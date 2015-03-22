@@ -29,7 +29,10 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
     else
       done = true;
     endif
-  endwhile 
+  endwhile
+  
+  # Convert labels cell array to a matrix - required for data persistence
+  faceLabels = cell2mat(faceLabels);
   
   sessionData.M = faces;
   sessionData.labels = faceLabels;
