@@ -217,6 +217,7 @@
             // 
             // btnLoadImage
             // 
+            this.btnLoadImage.Enabled = false;
             this.btnLoadImage.Location = new System.Drawing.Point(268, 16);
             this.btnLoadImage.Name = "btnLoadImage";
             this.btnLoadImage.Size = new System.Drawing.Size(123, 40);
