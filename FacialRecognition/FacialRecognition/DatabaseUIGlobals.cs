@@ -9,7 +9,7 @@ namespace FacialRecognition
 {
     public class DatabaseUIGlobals
     {
-        public static Person DISPLAYED_USER { get; set; }
-        public static int DISPLAYED_IMAGE_INDEX { get; set; }
+        public static Person DisplayedUser { get; set; }
+        public static int DisplayedImageIndex { get; set; }
     }
 }
