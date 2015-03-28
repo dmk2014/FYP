@@ -10,8 +10,7 @@ function sessionData = trainRecogniser(databaseFaces, databaseLabels)
   disp("Loading Yale Database...");
   tic;
   
-  [sessionData.M, labels] = loadYaleTrainingDatabase("C:/FacialRecognition/data/YaleTrainingDatabase/");
-  sessionData.labels = cell2mat(labels);
+  [sessionData.M, sessionData.labels] = loadYaleTrainingDatabase("C:/FacialRecognition/data/YaleTrainingDatabase/");
   
   # If database parameters were supplied
   if(nargin == 2)
