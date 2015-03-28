@@ -1,48 +1,27 @@
-##Read image from file
-#image = imread("~/Desktop/FYP/YaleTrainingDatabase/yaleB01/yaleB01_P00A-005E-10.pgm");
-
-#Write image to disk
-#imwrite(image, "~/Desktop/FYP/Octave/testimage.png", "png");
-
-function [data,labels] = loadYaleTrainingDatabase(path)
-  if(nargin != 1)
-    usage("loadYaleTrainingDatabase(path)");
+function [data,labels] = loadYaleTrainingDatabase(path)  
+  # Load the Yale database using:
+  # Persisted Data -> much quicker, or
+  # Raw Image Files -> slower, but required if data files don't exist
+  
+  if(persistedYaleDatabaseExists())
+    [data, labels] = loadYaleTrainingDatabaseFromPersistedData();
+  else
+    if(nargin != 1)
+      usage("loadYaleTrainingDatabase(path)");
+    endif
+    
+    [data, labels] = loadYaleTrainingDatabaseFromImageFiles(path);
   endif
-  
-  trainingDatabase = readdir(path);
-  folderCount = numel(trainingDatabase);
-  
-  data = [];
-  labels = {};
+endfunction
 
-  for i=1:folderCount
-    #Skip special files . and ..
-    if(regexp(trainingDatabase{i}, "^\\.\\.?$"))
-      continue;
-    endif
+function exists = persistedYaleDatabaseExists() 
+  imagesExist = exist("C:/FacialRecognition/yale_database_images", "file");
+  labelsExist = exist("C:/FacialRecognition/yale_database_labels", "file");
   
-    currentFolder = [path trainingDatabase{i}];
-    currentPersonLabel = trainingDatabase(i,:);
-    
-    if(isdir(currentFolder))
-      #Read all .pgm images in that dir
-      imgDir = readdir(currentFolder);
-    
-      for j=1:numel(imgDir)
-        if(regexp(imgDir{j}, "^\\.\\.?$") || regexp(imgDir{j}, "_Ambient.pgm"))
-          continue;
-        endif
-      
-        if(regexp(imgDir{j}, ".pgm"))
-          currentImagePath = [currentFolder "/" imgDir{j}];
-          img = double(imread(currentImagePath));
-        
-          #Process the image
-          img = reshape(img,rows(img) * columns(img),1);
-          data = [data, img];
-          labels = [labels; currentPersonLabel];
-        endif
-      endfor
-    endif
-  endfor
+  # Exist function return "2" if a file exists, "0" if it doesn't
+  if(imagesExist == 2 && labelsExist == 2)
+    exists = true;
+  else
+    exists = false;
+  endif
 endfunction
