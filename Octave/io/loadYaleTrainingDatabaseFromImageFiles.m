@@ -50,7 +50,7 @@ function [data, labels] = loadYaleTrainingDatabaseFromImageFiles(path)
   labels = cell2mat(labels);
   
   # Persist the data for future sessions
-  persistData(images, labels);
+  persistData(data, labels);
 endfunction
 
 function persistData(images, labels)
@@ -62,6 +62,6 @@ function persistData(images, labels)
   imagesFileName = "yale_database_images";
   labelsFileName = "yale_database_labels";
   
-  saveMatrixData(data, imagesFileName);
+  saveMatrixData(images, imagesFileName);
   saveMatrixData(labels, labelsFileName);
 endfunction
