@@ -127,6 +127,9 @@ namespace FacialRecognition.Library.Octave
 
         private void SendDataToCacheForRetraining(List<Models.Person> PeopleInDatabase)
         {
+            // Ensure cache is cleared of all previous data
+            Interface.EnsurePersonDataIsClearedFromCache();
+
             // Send all data to the cache
             foreach(var person in PeopleInDatabase)
             {
