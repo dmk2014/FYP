@@ -17,6 +17,16 @@ namespace FacialRecognition.Library.Octave
             this.c_redisDatabase = c_Connection.GetDatabase();
         }
 
+        public void EnsurePersonDataIsClearedFromCache()
+        {
+            var transaction = c_redisDatabase.CreateTransaction();
+
+            transaction.KeyDeleteAsync("facial.database.labels");
+            transaction.KeyDeleteAsync("facial.database.data");
+
+            transaction.Execute();
+        }
+
         public void SendPersonDataToCache(String PersonLabel, String ImageAsString)
         {
             var labelListKey = "facial.database.labels";
