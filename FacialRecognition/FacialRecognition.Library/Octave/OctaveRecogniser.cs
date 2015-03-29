@@ -70,7 +70,7 @@ namespace FacialRecognition.Library.Octave
 
         public Boolean SaveSession()
         {
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestSave, String.Empty);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestSave);
             Interface.SendRequest(recogniserRequest);
 
             var response = Interface.ReceiveResponse(30000);
@@ -87,7 +87,7 @@ namespace FacialRecognition.Library.Octave
 
         public Boolean ReloadSession()
         {
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestReload, String.Empty);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestReload);
             Interface.SendRequest(recogniserRequest);
 
             var response = Interface.ReceiveResponse(30000);
@@ -108,7 +108,7 @@ namespace FacialRecognition.Library.Octave
             this.SendDataToCacheForRetraining(PeopleInDatabase);
 
             // Send a request to retrain the recogniser
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRetrain, String.Empty);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRetrain);
             Interface.SendRequest(recogniserRequest);
 
             // Wait for a response - large timeout because retraining requires considerable time period
@@ -140,7 +140,8 @@ namespace FacialRecognition.Library.Octave
             }
 
             // Mark end of data in the cache - required by Octave
-            Interface.SendPersonDataToCache(((int)OctaveMessageType.NoData).ToString(), ((int)OctaveMessageType.NoData).ToString());
+            var endOfData = ((int)OctaveMessageType.NoData).ToString();
+            Interface.SendPersonDataToCache(endOfData, endOfData);
         }
     }
 }

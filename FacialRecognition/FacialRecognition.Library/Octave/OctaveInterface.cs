@@ -60,10 +60,10 @@ namespace FacialRecognition.Library.Octave
 
         public OctaveMessage ReceiveResponse(int Timeout)
         {
-            OctaveMessage response = null;
-            Boolean responseReceived = false;
-
+            var response = new OctaveMessage();
+            var responseReceived = false;
             var watch = new Stopwatch();
+
             watch.Start();
 
             while (watch.ElapsedMilliseconds <= Timeout && !responseReceived)
@@ -79,7 +79,7 @@ namespace FacialRecognition.Library.Octave
                 }
             }
 
-            if (response != null)
+            if (response.Code != (int)OctaveMessageType.NoData)
             {
                 return response;
             }
