@@ -98,7 +98,7 @@
             this.pbxImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbxImage.Location = new System.Drawing.Point(6, 19);
             this.pbxImage.Name = "pbxImage";
-            this.pbxImage.Size = new System.Drawing.Size(527, 294);
+            this.pbxImage.Size = new System.Drawing.Size(640, 480);
             this.pbxImage.TabIndex = 0;
             this.pbxImage.TabStop = false;
             // 
@@ -125,9 +125,9 @@
             // pbxDept
             // 
             this.pbxDept.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxDept.Location = new System.Drawing.Point(6, 19);
+            this.pbxDept.Location = new System.Drawing.Point(10, 19);
             this.pbxDept.Name = "pbxDept";
-            this.pbxDept.Size = new System.Drawing.Size(527, 294);
+            this.pbxDept.Size = new System.Drawing.Size(640, 480);
             this.pbxDept.TabIndex = 3;
             this.pbxDept.TabStop = false;
             // 
@@ -137,7 +137,7 @@
             this.grpControls.Controls.Add(this.btnSaveFrameData);
             this.grpControls.Controls.Add(this.btnIncrElevation);
             this.grpControls.Controls.Add(this.btnDecrElevation);
-            this.grpControls.Location = new System.Drawing.Point(320, 342);
+            this.grpControls.Location = new System.Drawing.Point(445, 526);
             this.grpControls.Name = "grpControls";
             this.grpControls.Size = new System.Drawing.Size(473, 73);
             this.grpControls.TabIndex = 4;
@@ -169,7 +169,7 @@
             this.grpColour.Controls.Add(this.pbxImage);
             this.grpColour.Location = new System.Drawing.Point(6, 6);
             this.grpColour.Name = "grpColour";
-            this.grpColour.Size = new System.Drawing.Size(543, 318);
+            this.grpColour.Size = new System.Drawing.Size(662, 508);
             this.grpColour.TabIndex = 5;
             this.grpColour.TabStop = false;
             this.grpColour.Text = "Colour Stream";
@@ -177,9 +177,9 @@
             // grpDepth
             // 
             this.grpDepth.Controls.Add(this.pbxDept);
-            this.grpDepth.Location = new System.Drawing.Point(563, 6);
+            this.grpDepth.Location = new System.Drawing.Point(692, 6);
             this.grpDepth.Name = "grpDepth";
-            this.grpDepth.Size = new System.Drawing.Size(543, 318);
+            this.grpDepth.Size = new System.Drawing.Size(662, 508);
             this.grpDepth.TabIndex = 6;
             this.grpDepth.TabStop = false;
             this.grpDepth.Text = "Depth Stream";
@@ -193,7 +193,7 @@
             this.tabMain.Location = new System.Drawing.Point(12, 12);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(1120, 559);
+            this.tabMain.Size = new System.Drawing.Size(1371, 639);
             this.tabMain.TabIndex = 7;
             // 
             // tabFacialRec
@@ -211,14 +211,14 @@
             this.tabFacialRec.Location = new System.Drawing.Point(4, 22);
             this.tabFacialRec.Name = "tabFacialRec";
             this.tabFacialRec.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFacialRec.Size = new System.Drawing.Size(1112, 533);
+            this.tabFacialRec.Size = new System.Drawing.Size(1363, 613);
             this.tabFacialRec.TabIndex = 1;
             this.tabFacialRec.Text = "Facial Recognition";
             // 
             // btnLoadImage
             // 
             this.btnLoadImage.Enabled = false;
-            this.btnLoadImage.Location = new System.Drawing.Point(268, 16);
+            this.btnLoadImage.Location = new System.Drawing.Point(311, 16);
             this.btnLoadImage.Name = "btnLoadImage";
             this.btnLoadImage.Size = new System.Drawing.Size(123, 40);
             this.btnLoadImage.TabIndex = 8;
@@ -230,7 +230,7 @@
             // 
             this.pbxSourceFace.BackColor = System.Drawing.SystemColors.Control;
             this.pbxSourceFace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxSourceFace.Location = new System.Drawing.Point(614, 146);
+            this.pbxSourceFace.Location = new System.Drawing.Point(824, 207);
             this.pbxSourceFace.MaximumSize = new System.Drawing.Size(168, 192);
             this.pbxSourceFace.Name = "pbxSourceFace";
             this.pbxSourceFace.Size = new System.Drawing.Size(168, 192);
@@ -240,7 +240,7 @@
             // lblDetectedFaces
             // 
             this.lblDetectedFaces.AutoSize = true;
-            this.lblDetectedFaces.Location = new System.Drawing.Point(611, 89);
+            this.lblDetectedFaces.Location = new System.Drawing.Point(821, 150);
             this.lblDetectedFaces.Name = "lblDetectedFaces";
             this.lblDetectedFaces.Size = new System.Drawing.Size(95, 13);
             this.lblDetectedFaces.TabIndex = 6;
@@ -249,7 +249,7 @@
             // btnNormalise
             // 
             this.btnNormalise.Enabled = false;
-            this.btnNormalise.Location = new System.Drawing.Point(767, 16);
+            this.btnNormalise.Location = new System.Drawing.Point(959, 16);
             this.btnNormalise.Name = "btnNormalise";
             this.btnNormalise.Size = new System.Drawing.Size(123, 40);
             this.btnNormalise.TabIndex = 5;
@@ -261,7 +261,7 @@
             // 
             this.pbxNormalisedFace.BackColor = System.Drawing.SystemColors.Control;
             this.pbxNormalisedFace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxNormalisedFace.Location = new System.Drawing.Point(869, 146);
+            this.pbxNormalisedFace.Location = new System.Drawing.Point(1079, 207);
             this.pbxNormalisedFace.Name = "pbxNormalisedFace";
             this.pbxNormalisedFace.Size = new System.Drawing.Size(168, 192);
             this.pbxNormalisedFace.TabIndex = 4;
@@ -273,14 +273,14 @@
             this.pbxCapturedColorImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbxCapturedColorImage.Location = new System.Drawing.Point(6, 89);
             this.pbxCapturedColorImage.Name = "pbxCapturedColorImage";
-            this.pbxCapturedColorImage.Size = new System.Drawing.Size(527, 294);
+            this.pbxCapturedColorImage.Size = new System.Drawing.Size(640, 480);
             this.pbxCapturedColorImage.TabIndex = 3;
             this.pbxCapturedColorImage.TabStop = false;
             // 
             // btnPerformFacialRec
             // 
             this.btnPerformFacialRec.Enabled = false;
-            this.btnPerformFacialRec.Location = new System.Drawing.Point(896, 16);
+            this.btnPerformFacialRec.Location = new System.Drawing.Point(1088, 16);
             this.btnPerformFacialRec.Name = "btnPerformFacialRec";
             this.btnPerformFacialRec.Size = new System.Drawing.Size(123, 40);
             this.btnPerformFacialRec.TabIndex = 2;
@@ -291,7 +291,7 @@
             // btnFacialDetection
             // 
             this.btnFacialDetection.Enabled = false;
-            this.btnFacialDetection.Location = new System.Drawing.Point(638, 16);
+            this.btnFacialDetection.Location = new System.Drawing.Point(830, 16);
             this.btnFacialDetection.Name = "btnFacialDetection";
             this.btnFacialDetection.Size = new System.Drawing.Size(123, 40);
             this.btnFacialDetection.TabIndex = 1;
@@ -301,7 +301,7 @@
             // 
             // btnCaptureFrame
             // 
-            this.btnCaptureFrame.Location = new System.Drawing.Point(139, 16);
+            this.btnCaptureFrame.Location = new System.Drawing.Point(182, 16);
             this.btnCaptureFrame.Name = "btnCaptureFrame";
             this.btnCaptureFrame.Size = new System.Drawing.Size(123, 40);
             this.btnCaptureFrame.TabIndex = 0;
@@ -332,13 +332,13 @@
             this.tabDatabase.Controls.Add(this.grdUsers);
             this.tabDatabase.Location = new System.Drawing.Point(4, 22);
             this.tabDatabase.Name = "tabDatabase";
-            this.tabDatabase.Size = new System.Drawing.Size(1112, 533);
+            this.tabDatabase.Size = new System.Drawing.Size(1363, 613);
             this.tabDatabase.TabIndex = 3;
             this.tabDatabase.Text = "Database";
             // 
             // btnUserAddFace
             // 
-            this.btnUserAddFace.Location = new System.Drawing.Point(924, 173);
+            this.btnUserAddFace.Location = new System.Drawing.Point(392, 521);
             this.btnUserAddFace.Name = "btnUserAddFace";
             this.btnUserAddFace.Size = new System.Drawing.Size(123, 40);
             this.btnUserAddFace.TabIndex = 27;
@@ -348,7 +348,7 @@
             // 
             // btnUserDetectFacialImage
             // 
-            this.btnUserDetectFacialImage.Location = new System.Drawing.Point(795, 173);
+            this.btnUserDetectFacialImage.Location = new System.Drawing.Point(263, 521);
             this.btnUserDetectFacialImage.Name = "btnUserDetectFacialImage";
             this.btnUserDetectFacialImage.Size = new System.Drawing.Size(123, 40);
             this.btnUserDetectFacialImage.TabIndex = 26;
@@ -358,7 +358,7 @@
             // 
             // btnUserCaptureImage
             // 
-            this.btnUserCaptureImage.Location = new System.Drawing.Point(666, 173);
+            this.btnUserCaptureImage.Location = new System.Drawing.Point(134, 521);
             this.btnUserCaptureImage.Name = "btnUserCaptureImage";
             this.btnUserCaptureImage.Size = new System.Drawing.Size(123, 40);
             this.btnUserCaptureImage.TabIndex = 25;
@@ -369,9 +369,9 @@
             // pbxUserImage
             // 
             this.pbxUserImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxUserImage.Location = new System.Drawing.Point(36, 234);
+            this.pbxUserImage.Location = new System.Drawing.Point(19, 21);
             this.pbxUserImage.Name = "pbxUserImage";
-            this.pbxUserImage.Size = new System.Drawing.Size(527, 294);
+            this.pbxUserImage.Size = new System.Drawing.Size(640, 480);
             this.pbxUserImage.TabIndex = 24;
             this.pbxUserImage.TabStop = false;
             // 
@@ -379,7 +379,7 @@
             // 
             this.btnPersonImagesDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPersonImagesDelete.ForeColor = System.Drawing.Color.Red;
-            this.btnPersonImagesDelete.Location = new System.Drawing.Point(716, 480);
+            this.btnPersonImagesDelete.Location = new System.Drawing.Point(889, 534);
             this.btnPersonImagesDelete.Name = "btnPersonImagesDelete";
             this.btnPersonImagesDelete.Size = new System.Drawing.Size(50, 26);
             this.btnPersonImagesDelete.TabIndex = 23;
@@ -389,7 +389,7 @@
             // btnPersonImagesForward
             // 
             this.btnPersonImagesForward.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPersonImagesForward.Location = new System.Drawing.Point(660, 480);
+            this.btnPersonImagesForward.Location = new System.Drawing.Point(833, 534);
             this.btnPersonImagesForward.Name = "btnPersonImagesForward";
             this.btnPersonImagesForward.Size = new System.Drawing.Size(50, 26);
             this.btnPersonImagesForward.TabIndex = 22;
@@ -400,7 +400,7 @@
             // btnPersonImagesBack
             // 
             this.btnPersonImagesBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPersonImagesBack.Location = new System.Drawing.Point(604, 480);
+            this.btnPersonImagesBack.Location = new System.Drawing.Point(777, 534);
             this.btnPersonImagesBack.Name = "btnPersonImagesBack";
             this.btnPersonImagesBack.Size = new System.Drawing.Size(50, 26);
             this.btnPersonImagesBack.TabIndex = 21;
@@ -411,7 +411,7 @@
             // lblChooseMode
             // 
             this.lblChooseMode.AutoSize = true;
-            this.lblChooseMode.Location = new System.Drawing.Point(683, 252);
+            this.lblChooseMode.Location = new System.Drawing.Point(856, 306);
             this.lblChooseMode.Name = "lblChooseMode";
             this.lblChooseMode.Size = new System.Drawing.Size(104, 13);
             this.lblChooseMode.TabIndex = 20;
@@ -424,7 +424,7 @@
             this.cboSelectCRUDMode.Items.AddRange(new object[] {
             "Create New User",
             "Edit Existing User"});
-            this.cboSelectCRUDMode.Location = new System.Drawing.Point(793, 248);
+            this.cboSelectCRUDMode.Location = new System.Drawing.Point(966, 302);
             this.cboSelectCRUDMode.Name = "cboSelectCRUDMode";
             this.cboSelectCRUDMode.Size = new System.Drawing.Size(121, 21);
             this.cboSelectCRUDMode.TabIndex = 19;
@@ -433,7 +433,7 @@
             // pbxPersonFacialImages
             // 
             this.pbxPersonFacialImages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxPersonFacialImages.Location = new System.Drawing.Point(601, 282);
+            this.pbxPersonFacialImages.Location = new System.Drawing.Point(774, 336);
             this.pbxPersonFacialImages.Name = "pbxPersonFacialImages";
             this.pbxPersonFacialImages.Size = new System.Drawing.Size(168, 192);
             this.pbxPersonFacialImages.TabIndex = 17;
@@ -441,7 +441,7 @@
             // 
             // btnSavePersonToDatabase
             // 
-            this.btnSavePersonToDatabase.Location = new System.Drawing.Point(952, 368);
+            this.btnSavePersonToDatabase.Location = new System.Drawing.Point(1125, 422);
             this.btnSavePersonToDatabase.Name = "btnSavePersonToDatabase";
             this.btnSavePersonToDatabase.Size = new System.Drawing.Size(123, 40);
             this.btnSavePersonToDatabase.TabIndex = 9;
@@ -453,7 +453,7 @@
             // 
             this.txtPersonID.Enabled = false;
             this.txtPersonID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPersonID.Location = new System.Drawing.Point(877, 291);
+            this.txtPersonID.Location = new System.Drawing.Point(1050, 345);
             this.txtPersonID.Name = "txtPersonID";
             this.txtPersonID.Size = new System.Drawing.Size(198, 20);
             this.txtPersonID.TabIndex = 8;
@@ -463,7 +463,7 @@
             // lblNewPersonID
             // 
             this.lblNewPersonID.AutoSize = true;
-            this.lblNewPersonID.Location = new System.Drawing.Point(812, 294);
+            this.lblNewPersonID.Location = new System.Drawing.Point(985, 348);
             this.lblNewPersonID.Name = "lblNewPersonID";
             this.lblNewPersonID.Size = new System.Drawing.Size(47, 13);
             this.lblNewPersonID.TabIndex = 7;
@@ -471,14 +471,14 @@
             // 
             // txtPersonSurname
             // 
-            this.txtPersonSurname.Location = new System.Drawing.Point(877, 342);
+            this.txtPersonSurname.Location = new System.Drawing.Point(1050, 396);
             this.txtPersonSurname.Name = "txtPersonSurname";
             this.txtPersonSurname.Size = new System.Drawing.Size(198, 20);
             this.txtPersonSurname.TabIndex = 6;
             // 
             // txtPersonForename
             // 
-            this.txtPersonForename.Location = new System.Drawing.Point(877, 316);
+            this.txtPersonForename.Location = new System.Drawing.Point(1050, 370);
             this.txtPersonForename.Name = "txtPersonForename";
             this.txtPersonForename.Size = new System.Drawing.Size(198, 20);
             this.txtPersonForename.TabIndex = 5;
@@ -486,7 +486,7 @@
             // lblNewPersonSurname
             // 
             this.lblNewPersonSurname.AutoSize = true;
-            this.lblNewPersonSurname.Location = new System.Drawing.Point(812, 345);
+            this.lblNewPersonSurname.Location = new System.Drawing.Point(985, 399);
             this.lblNewPersonSurname.Name = "lblNewPersonSurname";
             this.lblNewPersonSurname.Size = new System.Drawing.Size(49, 13);
             this.lblNewPersonSurname.TabIndex = 4;
@@ -495,7 +495,7 @@
             // lblNewPersonForename
             // 
             this.lblNewPersonForename.AutoSize = true;
-            this.lblNewPersonForename.Location = new System.Drawing.Point(812, 319);
+            this.lblNewPersonForename.Location = new System.Drawing.Point(985, 373);
             this.lblNewPersonForename.Name = "lblNewPersonForename";
             this.lblNewPersonForename.Size = new System.Drawing.Size(54, 13);
             this.lblNewPersonForename.TabIndex = 3;
@@ -514,14 +514,14 @@
             this.colForename,
             this.colSurname,
             this.colImageCount});
-            this.grdUsers.Location = new System.Drawing.Point(3, 5);
+            this.grdUsers.Location = new System.Drawing.Point(723, 21);
             this.grdUsers.MultiSelect = false;
             this.grdUsers.Name = "grdUsers";
             this.grdUsers.ReadOnly = true;
             this.grdUsers.RowHeadersVisible = false;
             this.grdUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdUsers.ShowEditingIcon = false;
-            this.grdUsers.Size = new System.Drawing.Size(603, 223);
+            this.grdUsers.Size = new System.Drawing.Size(603, 249);
             this.grdUsers.TabIndex = 2;
             this.grdUsers.SelectionChanged += new System.EventHandler(this.grdUsers_SelectionChanged);
             // 
@@ -562,7 +562,7 @@
             this.tabStreams.Location = new System.Drawing.Point(4, 22);
             this.tabStreams.Name = "tabStreams";
             this.tabStreams.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStreams.Size = new System.Drawing.Size(1112, 533);
+            this.tabStreams.Size = new System.Drawing.Size(1363, 613);
             this.tabStreams.TabIndex = 0;
             this.tabStreams.Text = "Camera Streams";
             // 
@@ -573,7 +573,7 @@
             this.tabPayment.Location = new System.Drawing.Point(4, 22);
             this.tabPayment.Name = "tabPayment";
             this.tabPayment.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPayment.Size = new System.Drawing.Size(1112, 533);
+            this.tabPayment.Size = new System.Drawing.Size(1363, 613);
             this.tabPayment.TabIndex = 2;
             this.tabPayment.Text = "Process Payment";
             // 
@@ -591,7 +591,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1143, 583);
+            this.ClientSize = new System.Drawing.Size(1394, 663);
             this.Controls.Add(this.tabMain);
             this.Name = "frmFacialRecPrototype";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
