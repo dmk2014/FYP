@@ -2,14 +2,17 @@
 {
     public enum OctaveMessageType
     {
-        NO_DATA = 50,
+        // Represents a key which contains no data
+        NoData = 50,
+        
+        // The requests that can be sent to Octave
+        RequestRecognition = 100,
+        RequestReload = 200,
+        RequestSave = 300,
+        RequestRetrain = 400,
 
-        REQUEST_REC = 100,
-        REQUEST_RELOAD = 200,
-        REQUEST_SAVE = 300,
-        REQUEST_RETRAIN = 400,
-
-        RESPONSE_OK = 100,
-        RESPONSE_FAIL = 200
+        // A request will either succeed or fail
+        ResponseOk = 100,
+        ResponseFail = 200
     }
 }

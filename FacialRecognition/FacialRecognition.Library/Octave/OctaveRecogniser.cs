@@ -24,12 +24,12 @@ namespace FacialRecognition.Library.Octave
             // It is an image that must be marshalled to a string
             var imageAsString = this.MarshalFacialImage(FacialImage);
 
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.REQUEST_REC, imageAsString);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRecognition, imageAsString);
             Interface.SendRequest(recogniserRequest);
 
             var recogniserResponse = Interface.ReceiveResponse(15000);
 
-            if (recogniserResponse.Code == (int)OctaveMessageType.RESPONSE_OK)
+            if (recogniserResponse.Code == (int)OctaveMessageType.ResponseOk)
             {
                 // The recogniser response will be the ID of the closest match found in the facial database
                 var result = new Models.Person();
@@ -70,12 +70,12 @@ namespace FacialRecognition.Library.Octave
 
         public Boolean SaveSession()
         {
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.REQUEST_SAVE, String.Empty);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestSave, String.Empty);
             Interface.SendRequest(recogniserRequest);
 
             var response = Interface.ReceiveResponse(30000);
 
-            if (response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            if (response.Code == (int)OctaveMessageType.ResponseOk)
             {
                 return true;
             }
@@ -87,12 +87,12 @@ namespace FacialRecognition.Library.Octave
 
         public Boolean ReloadSession()
         {
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.REQUEST_RELOAD, String.Empty);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestReload, String.Empty);
             Interface.SendRequest(recogniserRequest);
 
             var response = Interface.ReceiveResponse(30000);
 
-            if (response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            if (response.Code == (int)OctaveMessageType.ResponseOk)
             {
                 return true;
             }
@@ -108,14 +108,14 @@ namespace FacialRecognition.Library.Octave
             this.SendDataToCacheForRetraining(PeopleInDatabase);
 
             // Send a request to retrain the recogniser
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.REQUEST_RETRAIN, String.Empty);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRetrain, String.Empty);
             Interface.SendRequest(recogniserRequest);
 
             // Wait for a response - large timeout because retraining requires considerable time period
             int timeoutThirtyMinutes = 1800000;
             var repsonse = Interface.ReceiveResponse(timeoutThirtyMinutes);
-
-            if (repsonse.Code == (int)OctaveMessageType.RESPONSE_OK)
+            
+            if (repsonse.Code == (int)OctaveMessageType.ResponseOk)
             {
                 return true;
             }
@@ -140,7 +140,7 @@ namespace FacialRecognition.Library.Octave
             }
 
             // Mark end of data in the cache - required by Octave
-            Interface.SendPersonDataToCache(((int)OctaveMessageType.NO_DATA).ToString(), ((int)OctaveMessageType.NO_DATA).ToString());
+            Interface.SendPersonDataToCache(((int)OctaveMessageType.NoData).ToString(), ((int)OctaveMessageType.NoData).ToString());
         }
     }
 }

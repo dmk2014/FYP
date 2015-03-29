@@ -52,8 +52,8 @@ namespace FacialRecognition.Library.Octave
 
             transaction.StringSetAsync(this.FacialRequestCodeKey, Message.Code);
             transaction.StringSetAsync(this.FacialRequestDataKey, Message.Data);
-            transaction.StringSetAsync(this.FacialResponseCodeKey, (int)OctaveMessageType.NO_DATA);
-            transaction.StringSetAsync(this.FacialResponseDataKey, (int)OctaveMessageType.NO_DATA);
+            transaction.StringSetAsync(this.FacialResponseCodeKey, (int)OctaveMessageType.NoData);
+            transaction.StringSetAsync(this.FacialResponseDataKey, (int)OctaveMessageType.NoData);
 
             return transaction.Execute();
         }
@@ -71,7 +71,7 @@ namespace FacialRecognition.Library.Octave
                 var responseCodeString = RedisDatabase.StringGet(this.FacialResponseCodeKey);
                 var responseCode = int.Parse(responseCodeString);
 
-                if (responseCode != (int)OctaveMessageType.NO_DATA)
+                if (responseCode != (int)OctaveMessageType.NoData)
                 {
                     var responseData = RedisDatabase.StringGet(this.FacialResponseDataKey);
                     response = new OctaveMessage(responseCode, responseData);
