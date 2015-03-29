@@ -209,7 +209,7 @@ namespace FacialRecognition
         {
             try
             {
-                var _recogniser = new OctaveRecogniser(new OctaveInterface("localhost","6379"));
+                var _recogniser = new OctaveRecogniser(new OctaveInterface("localhost", 6379));
 
                 var _face = new Bitmap(pbxNormalisedFace.Image);
 

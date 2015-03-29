@@ -20,7 +20,7 @@ namespace FacialRecognition.Library.Octave
         private String FacialResponseCodeKey = "facial.response.code";
         private String FacialResponseDataKey = "facial.response.data";
 
-        public OctaveInterface(String RedisHost, String RedisPort)
+        public OctaveInterface(String RedisHost, int RedisPort)
         {
             this.Connection = ConnectionMultiplexer.Connect(RedisHost + ":" + RedisPort);
             this.RedisDatabase = Connection.GetDatabase();

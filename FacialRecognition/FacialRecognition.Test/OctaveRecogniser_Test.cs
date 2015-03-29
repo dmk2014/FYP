@@ -18,7 +18,7 @@ namespace FacialRecognition.Test
         {
             Database = new CouchDatabase("localhost", 5984, DatabaseName);
 
-            var octaveInterface = new OctaveInterface("localhost", "6379");
+            var octaveInterface = new OctaveInterface("localhost", 6379);
 
             Recogniser = new OctaveRecogniser(octaveInterface);
         }
