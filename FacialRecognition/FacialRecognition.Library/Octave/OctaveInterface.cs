@@ -7,73 +7,81 @@ namespace FacialRecognition.Library.Octave
 {
     public class OctaveInterface
     {
-        //This should be a global constant, may move
-        private ConnectionMultiplexer c_Connection;
-        private IDatabase c_redisDatabase;
+        private ConnectionMultiplexer Connection;
+        private IDatabase RedisDatabase;
 
-        public OctaveInterface(String Host, String Port)
+        // Database Related Redis Keys
+        private String DatabaseLabelsKey = "facial.database.labels";
+        private String DatabaseDataKey = "facial.database.data";
+
+        // Message Related Redis Keys
+        private String FacialRequestCodeKey = "facial.request.code";
+        private String FacialRequestDataKey = "facial.request.data";
+        private String FacialResponseCodeKey = "facial.response.code";
+        private String FacialResponseDataKey = "facial.response.data";
+
+        public OctaveInterface(String RedisHost, String RedisPort)
         {
-            this.c_Connection = ConnectionMultiplexer.Connect(Host + ":" + Port);
-            this.c_redisDatabase = c_Connection.GetDatabase();
+            this.Connection = ConnectionMultiplexer.Connect(RedisHost + ":" + RedisPort);
+            this.RedisDatabase = Connection.GetDatabase();
         }
 
         public void EnsurePersonDataIsClearedFromCache()
         {
-            var transaction = c_redisDatabase.CreateTransaction();
+            var transaction = RedisDatabase.CreateTransaction();
 
-            transaction.KeyDeleteAsync("facial.database.labels");
-            transaction.KeyDeleteAsync("facial.database.data");
+            transaction.KeyDeleteAsync(this.DatabaseLabelsKey);
+            transaction.KeyDeleteAsync(this.DatabaseDataKey);
 
             transaction.Execute();
         }
 
         public void SendPersonDataToCache(String PersonLabel, String ImageAsString)
         {
-            var labelListKey = "facial.database.labels";
-            var dataListKey = "facial.database.data";
+            var transaction = RedisDatabase.CreateTransaction();
 
-            var _transaction = c_redisDatabase.CreateTransaction();
+            transaction.ListRightPushAsync(this.DatabaseLabelsKey, PersonLabel);
+            transaction.ListRightPushAsync(this.DatabaseDataKey, ImageAsString);
 
-            _transaction.ListRightPushAsync(labelListKey, PersonLabel);
-            _transaction.ListRightPushAsync(dataListKey, ImageAsString);
-
-            _transaction.Execute();
+            transaction.Execute();
         }
 
         public Boolean SendRequest(OctaveMessage Message)
         {
-            var _transaction = c_redisDatabase.CreateTransaction();
+            var transaction = RedisDatabase.CreateTransaction();
 
-            _transaction.StringSetAsync("facial.request.code", Message.Code);
-            _transaction.StringSetAsync("facial.request.data", Message.Data);
-            _transaction.StringSetAsync("facial.response.code", (int)OctaveMessageType.NO_DATA);
+            transaction.StringSetAsync(this.FacialRequestCodeKey, Message.Code);
+            transaction.StringSetAsync(this.FacialRequestDataKey, Message.Data);
+            transaction.StringSetAsync(this.FacialResponseCodeKey, (int)OctaveMessageType.NO_DATA);
+            transaction.StringSetAsync(this.FacialResponseDataKey, (int)OctaveMessageType.NO_DATA);
 
-            return _transaction.Execute();
+            return transaction.Execute();
         }
 
         public OctaveMessage ReceiveResponse(int Timeout)
         {
-            OctaveMessage _response = null;
-            var _watch = new Stopwatch();
-            _watch.Start();
+            OctaveMessage response = null;
+            Boolean responseReceived = false;
 
-            while (_watch.ElapsedMilliseconds <= Timeout)
+            var watch = new Stopwatch();
+            watch.Start();
+
+            while (watch.ElapsedMilliseconds <= Timeout && !responseReceived)
             {
-                var _responseCodeString = c_redisDatabase.StringGet("facial.response.code");
-                var _responseCode = int.Parse(_responseCodeString);
+                var responseCodeString = RedisDatabase.StringGet(this.FacialResponseCodeKey);
+                var responseCode = int.Parse(responseCodeString);
 
-                if (_responseCode != (int)OctaveMessageType.NO_DATA)
+                if (responseCode != (int)OctaveMessageType.NO_DATA)
                 {
-                    var _reponseCode = int.Parse(_responseCodeString);
-                    var _reponseData = c_redisDatabase.StringGet("facial.response.data");
-                    _response = new OctaveMessage(_reponseCode, _reponseData);
-                    break;
+                    var responseData = RedisDatabase.StringGet(this.FacialResponseDataKey);
+                    response = new OctaveMessage(responseCode, responseData);
+                    responseReceived = true;
                 }
             }
 
-            if (_response != null)
+            if (response != null)
             {
-                return _response;
+                return response;
             }
             else
             {
