@@ -6,7 +6,7 @@ namespace FacialRecognition.Library.Octave
 {
     public class OctaveRecogniser : Core.IFacialRecogniser
     {
-        private OctaveInterface c_Interface;
+        private OctaveInterface Interface;
 
         public OctaveRecogniser(OctaveInterface Interface)
         {
@@ -15,28 +15,30 @@ namespace FacialRecognition.Library.Octave
 
         public void SetInterface(OctaveInterface Interface)
         {
-            this.c_Interface = Interface;
+            this.Interface = Interface;
         }
 
         public Models.Person ClassifyFace(Image FacialImage)
         {
-            //FacialImage is normales, need to marshal it to a string
-            var _imageAsString = this.MarshalFacialImage(FacialImage);
+            // FacialImage parameter is expected to be received in normalised form
+            // It is an image that must be marshalled to a string
+            var imageAsString = this.MarshalFacialImage(FacialImage);
 
-            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_REC, _imageAsString);
-            c_Interface.SendRequest(_message);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.REQUEST_REC, imageAsString);
+            Interface.SendRequest(recogniserRequest);
 
-            var _response = c_Interface.ReceiveResponse(15000);
+            var recogniserResponse = Interface.ReceiveResponse(15000);
 
-            if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            if (recogniserResponse.Code == (int)OctaveMessageType.RESPONSE_OK)
             {
-                var _result = new Models.Person();
-                _result.Id = _response.Data;
-                return _result;
+                // The recogniser response will be the ID of the closest match found in the facial database
+                var result = new Models.Person();
+                result.Id = recogniserResponse.Data;
+                return result;
             }
             else
             {
-                throw new Exception(_response.Data);
+                throw new Exception(recogniserResponse.Data);
             }
         }
 
@@ -61,7 +63,6 @@ namespace FacialRecognition.Library.Octave
             }
 
             //Remove trailing ','
-
             faceAsString = faceAsString.TrimEnd(',');
 
             return faceAsString;
@@ -69,35 +70,35 @@ namespace FacialRecognition.Library.Octave
 
         public Boolean SaveSession()
         {
-            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_SAVE, String.Empty);
-            c_Interface.SendRequest(_message);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.REQUEST_SAVE, String.Empty);
+            Interface.SendRequest(recogniserRequest);
 
-            var _response = c_Interface.ReceiveResponse(30000);
+            var response = Interface.ReceiveResponse(30000);
 
-            if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            if (response.Code == (int)OctaveMessageType.RESPONSE_OK)
             {
                 return true;
             }
             else
             {
-                throw new Exception(_response.Data);
+                throw new Exception(response.Data);
             }
         }
 
         public Boolean ReloadSession()
         {
-            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_RELOAD, String.Empty);
-            c_Interface.SendRequest(_message);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.REQUEST_RELOAD, String.Empty);
+            Interface.SendRequest(recogniserRequest);
 
-            var _response = c_Interface.ReceiveResponse(30000);
+            var response = Interface.ReceiveResponse(30000);
 
-            if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            if (response.Code == (int)OctaveMessageType.RESPONSE_OK)
             {
                 return true;
             }
             else
             {
-                throw new Exception(_response.Data);
+                throw new Exception(response.Data);
             }
         }
 
@@ -107,20 +108,20 @@ namespace FacialRecognition.Library.Octave
             this.SendDataToCacheForRetraining(PeopleInDatabase);
 
             // Send a request to retrain the recogniser
-            var _message = new OctaveMessage((int)OctaveMessageType.REQUEST_RETRAIN, String.Empty);
-            c_Interface.SendRequest(_message);
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.REQUEST_RETRAIN, String.Empty);
+            Interface.SendRequest(recogniserRequest);
 
-            // Wait for a response
+            // Wait for a response - large timeout because retraining requires considerable time period
             int timeoutThirtyMinutes = 1800000;
-            var _response = c_Interface.ReceiveResponse(timeoutThirtyMinutes);
+            var repsonse = Interface.ReceiveResponse(timeoutThirtyMinutes);
 
-            if (_response.Code == (int)OctaveMessageType.RESPONSE_OK)
+            if (repsonse.Code == (int)OctaveMessageType.RESPONSE_OK)
             {
                 return true;
             }
             else
             {
-                throw new Exception(_response.Data);
+                throw new Exception(repsonse.Data);
             }
         }
 
@@ -131,12 +132,12 @@ namespace FacialRecognition.Library.Octave
             {
                 foreach(var image in person.Images)
                 {
-                    c_Interface.SendPersonDataToCache(person.Id, this.MarshalFacialImage(image));
+                    Interface.SendPersonDataToCache(person.Id, this.MarshalFacialImage(image));
                 }
             }
 
             // Mark end of data in the cache - required by Octave
-            c_Interface.SendPersonDataToCache(((int)OctaveMessageType.NO_DATA).ToString(), ((int)OctaveMessageType.NO_DATA).ToString());
+            Interface.SendPersonDataToCache(((int)OctaveMessageType.NO_DATA).ToString(), ((int)OctaveMessageType.NO_DATA).ToString());
         }
     }
 }
