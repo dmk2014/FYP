@@ -3,9 +3,9 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
     usage("redisRecognitionRequestHandler(sessionData)");
   endif
   
-  # Constants
-  RESPONSE_OK = 100;
-  RESPONSE_FAIL = 200;
+  # Reference globals that will be used
+  global RESPONSE_OK;
+  global RESPONSE_FAIL;
   
   # First, unmarshal the facial data.
   # Then invoke the recognisers classification function which returns
