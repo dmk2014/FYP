@@ -19,8 +19,8 @@ if (!isInstalled)
 endif
 
 pkg load all;
-
 disp("Instrument control package loaded");
+clear("isInstalled");
 
 # Initialise required global variables
 redisGlobals;
