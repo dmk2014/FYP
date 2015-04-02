@@ -11,6 +11,8 @@ function redisListener(R)
   global REQUEST_RETRAIN;
   global RESPONSE_OK;
   global RESPONSE_FAIL;
+  global RECOGNISER_AVAILABLE;
+  global RECOGNISER_BUSY;
   
   # Ensure initial setup of request code & data keys
   # Infinite loop occurs if keys do not exist in Redis
@@ -22,8 +24,8 @@ function redisListener(R)
     request = redisGet(R, "facial.request.code");
     
     if(request != NO_REQUEST)
-      out = strcat("Request Received: ", num2str(request));
-      disp(out);
+      redisSet(R, "facial.recogniser.status", RECOGNISER_BUSY);
+      printf("Request Received: %d", request);
       
       # Store the Redis request code and data
       sessionData.requestCode = request;
@@ -33,7 +35,8 @@ function redisListener(R)
       # response will be sent
       sessionData = redisRequestHandler(R, sessionData);
       
-      # Reset request code Redis key
+      # Prepare Redis to receive new requests
+      redisSet(R, "facial.recogniser.status", RECOGNISER_AVAILABLE);
       redisSet(R, "facial.request.code", NO_REQUEST);
       disp("Request Code Reset to 50");
     endif
