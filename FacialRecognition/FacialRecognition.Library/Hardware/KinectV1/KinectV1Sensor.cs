@@ -6,86 +6,93 @@ namespace FacialRecognition.Library.Hardware.KinectV1
 {
     public class KinectV1Sensor : IImagingHardware
     {
-        private KinectSensor c_Sensor;
+        private KinectSensor Sensor;
+        private const int FrameWaitTimeout = 700;
 
-        public KinectV1Sensor(KinectSensor Sensor)
+        public KinectV1Sensor(KinectSensor sensor)
         {
-            //May reconsider this
-            this.c_Sensor = Sensor;
-
+            this.Sensor = sensor;
             this.ConfigureSensor();
         }
 
         private void ConfigureSensor()
         {
-            c_Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
-            c_Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
-            c_Sensor.Start();
+            this.Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+            this.Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+            this.Sensor.Start();
         }
 
-        public void AdjustElevation(int Angle)
+        public void AdjustElevation(int angleChange)
         {
-            if (this.c_Sensor.ElevationAngle + Angle >= this.c_Sensor.MinElevationAngle &&
-                this.c_Sensor.ElevationAngle + Angle <= this.c_Sensor.MaxElevationAngle)
+            if (this.Sensor.ElevationAngle + angleChange >= this.Sensor.MinElevationAngle &&
+                this.Sensor.ElevationAngle + angleChange <= this.Sensor.MaxElevationAngle)
             {
-                this.c_Sensor.ElevationAngle = this.c_Sensor.ElevationAngle + Angle;
+                this.Sensor.ElevationAngle = this.Sensor.ElevationAngle + angleChange;
             }
         }
 
         public Bitmap CaptureImage()
         {
-            if(!c_Sensor.IsRunning)
+            if(!this.Sensor.IsRunning)
             {
                 this.ConfigureSensor();
             }
 
-            var _colorFrame = c_Sensor.ColorStream.OpenNextFrame(10);
-            var _depthFrame = c_Sensor.DepthStream.OpenNextFrame(500);
+            var colorImage = this.CaptureColorImage();
+            var depthImage = this.CaptureDepthImage();
 
-            var _dataProcessor = new SensorDataProcessor();
-            var _colorBitmap = _dataProcessor.ColorToBitmap(_colorFrame);
-            var _depthBitmap = _dataProcessor.DepthToBitmap(_depthFrame);
+            // TODO
+            // Depth reduction
 
-            //TODO
-            //Depth reduction
+            return colorImage;
+        }
 
-            return _colorBitmap;
+        public Bitmap CaptureColorImage()
+        {
+            if (!this.Sensor.IsRunning)
+            {
+                this.ConfigureSensor();
+            }
+
+            var colorFrame = Sensor.ColorStream.OpenNextFrame(FrameWaitTimeout);
+            var dataProcessor = new SensorDataProcessor();
+            var colorBitmap = dataProcessor.ColorToBitmap(colorFrame);
+
+            return colorBitmap;
         }
 
         public Bitmap CaptureDepthImage()
         {
-            if (!c_Sensor.IsRunning)
+            if (!Sensor.IsRunning)
             {
                 this.ConfigureSensor();
             }
 
-            var _depthFrame = c_Sensor.DepthStream.OpenNextFrame(500);
+            var depthFrame = Sensor.DepthStream.OpenNextFrame(FrameWaitTimeout);
+            var dataProcessor = new SensorDataProcessor();
+            var depthBitmap = dataProcessor.DepthToBitmap(depthFrame);
 
-            var _dataProcessor = new SensorDataProcessor();
-            var _depthBitmap = _dataProcessor.DepthToBitmap(_depthFrame);
-
-            return _depthBitmap;
+            return depthBitmap;
         }
 
-        private Bitmap RemoveBackground(ColorImageFrame Color, DepthImageFrame Depth)
+        private Bitmap RemoveBackground(ColorImageFrame colorImage, DepthImageFrame depthImage)
         {
             throw new NotImplementedException();
         }
 
         public void SaveFrameData()
         {
-            if (!c_Sensor.IsRunning)
+            if (!this.Sensor.IsRunning)
             {
                 this.ConfigureSensor();
             }
 
-            var _io = new SensorDataIO();
+            var sensorDataIO = new SensorDataIO();
+            var colourFrame = this.Sensor.ColorStream.OpenNextFrame(FrameWaitTimeout);
+            var depthFrame = this.Sensor.DepthStream.OpenNextFrame(FrameWaitTimeout);
 
-            var _colourFrame = c_Sensor.ColorStream.OpenNextFrame(1000);
-            var _depthFrame = c_Sensor.DepthStream.OpenNextFrame(1000);
-
-            _io.SaveRawPixelDataColour(_colourFrame);
-            _io.SaveRawPixelDataDepth(_depthFrame);
+            sensorDataIO.SaveRawPixelDataColour(colourFrame);
+            sensorDataIO.SaveRawPixelDataDepth(depthFrame);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.Kinect;
+﻿﻿using Microsoft.Kinect;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
@@ -7,48 +7,43 @@ namespace FacialRecognition.Library.Hardware.KinectV1
 {
     public class SensorDataProcessor
     {
-        public Bitmap ColorToBitmap(ColorImageFrame _imageFrame)
+        // While these methods are quite similar, a conscious design design was made to not refactor them
+        // Numerous errors occurred following a refactoring attempt
+        // There are minor but important differences between the methods
+        // First note that ColorImageFrame and DepthImageFrame have different data structures
+        // -> ColorToBitmap requires byte[]
+        // -> DepthToBitmap requires short[]
+        // Parameters required for Marshal.copy() method are different
+        public Bitmap ColorToBitmap(ColorImageFrame imageFrame)
         {
-            var _byte = new byte[_imageFrame.PixelDataLength];
-            _imageFrame.CopyPixelDataTo(_byte);
+            var sourceImageData = new byte[imageFrame.PixelDataLength];
+            imageFrame.CopyPixelDataTo(sourceImageData);
 
-            var _image = new Bitmap(_imageFrame.Width,
-                _imageFrame.Height,
-                PixelFormat.Format32bppRgb
-            );
+            var image = new Bitmap(imageFrame.Width, imageFrame.Height, PixelFormat.Format32bppRgb);
+            var imageRectangle = new Rectangle(0, 0, imageFrame.Width, imageFrame.Height);
+            var bitmapData = image.LockBits(imageRectangle, ImageLockMode.WriteOnly, image.PixelFormat);
+            var addressFirstPixel = bitmapData.Scan0;
 
-            var _bmapdata = _image.LockBits(new Rectangle(0, 0, _imageFrame.Width, _imageFrame.Height),
-                ImageLockMode.WriteOnly,
-                _image.PixelFormat);
+            Marshal.Copy(sourceImageData, 0, addressFirstPixel, imageFrame.PixelDataLength);
+            image.UnlockBits(bitmapData);
 
-            var _addressFirstPixel = _bmapdata.Scan0;
-            Marshal.Copy(_byte, 0, _addressFirstPixel, _imageFrame.PixelDataLength);
-
-            _image.UnlockBits(_bmapdata);
-            return _image;
+            return image;
         }
 
         public Bitmap DepthToBitmap(DepthImageFrame imageFrame)
         {
-            short[] _pixelData = new short[imageFrame.PixelDataLength];
-            imageFrame.CopyPixelDataTo(_pixelData);
+            var sourceDepthData = new short[imageFrame.PixelDataLength];
+            imageFrame.CopyPixelDataTo(sourceDepthData);
 
-            Bitmap _image = new Bitmap(imageFrame.Width,
-                imageFrame.Height,
-                PixelFormat.Format16bppRgb555
-            );
+            var image = new Bitmap(imageFrame.Width, imageFrame.Height, PixelFormat.Format16bppRgb555);
+            var imageRectangle = new Rectangle(0, 0, imageFrame.Width, imageFrame.Height);
+            var bitmapData = image.LockBits(imageRectangle, ImageLockMode.WriteOnly, image.PixelFormat);
+            var addressFirstPixel = bitmapData.Scan0;
 
-            BitmapData bmapdata = _image.LockBits(
-                new Rectangle(0, 0, imageFrame.Width, imageFrame.Height),
-                ImageLockMode.WriteOnly,
-                _image.PixelFormat
-            );
+            Marshal.Copy(sourceDepthData, 0, addressFirstPixel, imageFrame.Width * imageFrame.Height);
+            image.UnlockBits(bitmapData);
 
-            var _addressFirstPixel = bmapdata.Scan0;
-            Marshal.Copy(_pixelData, 0, _addressFirstPixel, imageFrame.Width * imageFrame.Height);
-
-            _image.UnlockBits(bmapdata);
-            return _image;
+            return image;
         }
     }
 }
