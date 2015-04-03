@@ -1,6 +1,5 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using System;
 using System.Drawing;
 
 namespace FacialRecognition.Library.Core
@@ -30,7 +29,7 @@ namespace FacialRecognition.Library.Core
         Size MaximumSize = Size.Empty;
 
         // Location of cascade classifier
-        String ClassifierPath = @"C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\bin\haarcascade_frontalface_default.xml";
+        string ClassifierPath = @"C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\bin\haarcascade_frontalface_default.xml";
 
         public Rectangle[] DetectFaces(Bitmap image)
         {

@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 
-namespace FacialRecognition.Library
+namespace FacialRecognition.Library.Core
 {
     public abstract class FacialImageNormaliser
     {
-        public Image NormaliseImage(Image SourceImage, int Width, int Height)
+        public Image NormaliseImage(Image sourceImage, int width, int height)
         {
-            Image _normalisedImage;
+            Image normalisedImage;
 
-            _normalisedImage = this.Resize(SourceImage, Width, Height);
-            _normalisedImage = this.SetColormap(_normalisedImage);
+            normalisedImage = this.Resize(sourceImage, width, height);
+            normalisedImage = this.SetColormap(normalisedImage);
 
-            return _normalisedImage;
+            return normalisedImage;
         }
 
-        public abstract Image Resize(Image Source, int Width, int Height);
-        public abstract Image SetColormap(Image Source);
+        public abstract Image Resize(Image source, int width, int height);
+        public abstract Image SetColormap(Image source);
     }
 }
