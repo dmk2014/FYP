@@ -1,6 +1,7 @@
 ﻿using FacialRecognition.Library.Core;
 using FacialRecognition.Library.Database;
 using FacialRecognition.Library.Hardware.KinectV1;
+using FacialRecognition.Library.Models;
 using FacialRecognition.Library.Octave;
 using Microsoft.Kinect;
 using System;
@@ -20,7 +21,7 @@ namespace FacialRecognition
             InitializeComponent();
             this.CenterToScreen();
 
-            Database = new CouchDatabase("localhost", 5984, "facial1");
+            this.Database = new CouchDatabase("localhost", 5984, "facial1");
             this.UpdateDatabaseDisplay();
             cboSelectCRUDMode.SelectedIndex = 0;
 
@@ -34,8 +35,8 @@ namespace FacialRecognition
         {
             try 
             {
-                pbxImage.Image = Kinect.CaptureImage();
-                pbxDept.Image = Kinect.CaptureDepthImage();
+                pbxImage.Image = this.Kinect.CaptureImage();
+                pbxDept.Image = this.Kinect.CaptureDepthImage();
             }
             catch (Exception ex)
             {
@@ -47,7 +48,7 @@ namespace FacialRecognition
         {
             try
             {
-                Kinect.AdjustElevation(10);
+                this.Kinect.AdjustElevation(10);
             }
             catch (Exception ex)
             {
@@ -59,7 +60,7 @@ namespace FacialRecognition
         {
             try
             {
-                Kinect.AdjustElevation(-10);
+                this.Kinect.AdjustElevation(-10);
             }
             catch (Exception ex)
             {
@@ -71,7 +72,7 @@ namespace FacialRecognition
         {
             try
             {
-                Kinect.SaveFrameData();
+                this.Kinect.SaveFrameData();
 
                 MessageBox.Show("Data saved successfully to your Desktop", "Facial Recognition", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -83,14 +84,14 @@ namespace FacialRecognition
         #endregion
 
         #region FacialRecognitionTab
-        Bitmap SourceRecognitionImage;
+        Bitmap RecognitionSourceImage;
         Rectangle[] LocationOfDetectedFaces;
 
         private void PrepareKinectSensor()
         {
             if (KinectSensor.KinectSensors.Count > 0)
             {
-                Kinect = new KinectV1Sensor(KinectSensor.KinectSensors[0]);
+                this.Kinect = new KinectV1Sensor(KinectSensor.KinectSensors[0]);
             }
             else
             {
@@ -102,10 +103,10 @@ namespace FacialRecognition
         {
             try
             {
-                if (Kinect != null)
+                if (this.Kinect != null)
                 {
-                    SourceRecognitionImage = this.Kinect.CaptureImage();
-                    pbxCapturedColorImage.Image = SourceRecognitionImage;
+                    this.RecognitionSourceImage = this.Kinect.CaptureImage();
+                    pbxCapturedColorImage.Image = this.RecognitionSourceImage;
                     btnFacialDetection.Enabled = true;
                 }
             }
@@ -117,12 +118,12 @@ namespace FacialRecognition
 
         private void btnLoadImage_Click(object sender, EventArgs e)
         {
-            var _openFileResult = diaOpenFile.ShowDialog();
+            var openFileResult = diaOpenFile.ShowDialog();
 
-            if (_openFileResult == DialogResult.OK)
+            if (openFileResult == DialogResult.OK)
             {
-                var _filePath = diaOpenFile.FileName;
-                Image _image = Image.FromFile(_filePath);
+                var filePath = diaOpenFile.FileName;
+                var image = Image.FromFile(filePath);
 
                 //Move this section to a library class
                 //Method such as resize while constraining proportions
@@ -145,8 +146,8 @@ namespace FacialRecognition
                 //pbxCapturedColorImage.Width = _image.Width;
                 //pbxCapturedColorImage.Height = _image.Height;
 
-                SourceRecognitionImage = new Bitmap(_image);
-                pbxCapturedColorImage.Image = SourceRecognitionImage;
+                RecognitionSourceImage = new Bitmap(image);
+                pbxCapturedColorImage.Image = RecognitionSourceImage;
                 btnFacialDetection.Enabled = true;
             }
         }
@@ -155,25 +156,23 @@ namespace FacialRecognition
         {
             try 
             {
-                LocationOfDetectedFaces = Detector.DetectFaces(SourceRecognitionImage);
+                this.LocationOfDetectedFaces = Detector.DetectFaces(RecognitionSourceImage);
 
-                if (LocationOfDetectedFaces.Length < 1)
+                if (this.LocationOfDetectedFaces.Length < 1)
                 {
                     MessageBox.Show("No faces detected");
                 }
                 else
                 {
-                    var g = pbxCapturedColorImage.CreateGraphics();
-                    var _pen = new Pen(Color.Green, 3);
-                    var _i = 0;
+                    var graphics = pbxCapturedColorImage.CreateGraphics();
+                    var pen = new Pen(Color.Green, 3);
 
-                    while (_i < LocationOfDetectedFaces.Length)
+                    foreach(var rectangle in this.LocationOfDetectedFaces)
                     {
-                        g.DrawRectangle(_pen, LocationOfDetectedFaces[_i]);
-                        _i++;
+                        graphics.DrawRectangle(pen, rectangle);
                     }
 
-                    lblDetectedFaces.Text = "Detected Faces: " + LocationOfDetectedFaces.Length;
+                    lblDetectedFaces.Text = "Detected Faces: " + this.LocationOfDetectedFaces.Length;
                     btnNormalise.Enabled = true;
                 }
             }
@@ -188,20 +187,20 @@ namespace FacialRecognition
         {
             try
             {
-                var _normaliser = new FacialRecognition.Library.Octave.OctaveNormaliser();
-                var _face = SourceRecognitionImage.Clone(LocationOfDetectedFaces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                var normaliser = new FacialRecognition.Library.Octave.OctaveNormaliser();
+                var face = RecognitionSourceImage.Clone(LocationOfDetectedFaces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
 
-                pbxSourceFace.Size = _face.Size;
-                pbxSourceFace.Image = _face;
+                pbxSourceFace.Size = face.Size;
+                pbxSourceFace.Image = face;
 
-                var _result = _normaliser.NormaliseImage(_face, 168, 192);
+                var normalisedFace = normaliser.NormaliseImage(face, 168, 192);
 
-                pbxNormalisedFace.Image = _result;
+                pbxNormalisedFace.Image = normalisedFace;
                 btnPerformFacialRec.Enabled = true;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(_ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -209,30 +208,31 @@ namespace FacialRecognition
         {
             try
             {
-                var _recogniser = new OctaveRecogniser(new OctaveInterface("localhost", 6379));
+                var recogniser = new OctaveRecogniser(new OctaveInterface("localhost", 6379));
 
-                var _face = new Bitmap(pbxNormalisedFace.Image);
+                var face = new Bitmap(pbxNormalisedFace.Image);
 
-                var _result = _recogniser.ClassifyFace(_face);
+                var recognitionResult = recogniser.ClassifyFace(face);
 
-                MessageBox.Show("Result: " + _result.Id);
+                MessageBox.Show("Result: " + recognitionResult.Id);
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(_ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
         #endregion    
 
+        #region DatabaseTab
         private void UpdateDatabaseDisplay()
         {
-            var _people = Database.RetrieveAll();
-            grdUsers.DataSource = _people;
+            var people = this.Database.RetrieveAll();
+            grdUsers.DataSource = people;
         }
 
         private void grdUsers_SelectionChanged(object sender, EventArgs e)
         {
-            if (this.EditingMode == DatabaseEditingMode.UPDATING_EXISTING_USER)
+            if (this.EditingMode == DatabaseEditingMode.UpdatingExistingUser)
             {
                 this.DisplayAPersonsDetailsForEditing();
             }
@@ -240,14 +240,14 @@ namespace FacialRecognition
 
         private void DisplayAPersonsDetailsForEditing()
         {
-            var _selection = grdUsers.SelectedRows;
+            var selectedPerson = grdUsers.SelectedRows;
 
-            if (_selection.Count == 1 && this.EditingMode == DatabaseEditingMode.UPDATING_EXISTING_USER)
+            if (selectedPerson.Count == 1 && this.EditingMode == DatabaseEditingMode.UpdatingExistingUser)
             {
-                var _selectedID = _selection[0].Cells["colIdentifier"].Value.ToString();
+                var idOfSelectedPerson = selectedPerson[0].Cells["colIdentifier"].Value.ToString();
 
-                var _person = Database.Retrieve(_selectedID);
-                DatabaseUIGlobals.DisplayedUser = _person;
+                var person = this.Database.Retrieve(idOfSelectedPerson);
+                DatabaseUIGlobals.DisplayedUser = person;
                 pbxPersonFacialImages.Image = null;
 
                 if (DatabaseUIGlobals.DisplayedUser.Images.Count > 0)
@@ -256,19 +256,19 @@ namespace FacialRecognition
                     DatabaseUIGlobals.DisplayedImageIndex = 0;
                 }
 
-                txtPersonID.Text = _person.Id;
-                txtPersonForename.Text = _person.Forename;
-                txtPersonSurname.Text = _person.Surname;
+                txtPersonID.Text = person.Id;
+                txtPersonForename.Text = person.Forename;
+                txtPersonSurname.Text = person.Surname;
             }
         }
 
-        private DatabaseEditingMode EditingMode = DatabaseEditingMode.ADDING_NEW_USER;
+        private DatabaseEditingMode EditingMode = DatabaseEditingMode.AddingNewUser;
 
         private void cboSelectCRUDMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboSelectCRUDMode.SelectedIndex == 0)
             {
-                this.EditingMode = DatabaseEditingMode.ADDING_NEW_USER;
+                this.EditingMode = DatabaseEditingMode.AddingNewUser;
                 txtPersonID.Text = "auto-assigned";
                 txtPersonForename.Text = String.Empty;
                 txtPersonSurname.Text = String.Empty;
@@ -277,14 +277,14 @@ namespace FacialRecognition
 
                 //TODO
                 //Extract this code
-                DatabaseUIGlobals.DisplayedUser = new FacialRecognition.Library.Models.Person();               
+                DatabaseUIGlobals.DisplayedUser = new Person();               
                 DatabaseUIGlobals.DisplayedImageIndex = 0;
 
                 txtPersonForename.Focus();
             }
             else if (cboSelectCRUDMode.SelectedIndex == 1)
             {
-                this.EditingMode = DatabaseEditingMode.UPDATING_EXISTING_USER;
+                this.EditingMode = DatabaseEditingMode.UpdatingExistingUser;
                 this.DisplayAPersonsDetailsForEditing();
                 btnSavePersonToDatabase.Text = "Update Person";
                 grdUsers.Focus();
@@ -294,26 +294,26 @@ namespace FacialRecognition
         private void btnSavePersonToDatabase_Click(object sender, EventArgs e)
         {
             // TODO - validation
-            if (this.EditingMode == DatabaseEditingMode.UPDATING_EXISTING_USER)
+            if (this.EditingMode == DatabaseEditingMode.UpdatingExistingUser)
             {
-                var _personToUpdate = Database.Retrieve(txtPersonID.Text);
+                var personToUpdate = this.Database.Retrieve(txtPersonID.Text);
 
-                _personToUpdate.Forename = txtPersonForename.Text;
-                _personToUpdate.Surname = txtPersonSurname.Text;
-                _personToUpdate.Images = DatabaseUIGlobals.DisplayedUser.Images;
+                personToUpdate.Forename = txtPersonForename.Text;
+                personToUpdate.Surname = txtPersonSurname.Text;
+                personToUpdate.Images = DatabaseUIGlobals.DisplayedUser.Images;
 
-                Database.Update(_personToUpdate);
+                this.Database.Update(personToUpdate);
 
                 MessageBox.Show("Person Updated");
             }
-            else if (this.EditingMode == DatabaseEditingMode.ADDING_NEW_USER)
+            else if (this.EditingMode == DatabaseEditingMode.AddingNewUser)
             {
-                var _person = new FacialRecognition.Library.Models.Person();
-                _person.Forename = txtPersonForename.Text;
-                _person.Surname = txtPersonSurname.Text;
-                _person.Images = DatabaseUIGlobals.DisplayedUser.Images;
+                var person = new Person();
+                person.Forename = txtPersonForename.Text;
+                person.Surname = txtPersonSurname.Text;
+                person.Images = DatabaseUIGlobals.DisplayedUser.Images;
 
-                Database.Store(_person);
+                this.Database.Store(person);
 
                 MessageBox.Show("Person Stored");
 
@@ -321,14 +321,15 @@ namespace FacialRecognition
                 txtPersonSurname.Text = String.Empty;
                 pbxPersonFacialImages.Image = null;
             }
+
             this.UpdateDatabaseDisplay();
         }
 
         private void btnUserCaptureImage_Click(object sender, EventArgs e)
         {
-            if (Kinect != null)
+            if (this.Kinect != null)
             {
-                pbxUserImage.Image = Kinect.CaptureImage();
+                pbxUserImage.Image = this.Kinect.CaptureImage();
             }
         }
 
@@ -342,14 +343,12 @@ namespace FacialRecognition
             }
             else
             {
-                var g = pbxUserImage.CreateGraphics();
-                var _pen = new Pen(Color.Green, 3);
-                var _i = 0;
+                var graphics = pbxUserImage.CreateGraphics();
+                var pen = new Pen(Color.Green, 3);
 
-                while (_i < LocationOfDetectedFaces.Length)
+                foreach(var rectangle in this.LocationOfDetectedFaces)
                 {
-                    g.DrawRectangle(_pen, LocationOfDetectedFaces[_i]);
-                    _i++;
+                    graphics.DrawRectangle(pen, rectangle);
                 }
             }
         }
@@ -358,7 +357,7 @@ namespace FacialRecognition
         {
             try
             {
-                var normaliser = new FacialRecognition.Library.Octave.OctaveNormaliser();
+                var normaliser = new OctaveNormaliser();
                 var capturedImage = new Bitmap(pbxUserImage.Image);
                 var face = capturedImage.Clone(LocationOfDetectedFaces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
 
@@ -381,12 +380,12 @@ namespace FacialRecognition
         {
             if (DatabaseUIGlobals.DisplayedUser.Images.Count > 0)
             {
-                var _imageCount = DatabaseUIGlobals.DisplayedUser.Images.Count;
-                var _displayedIndex = DatabaseUIGlobals.DisplayedImageIndex;
+                var imageCount = DatabaseUIGlobals.DisplayedUser.Images.Count;
+                var displayedIndex = DatabaseUIGlobals.DisplayedImageIndex;
 
-                if (_displayedIndex + 1 < _imageCount)
+                if (displayedIndex + 1 < imageCount)
                 {
-                    pbxPersonFacialImages.Image = DatabaseUIGlobals.DisplayedUser.Images[_displayedIndex + 1];
+                    pbxPersonFacialImages.Image = DatabaseUIGlobals.DisplayedUser.Images[displayedIndex + 1];
                     DatabaseUIGlobals.DisplayedImageIndex++;
                 }
             }
@@ -396,15 +395,16 @@ namespace FacialRecognition
         {
             if (DatabaseUIGlobals.DisplayedUser.Images.Count > 0)
             {
-                var _imageCount = DatabaseUIGlobals.DisplayedUser.Images.Count;
-                var _displayedIndex = DatabaseUIGlobals.DisplayedImageIndex;
+                var imageCount = DatabaseUIGlobals.DisplayedUser.Images.Count;
+                var displayedIndex = DatabaseUIGlobals.DisplayedImageIndex;
 
-                if (_displayedIndex - 1 >= 0)
+                if (displayedIndex - 1 >= 0)
                 {
-                    pbxPersonFacialImages.Image = DatabaseUIGlobals.DisplayedUser.Images[_displayedIndex - 1];
+                    pbxPersonFacialImages.Image = DatabaseUIGlobals.DisplayedUser.Images[displayedIndex - 1];
                     DatabaseUIGlobals.DisplayedImageIndex--;
                 }
             }
         }
+        #endregion
     }
 }
