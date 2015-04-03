@@ -3,137 +3,142 @@ using FacialRecognition.Library.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Drawing;
-using System.Text;
+using System.IO;
 
 namespace FacialRecognition.Library.Database
 {
     public class CouchDatabase : IDatabase
     {
-        private DreamSeat.CouchClient c_Couch;
-        private DreamSeat.CouchDatabase c_Database;
-        private const String DESIGN_DOCUMENTS = "_design/";
-        private const String DESIGN_DOCUMENT_NAME = "people";
-        private const String ALL_DOCUMENTS_VIEW_NAME = "all";
+        private DreamSeat.CouchClient Couch;
+        private DreamSeat.CouchDatabase Database;
+        private const string DesignDocuments = "_design/";
+        private const string DesignDocumentName = "people";
+        private const string AllDocumentsViewDefinition = "function(doc) {emit(null, doc)}";
+        private const string AllDocumentsViewName = "all";
 
-        public CouchDatabase(String Host, int Port, String Database)
+        public CouchDatabase(string host, int port, string database)
         {
-            c_Couch = new CouchClient();
-
-            this.InitializeDatabase(Database);
+            this.Couch = new CouchClient();
+            this.InitializeDatabase(database);
         }
 
-        private void InitializeDatabase(String Database)
+        private void InitializeDatabase(string databaseName)
         {
-            //Ensure DB exists
-            this.CreateDatabase(Database);
+            // Ensure database exists
+            this.CreateDatabase(databaseName);
 
-            //Ensure View to retrieve all documents exists
-            if (!c_Database.DocumentExists(DESIGN_DOCUMENTS + DESIGN_DOCUMENT_NAME))
+            // Ensure view to retrieve all documents exists
+            if (!this.Database.DocumentExists(DesignDocuments + DesignDocumentName))
             {
-                var _designDoc = new CouchDesignDocument(DESIGN_DOCUMENT_NAME);
-                var _view = new CouchView("function(doc) {emit(null, doc)}");
+                var designDocument = new CouchDesignDocument(DesignDocumentName);
+                var couchView = new CouchView(AllDocumentsViewDefinition);
 
-                _designDoc.Views.Add(ALL_DOCUMENTS_VIEW_NAME, _view);
-                c_Database.CreateDocument(_designDoc);
+                designDocument.Views.Add(AllDocumentsViewName, couchView);
+                this.Database.CreateDocument(designDocument);
             }
         }
 
-        public void CreateDatabase(String Database)
+        public void CreateDatabase(string databaseName)
         {
-            if (!c_Couch.HasDatabase(Database))
+            if (!this.Couch.HasDatabase(databaseName))
             {
-                c_Couch.CreateDatabase(Database);
+                this.Couch.CreateDatabase(databaseName);
             }
 
-            c_Database = c_Couch.GetDatabase(Database);
+            this.Database = this.Couch.GetDatabase(databaseName);
         }
 
-        private void ValidateDatabaseName(String Database)
+        private void ValidateDatabaseName(string databaseName)
         {
-            //TODO
+            // TODO
         }
 
-        public void DeleteDatabase(String Database)
+        public void DeleteDatabase(string databaseName)
         {
-            if (c_Couch.HasDatabase(Database))
+            if (this.Couch.HasDatabase(databaseName))
             {
-                c_Couch.DeleteDatabase(Database);
+                this.Couch.DeleteDatabase(databaseName);
             }
         }
 
-        public Boolean Store(Models.Person Person)
+        public bool Store(Person person)
         {
-            var _couchModel = new PersonCouchDB();
-            _couchModel.Id = Person.Id;
-            _couchModel.Forename = Person.Forename;
-            _couchModel.Surname = Person.Surname;
+            var couchModel = new PersonCouchDB();
+            couchModel.Id = person.Id;
+            couchModel.Forename = person.Forename;
+            couchModel.Surname = person.Surname;
 
-            var _result = c_Database.CreateDocument<Models.PersonCouchDB>(_couchModel);
+            var result = this.Database.CreateDocument<Models.PersonCouchDB>(couchModel);
 
-            //Add attachments if applicable
-            if (Person.Images.Count > 0)
+            // Store the objects images as document attachment in CouchDB
+            if (person.Images.Count > 0)
             {
-                this.AddAttachments(_result.Id, Person.Images);
+                this.AddAttachments(result.Id, person.Images);
             }
             
             return true;
         }
 
-        public bool Update(Models.Person Person)
+        public bool Update(Person person)
         {
-            if (c_Database.DocumentExists(Person.Id))
+            if (this.Database.DocumentExists(person.Id))
             {
-                //Retrieve existing document to acquire revision number
-                var _existingDoc = (PersonCouchDB)this.Retrieve(Person.Id);
+                // Retrieve existing document to acquire revision number
+                var existingDocument = (PersonCouchDB)this.Retrieve(person.Id);
                 
-                var _couchModel = new PersonCouchDB();
-                _couchModel.Id = Person.Id;
-                _couchModel.Rev = _existingDoc.Rev;
-                _couchModel.Forename = Person.Forename;
-                _couchModel.Surname = Person.Surname;
+                var couchModel = new PersonCouchDB();
+                couchModel.Id = person.Id;
+                couchModel.Rev = existingDocument.Rev;
+                couchModel.Forename = person.Forename;
+                couchModel.Surname = person.Surname;
 
-                c_Database.UpdateDocument<PersonCouchDB>(_couchModel);
+                this.Database.UpdateDocument<PersonCouchDB>(couchModel);
 
-                //Attachment
-                if (Person.Images.Count > 0)
+                // Store the objects images as document attachment in CouchDB
+                if (person.Images.Count > 0)
                 {
-                    this.AddAttachments(_couchModel.Id, Person.Images);
+                    this.AddAttachments(couchModel.Id, person.Images);
                 }
 
                 return true;
             }
             else
             {
-                return this.Store(Person);
+                return this.Store(person);
             }
         }
 
-        private void AddAttachments(String DocumentID, List<Image> Images)
+        private void AddAttachments(string documentID, List<Image> images)
         {
-            for (int _i = 0; _i < Images.Count; _i++)
+            for (int i = 0; i < images.Count; i++)
             {
-                c_Database.AddAttachment(DocumentID, new MemoryStream(this.ImageToByteArray(Images[_i])), _i + ".bmp");
+                var attachmentName = i + ".bmp";
+                var imageAsByteArray = this.ImageToByteArray(images[i]);
+
+                this.Database.AddAttachment(documentID, new MemoryStream(imageAsByteArray), attachmentName);
             }
         }
 
-        private byte[] ImageToByteArray(Image Image)
+        private byte[] ImageToByteArray(Image image)
         {
-            //Reference: http://stackoverflow.com/questions/17352061/fastest-way-to-convert-image-to-byte-array
-            var _stream = new MemoryStream();
-            Image.Save(_stream, System.Drawing.Imaging.ImageFormat.Bmp);
-            return _stream.ToArray();
+            // Reference: http://stackoverflow.com/questions/17352061/fastest-way-to-convert-image-to-byte-array
+            // Save the image to a memory stream
+            var stream = new MemoryStream();
+            image.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+
+            // Return the stream as a byte array
+            return stream.ToArray();
         }
 
-        public Models.Person Retrieve(string ID)
+        public Person Retrieve(string ID)
         {
-            if (c_Database.DocumentExists(ID))
+            if (this.Database.DocumentExists(ID))
             {
-                var _result = c_Database.GetDocument<PersonCouchDB>(ID);
-                _result.Images = this.RetrieveAttachments(ID);
+                var person = this.Database.GetDocument<PersonCouchDB>(ID);
+                person.Images = this.RetrieveAttachments(ID);
                 
-                return _result;
+                return person;
             }
             else
             {
@@ -141,52 +146,52 @@ namespace FacialRecognition.Library.Database
             }
         }
 
-        private List<Image> RetrieveAttachments(String PersonID)
+        private List<Image> RetrieveAttachments(string personID)
         {
-            var _result = new List<Image>();
-            var _person = c_Database.GetDocument<CouchDocument>(PersonID);
+            var images = new List<Image>();
+            var person = this.Database.GetDocument<CouchDocument>(personID);
 
-            if (_person.HasAttachment)
+            if (person.HasAttachment)
             {
-                var _attachmentNames = _person.GetAttachmentNames();
+                var attachmentNames = person.GetAttachmentNames();
 
-                foreach (var _name in _attachmentNames)
+                foreach (var name in attachmentNames)
                 {
-                    var _attachmentStream = c_Database.GetAttachment(PersonID, _name);
-                    var _image = Image.FromStream(_attachmentStream);
-                    _result.Add(_image);
+                    var attachmentStream = this.Database.GetAttachment(personID, name);
+                    var image = Image.FromStream(attachmentStream);
+                    images.Add(image);
                 }
             }
 
-            return _result;
+            return images;
         }
 
-        public List<Models.Person> RetrieveAll()
+        public List<Person> RetrieveAll()
         {
-            var _result = new List<Models.Person>();
+            var result = new List<Models.Person>();
 
-            var _allPeopleViewResult = c_Database.GetView(DESIGN_DOCUMENT_NAME, ALL_DOCUMENTS_VIEW_NAME).ToString();
+            var allPeopleViewResult = this.Database.GetView(DesignDocumentName, AllDocumentsViewName).ToString();
 
-            var _deserializedResult = JsonConvert.DeserializeObject<dynamic>(_allPeopleViewResult);
+            var deserializedResult = JsonConvert.DeserializeObject<dynamic>(allPeopleViewResult);
 
-            //Rows is an array containing all keys/value pairs emitted by the view
-            var _viewRows = _deserializedResult.rows;
+            // Rows is an array containing all keys/value pairs emitted by the view
+            var viewRows = deserializedResult.rows;
 
-            for (int i = 0; i < _viewRows.Count; i++)
+            for (int i = 0; i < viewRows.Count; i++)
             {
-                var _currentDocument = _viewRows[i];
-                var _documentValues = _currentDocument.value;
+                var currentDocument = viewRows[i];
+                var documentValues = currentDocument.value;
 
-                var _curPerson = new PersonCouchDB();
-                _curPerson.Id = (String)_documentValues._id;
-                _curPerson.Rev = (String)_documentValues._rev;
-                _curPerson.Forename = (String)_documentValues.forename;
-                _curPerson.Surname = (String)_documentValues.surname;
-                _curPerson.Images = this.RetrieveAttachments(_curPerson.Id);
-                _result.Add(_curPerson);
+                var curPerson = new PersonCouchDB();
+                curPerson.Id = (string)documentValues._id;
+                curPerson.Rev = (string)documentValues._rev;
+                curPerson.Forename = (string)documentValues.forename;
+                curPerson.Surname = (string)documentValues.surname;
+                curPerson.Images = this.RetrieveAttachments(curPerson.Id);
+                result.Add(curPerson);
             }
 
-            return _result;
+            return result;
         }
     }
 }
