@@ -1,50 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FacialRecognition.Library.Core;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using FacialRecognition.Library.Core;
 
 namespace FacialRecognition.Library.Octave
 {
     public class OctaveNormaliser : FacialImageNormaliser
     {
-        public override Image Resize(Image Source, int Width, int Height)
+        public override Image Resize(Image source, int width, int height)
         {
-            var _resizedImage = new Bitmap(Width, Height);
-            var _graphics = Graphics.FromImage(_resizedImage);
+            var resizedImage = new Bitmap(width, height);
+            var graphics = Graphics.FromImage(resizedImage);
 
-            _graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            _graphics.DrawImage(Source, 0, 0, Width, Height);
-            _graphics.Dispose();
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.DrawImage(source, 0, 0, width, height);
+            graphics.Dispose();
 
-            return _resizedImage;
+            return resizedImage;
         }
 
-        public override Image SetColormap(Image Source)
+        public override Image SetColormap(Image source)
         {
             //Reference: http://tech.pro/tutorial/660/csharp-tutorial-convert-a-color-image-to-grayscale
 
-            var _originalImage = new Bitmap(Source);
-            var _result = new Bitmap(Source.Width, Source.Height);
+            var originalImage = new Bitmap(source);
+            var result = new Bitmap(source.Width, source.Height);
 
-            for (int i = 0; i < Source.Width; i++)
+            for (int i = 0; i < source.Width; i++)
             {
-                for (int j = 0; j < Source.Height; j++)
+                for (int j = 0; j < source.Height; j++)
                 {
-                    var _pixel = _originalImage.GetPixel(i, j);
-                    var _pixelGrayscale = (_pixel.R + _pixel.G + _pixel.B) / 3;
-                    var _pixelAsColor = Color.FromArgb(_pixelGrayscale, _pixelGrayscale, _pixelGrayscale);
+                    var pixel = originalImage.GetPixel(i, j);
+                    var grayscaleValueOfPixel = (pixel.R + pixel.G + pixel.B) / 3;
+                    var pixelGrayscale = Color.FromArgb(grayscaleValueOfPixel, grayscaleValueOfPixel, grayscaleValueOfPixel);
 
-                    _result.SetPixel(i, j, _pixelAsColor);
+                    result.SetPixel(i, j, pixelGrayscale);
                 }
             }
 
-
-            return _result;
+            return result;
         }
     }
 }

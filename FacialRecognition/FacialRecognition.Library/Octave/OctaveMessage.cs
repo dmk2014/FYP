@@ -13,16 +13,16 @@ namespace FacialRecognition.Library.Octave
             this.Data = ((int)OctaveMessageType.NoData).ToString();
         }
 
-        public OctaveMessage(int Code)
+        public OctaveMessage(int code)
         {
-            this.Code = Code;
+            this.Code = code;
             this.Data = ((int)OctaveMessageType.NoData).ToString();
         }
 
-        public OctaveMessage(int Code, String Data)
+        public OctaveMessage(int code, string data)
         {
-            this.Code = Code;
-            this.Data = Data;
+            this.Code = code;
+            this.Data = data;
         }
     }
 }

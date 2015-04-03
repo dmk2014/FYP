@@ -1,6 +1,7 @@
-﻿using System;
-using System.Drawing;
+﻿using FacialRecognition.Library.Models;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace FacialRecognition.Library.Octave
 {
@@ -8,21 +9,21 @@ namespace FacialRecognition.Library.Octave
     {
         private OctaveInterface Interface;
 
-        public OctaveRecogniser(OctaveInterface Interface)
+        public OctaveRecogniser(OctaveInterface octaveInterface)
         {
-            this.SetInterface(Interface);
+            this.SetInterface(octaveInterface);
         }
 
-        public void SetInterface(OctaveInterface Interface)
+        public void SetInterface(OctaveInterface octaveInterface)
         {
-            this.Interface = Interface;
+            this.Interface = octaveInterface;
         }
 
-        public Models.Person ClassifyFace(Image FacialImage)
+        public Person ClassifyFace(Image facialImage)
         {
             // FacialImage parameter is expected to be received in normalised form
             // It is an image that must be marshalled to a string
-            var imageAsString = this.MarshalFacialImage(FacialImage);
+            var imageAsString = this.MarshalFacialImage(facialImage);
 
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRecognition, imageAsString);
             Interface.SendRequest(recogniserRequest);
@@ -32,7 +33,7 @@ namespace FacialRecognition.Library.Octave
             if (recogniserResponse.Code == (int)OctaveMessageType.ResponseOk)
             {
                 // The recogniser response will be the ID of the closest match found in the facial database
-                var result = new Models.Person();
+                var result = new Person();
                 result.Id = recogniserResponse.Data;
                 return result;
             }
@@ -42,14 +43,15 @@ namespace FacialRecognition.Library.Octave
             }
         }
 
-        private String MarshalFacialImage(Image FacialImage)
+        private string MarshalFacialImage(Image facialImage)
         {
-            var facialBitmap = new Bitmap(FacialImage);
+            var facialBitmap = new Bitmap(facialImage);
             var faceAsString = String.Empty;
+            var seperator = ',';
 
-            for (int column = 0; column < FacialImage.Width; column++)
+            for (int column = 0; column < facialImage.Width; column++)
             {
-                for (int row = 0; row < FacialImage.Height; row++)
+                for (int row = 0; row < facialImage.Height; row++)
                 {
                     // BGR all have same values - can use any one of these to produce 8 bit grayscale image
                     // Octave requires that data is passed in column major order
@@ -58,17 +60,17 @@ namespace FacialRecognition.Library.Octave
                     // columnN
                     var pixel = facialBitmap.GetPixel(column, row);
                     var value = pixel.B;
-                    faceAsString += value + ",";
+                    faceAsString += value + seperator;
                 }
             }
 
             //Remove trailing ','
-            faceAsString = faceAsString.TrimEnd(',');
+            faceAsString = faceAsString.TrimEnd(seperator);
 
             return faceAsString;
         }
 
-        public Boolean SaveSession()
+        public bool SaveSession()
         {
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestSave);
             Interface.SendRequest(recogniserRequest);
@@ -85,7 +87,7 @@ namespace FacialRecognition.Library.Octave
             }
         }
 
-        public Boolean ReloadSession()
+        public bool ReloadSession()
         {
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestReload);
             Interface.SendRequest(recogniserRequest);
@@ -102,10 +104,10 @@ namespace FacialRecognition.Library.Octave
             }
         }
 
-        public Boolean RetrainRecogniser(List<Models.Person> PeopleInDatabase)
+        public bool RetrainRecogniser(List<Person> people)
         {
             // Prepare the data for retraining
-            this.SendDataToCacheForRetraining(PeopleInDatabase);
+            this.SendDataToCacheForRetraining(people);
 
             // Send a request to retrain the recogniser
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRetrain);
@@ -125,13 +127,13 @@ namespace FacialRecognition.Library.Octave
             }
         }
 
-        private void SendDataToCacheForRetraining(List<Models.Person> PeopleInDatabase)
+        private void SendDataToCacheForRetraining(List<Person> peopleInDatabase)
         {
             // Ensure cache is cleared of all previous data
             Interface.EnsurePersonDataIsClearedFromCache();
 
             // Send all data to the cache
-            foreach(var person in PeopleInDatabase)
+            foreach(var person in peopleInDatabase)
             {
                 foreach(var image in person.Images)
                 {

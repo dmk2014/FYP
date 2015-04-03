@@ -1,7 +1,6 @@
-﻿using System;
+﻿using StackExchange.Redis;
+using System;
 using System.Diagnostics;
-
-using StackExchange.Redis;
 
 namespace FacialRecognition.Library.Octave
 {
@@ -11,24 +10,24 @@ namespace FacialRecognition.Library.Octave
         private IDatabase RedisDatabase;
 
         // Database Related Redis Keys
-        private String DatabaseLabelsKey = "facial.database.labels";
-        private String DatabaseDataKey = "facial.database.data";
+        private string DatabaseLabelsKey = "facial.database.labels";
+        private string DatabaseDataKey = "facial.database.data";
 
         // Message Related Redis Keys
-        private String FacialRequestCodeKey = "facial.request.code";
-        private String FacialRequestDataKey = "facial.request.data";
-        private String FacialResponseCodeKey = "facial.response.code";
-        private String FacialResponseDataKey = "facial.response.data";
+        private string FacialRequestCodeKey = "facial.request.code";
+        private string FacialRequestDataKey = "facial.request.data";
+        private string FacialResponseCodeKey = "facial.response.code";
+        private string FacialResponseDataKey = "facial.response.data";
 
-        public OctaveInterface(String RedisHost, int RedisPort)
+        public OctaveInterface(string redisHost, int redisPort)
         {
-            this.Connection = ConnectionMultiplexer.Connect(RedisHost + ":" + RedisPort);
-            this.RedisDatabase = Connection.GetDatabase();
+            this.Connection = ConnectionMultiplexer.Connect(redisHost + ":" + redisPort);
+            this.RedisDatabase = this.Connection.GetDatabase();
         }
 
         public void EnsurePersonDataIsClearedFromCache()
         {
-            var transaction = RedisDatabase.CreateTransaction();
+            var transaction = this.RedisDatabase.CreateTransaction();
 
             transaction.KeyDeleteAsync(this.DatabaseLabelsKey);
             transaction.KeyDeleteAsync(this.DatabaseDataKey);
@@ -36,29 +35,29 @@ namespace FacialRecognition.Library.Octave
             transaction.Execute();
         }
 
-        public void SendPersonDataToCache(String PersonLabel, String ImageAsString)
+        public void SendPersonDataToCache(string personLabel, string imageAsString)
         {
-            var transaction = RedisDatabase.CreateTransaction();
+            var transaction = this.RedisDatabase.CreateTransaction();
 
-            transaction.ListRightPushAsync(this.DatabaseLabelsKey, PersonLabel);
-            transaction.ListRightPushAsync(this.DatabaseDataKey, ImageAsString);
+            transaction.ListRightPushAsync(this.DatabaseLabelsKey, personLabel);
+            transaction.ListRightPushAsync(this.DatabaseDataKey, imageAsString);
 
             transaction.Execute();
         }
 
-        public Boolean SendRequest(OctaveMessage Message)
+        public bool SendRequest(OctaveMessage message)
         {
-            var transaction = RedisDatabase.CreateTransaction();
+            var transaction = this.RedisDatabase.CreateTransaction();
 
-            transaction.StringSetAsync(this.FacialRequestCodeKey, Message.Code);
-            transaction.StringSetAsync(this.FacialRequestDataKey, Message.Data);
+            transaction.StringSetAsync(this.FacialRequestCodeKey, message.Code);
+            transaction.StringSetAsync(this.FacialRequestDataKey, message.Data);
             transaction.StringSetAsync(this.FacialResponseCodeKey, (int)OctaveMessageType.NoData);
             transaction.StringSetAsync(this.FacialResponseDataKey, (int)OctaveMessageType.NoData);
 
             return transaction.Execute();
         }
 
-        public OctaveMessage ReceiveResponse(int Timeout)
+        public OctaveMessage ReceiveResponse(int timeout)
         {
             var response = new OctaveMessage();
             var responseReceived = false;
@@ -66,14 +65,14 @@ namespace FacialRecognition.Library.Octave
 
             watch.Start();
 
-            while (watch.ElapsedMilliseconds <= Timeout && !responseReceived)
+            while (watch.ElapsedMilliseconds <= timeout && !responseReceived)
             {
-                var responseCodeString = RedisDatabase.StringGet(this.FacialResponseCodeKey);
+                var responseCodeString = this.RedisDatabase.StringGet(this.FacialResponseCodeKey);
                 var responseCode = int.Parse(responseCodeString);
 
                 if (responseCode != (int)OctaveMessageType.NoData)
                 {
-                    var responseData = RedisDatabase.StringGet(this.FacialResponseDataKey);
+                    var responseData = this.RedisDatabase.StringGet(this.FacialResponseDataKey);
                     response = new OctaveMessage(responseCode, responseData);
                     responseReceived = true;
                 }
@@ -85,7 +84,7 @@ namespace FacialRecognition.Library.Octave
             }
             else
             {
-                throw new TimeoutException("A response was not received from Octave in the specified time (" + Timeout + "ms)");
+                throw new TimeoutException("A response was not received from Octave in the specified time (" + timeout + "ms)");
             }
         }
     }
