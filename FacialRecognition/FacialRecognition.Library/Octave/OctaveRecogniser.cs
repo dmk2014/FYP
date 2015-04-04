@@ -60,7 +60,7 @@ namespace FacialRecognition.Library.Octave
                     // columnN
                     var pixel = facialBitmap.GetPixel(column, row);
                     var value = pixel.B;
-                    faceAsString += value + seperator;
+                    faceAsString += value + seperator.ToString();
                 }
             }
 
