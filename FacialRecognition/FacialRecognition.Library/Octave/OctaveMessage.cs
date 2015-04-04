@@ -5,7 +5,7 @@ namespace FacialRecognition.Library.Octave
     public class OctaveMessage
     {
         public int Code { set; get; }
-        public String Data { set; get; }
+        public string Data { set; get; }
 
         public OctaveMessage()
         {
