@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FacialRecognition.Library.Core;
 using FacialRecognition.Library.Database;
 using FacialRecognition.Library.Octave;
-using FacialRecognition.Library.Core;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Drawing;
 
 namespace FacialRecognition.Test
 {
@@ -10,17 +11,29 @@ namespace FacialRecognition.Test
     public class OctaveRecogniser_Test
     {
         private IDatabase Database;
-        private const String DatabaseName = "facial1";
-        private IFacialRecogniser Recogniser;
+        private const string DatabaseName = "facial1";
+        private OctaveRecogniser Recogniser;
+        private readonly Image TestImage = FacialRecognition.Test.Properties.Resources.FacialImage;
+
+        private const string CouchHost = "localhost";
+        private const int CouchPort = 5984;
+        private const string RedisHost = "localhost";
+        private const int RedisPort = 6379;
 
         [TestInitialize]
         public void InitializeTest()
         {
-            Database = new CouchDatabase("localhost", 5984, DatabaseName);
+            Database = new CouchDatabase(CouchHost, CouchPort, DatabaseName);
 
-            var octaveInterface = new OctaveInterface("localhost", 6379);
+            var octaveInterface = new OctaveInterface(RedisHost, RedisPort);
 
             Recogniser = new OctaveRecogniser(octaveInterface);
+        }
+
+        [TestMethod]
+        public void TestSetRecogniserInterface()
+        {
+            this.Recogniser.SetInterface(new OctaveInterface(RedisHost, RedisPort));
         }
 
         [TestMethod]
@@ -28,9 +41,26 @@ namespace FacialRecognition.Test
         {
             var peopleInDatabase = Database.RetrieveAll();
 
-            var sendDataToCacheMethod = Recogniser.GetType().GetMethod("SendDataToCacheForRetraining", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var sendDataToCacheMethod = Recogniser.GetType().GetMethod("SendDataToCacheForRetraining",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
             sendDataToCacheMethod.Invoke(Recogniser, new Object[] { peopleInDatabase });
+        }
+
+        [TestMethod]
+        public void TestMarshalFacialImage()
+        {
+            var image = this.TestImage;
+
+            var marshalImageMethod = Recogniser.GetType().GetMethod("MarshalFacialImage",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            var result = (string)marshalImageMethod.Invoke(Recogniser, new Object[] { image });
+
+            var numPixelsInTestImage = this.TestImage.Width * this.TestImage.Height;
+            var numPixelsInMarshalledImage = result.Split(',').Length;
+
+            Assert.AreEqual(numPixelsInTestImage, numPixelsInMarshalledImage);
         }
     }
 }
