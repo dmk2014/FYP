@@ -12,8 +12,8 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
   # the label of the closest match.
   
   try
-    face = redisUnmarshalFacialData(sessionData.requestData)
-    labelOfClosestMatch = classifyAnUnknownFace(sessionData.U, sessionData.weights, face, sessionData.averageFace, sessionData.labels)
+    face = redisUnmarshalFacialData(sessionData.requestData);
+    labelOfClosestMatch = classifyAnUnknownFace(sessionData.U, sessionData.weights, face, sessionData.averageFace, sessionData.labels);
   
     sessionData.responseCode = RESPONSE_OK;
     sessionData.responseData = labelOfClosestMatch;

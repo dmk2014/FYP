@@ -4,7 +4,7 @@ function result = classifyAnUnknownFace(U,weights,face,averageFace,faceLabels)
   endif
   
   weightOfUnknownFace = projectFace(U,face,averageFace);  
-  idxOfClosestMatch = nearestMatchEuclideanDistance(weights, weightOfUnknownFace)
+  idxOfClosestMatch = nearestMatchEuclideanDistance(weights, weightOfUnknownFace);
   
   result = faceLabels(idxOfClosestMatch,:);
 endfunction
