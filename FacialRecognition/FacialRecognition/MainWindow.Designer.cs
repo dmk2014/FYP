@@ -609,7 +609,6 @@
             // 
             // btnRetrainRecogniser
             // 
-            this.btnRetrainRecogniser.Enabled = false;
             this.btnRetrainRecogniser.Location = new System.Drawing.Point(36, 33);
             this.btnRetrainRecogniser.Name = "btnRetrainRecogniser";
             this.btnRetrainRecogniser.Size = new System.Drawing.Size(129, 41);
@@ -620,7 +619,6 @@
             // 
             // btnReloadRecogniserData
             // 
-            this.btnReloadRecogniserData.Enabled = false;
             this.btnReloadRecogniserData.Location = new System.Drawing.Point(306, 33);
             this.btnReloadRecogniserData.Name = "btnReloadRecogniserData";
             this.btnReloadRecogniserData.Size = new System.Drawing.Size(129, 41);
@@ -631,7 +629,6 @@
             // 
             // btnPersistRecogniserData
             // 
-            this.btnPersistRecogniserData.Enabled = false;
             this.btnPersistRecogniserData.Location = new System.Drawing.Point(171, 33);
             this.btnPersistRecogniserData.Name = "btnPersistRecogniserData";
             this.btnPersistRecogniserData.Size = new System.Drawing.Size(129, 41);
