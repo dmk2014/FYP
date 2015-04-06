@@ -13,6 +13,6 @@ function result = normalize(M, low, high)
   result = result / (maximumValue - minimumValue);
   
   # Normalise to the data to within the specified low/high range
-  result = result * (high - 1);
-  result = result + 1;
+  result = result * (high - low);
+  result = result + low;
 endfunction
