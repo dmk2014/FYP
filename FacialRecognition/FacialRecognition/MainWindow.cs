@@ -248,11 +248,11 @@ namespace FacialRecognition
 
                 var recognitionResult = this.Recogniser.ClassifyFace(face);
 
-                MessageBox.Show("Result: " + recognitionResult.Id);
+                MessageBox.Show(this, "Result: " + recognitionResult.Id);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(this, ex.Message);
             }
         }
         #endregion    
