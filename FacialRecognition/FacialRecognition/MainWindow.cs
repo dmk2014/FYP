@@ -17,6 +17,11 @@ namespace FacialRecognition
         private FacialDetector Detector;
         private OctaveRecogniser Recogniser;
 
+        private string CouchDBHost;
+        private int CouchDBPort;
+        private string RedisHost;
+        private int RedisPort;
+
         public frmFacialRecognition()
         {
             InitializeComponent();
@@ -28,6 +33,11 @@ namespace FacialRecognition
         {
             try
             {
+                this.CouchDBHost = Properties.Settings.Default.CouchDBHost;
+                this.CouchDBPort = Properties.Settings.Default.CouchDBPort;
+                this.RedisHost = Properties.Settings.Default.RedisHost;
+                this.RedisPort = Properties.Settings.Default.RedisPort;
+
                 this.Database = new CouchDatabase("localhost", 5984, "facial1");
                 this.UpdateDatabaseDisplay();
                 cboSelectCRUDMode.SelectedIndex = (int)DatabaseEditingMode.AddingNewUser;
@@ -42,6 +52,14 @@ namespace FacialRecognition
                 string error = "There were errors launching the application - this may prevent it from functioning correctly.\n\nError(s):\n" + ex.Message;
                 MessageBox.Show(this, error, "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 tabMain.SelectTab(tabConfiguration);
+            }
+            finally
+            {
+                // Display settings on configuration tab
+                txtCouchDBHost.Text = this.CouchDBHost;
+                txtCouchDBPort.Text = this.CouchDBPort.ToString();
+                txtRedisHost.Text = this.RedisHost;
+                txtRedisPort.Text = this.RedisPort.ToString();
             }
         }
 

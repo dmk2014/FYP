@@ -671,7 +671,6 @@
             this.txtRedisHost.Name = "txtRedisHost";
             this.txtRedisHost.Size = new System.Drawing.Size(154, 20);
             this.txtRedisHost.TabIndex = 1;
-            this.txtRedisHost.Text = "localhost";
             // 
             // txtRedisPort
             // 
@@ -679,7 +678,6 @@
             this.txtRedisPort.Name = "txtRedisPort";
             this.txtRedisPort.Size = new System.Drawing.Size(154, 20);
             this.txtRedisPort.TabIndex = 3;
-            this.txtRedisPort.Text = "6379";
             // 
             // lblRedisPort
             // 
@@ -696,7 +694,6 @@
             this.txtCouchDBPort.Name = "txtCouchDBPort";
             this.txtCouchDBPort.Size = new System.Drawing.Size(154, 20);
             this.txtCouchDBPort.TabIndex = 7;
-            this.txtCouchDBPort.Text = "5984";
             // 
             // lblCouchDBPort
             // 
@@ -713,7 +710,6 @@
             this.txtCouchDBHost.Name = "txtCouchDBHost";
             this.txtCouchDBHost.Size = new System.Drawing.Size(154, 20);
             this.txtCouchDBHost.TabIndex = 5;
-            this.txtCouchDBHost.Text = "localhost";
             // 
             // lblCouchDBHost
             // 
