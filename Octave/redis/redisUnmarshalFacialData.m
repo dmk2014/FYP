@@ -16,4 +16,8 @@ function face = redisUnmarshalFacialData(faceData)
     curPixel = str2double(curPixel);
     face = [face;curPixel];
   endfor
+  
+  # Ensure that the unmarshalled facial data is in the correct range
+  # Each used by the recogniser requires pixel values in the range [0-255]
+  face = normalize(face);
 endfunction
