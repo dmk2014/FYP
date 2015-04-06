@@ -21,14 +21,14 @@ function redisListener(R)
   done = false;
   
   while(!done)
-    request = redisGet(R, "facial.request.code");
+    requestCode = redisGet(R, "facial.request.code");
     
-    if(request != NO_REQUEST)
+    if(requestCode != NO_REQUEST)
       redisSet(R, "facial.recogniser.status", RECOGNISER_BUSY);
-      printf("Request Received: %d", request);
+      printf("Request Received: %d", requestCode);
       
       # Store the Redis request code and data
-      sessionData.requestCode = request;
+      sessionData.requestCode = requestCode;
       sessionData.requestData = redisGet(R, "facial.request.data");
       
       # Pass to request to the handler. It will be executed and a
@@ -36,13 +36,12 @@ function redisListener(R)
       sessionData = redisRequestHandler(R, sessionData);
       
       # Prepare Redis to receive new requests
-      redisSet(R, "facial.recogniser.status", RECOGNISER_AVAILABLE);
       redisSet(R, "facial.request.code", NO_REQUEST);
-      disp("Request Code Reset to 50");
+      redisSet(R, "facial.recogniser.status", RECOGNISER_AVAILABLE);
+      disp("Recogniser prepared to accept new request...");
     endif
     
     # Wait 100 milliseconds before checking for a new request
     usleep(100);
-    
   endwhile
 endfunction

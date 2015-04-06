@@ -23,9 +23,10 @@ function sessionData = redisRequestHandler(R, sessionData)
     # Pass the sessionData to the dedicated recognition request handler
     try
       sessionData = redisRecognitionRequestHandler(sessionData);
-      redisSendResponse(R, sessionData.responseCode,sessionData.responseData);
+      redisSendResponse(R, sessionData.responseCode, sessionData.responseData);
     catch
       redisSendResponse(R, RESPONSE_FAIL, "Octave: facial recognition failed with an exception");
+      disp(lasterror.message);
     end_try_catch
     
   elseif (request == REQUEST_RELOAD)
@@ -47,6 +48,7 @@ function sessionData = redisRequestHandler(R, sessionData)
     try
       saveSession(sessionData);
       redisSendResponse(R, RESPONSE_OK, "Octave: save session success");
+      disp("Response Sent: 100...recogniser data saved successfully");
     catch
       redisSendResponse(R, RESPONSE_FAIL, "Octave: save session failed");
       disp(lasterror.message);
@@ -71,7 +73,8 @@ function sessionData = redisRequestHandler(R, sessionData)
   else
     # An invalid request code was received
     redisSendResponse(R, RESPONSE_FAIL, "Octave: invalid request");
+    disp("Response Sent: 100...the received request code was invalid");
   endif
   
-  disp("Request Parsed & Response Sent");
+  disp("Request Parsed, Handled & Response Sent");
 endfunction
