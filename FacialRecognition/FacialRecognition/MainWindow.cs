@@ -10,13 +10,14 @@ using System.Windows.Forms;
 
 namespace FacialRecognition
 {
-    public partial class frmFacialRecPrototype : Form
+    public partial class frmFacialRecognition : Form
     {
         private IDatabase Database;
         private KinectV1Sensor Kinect;
         private FacialDetector Detector;
+        private OctaveRecogniser Recogniser;
 
-        public frmFacialRecPrototype()
+        public frmFacialRecognition()
         {
             InitializeComponent();
             this.CenterToScreen();
@@ -28,6 +29,7 @@ namespace FacialRecognition
             this.PrepareKinectSensor();
 
             this.Detector = new FacialRecognition.Library.Core.FacialDetector();
+            this.Recogniser = new OctaveRecogniser(new OctaveInterface("localhost", 6379));
         }
 
         #region CameraStreamsTab
@@ -208,11 +210,9 @@ namespace FacialRecognition
         {
             try
             {
-                var recogniser = new OctaveRecogniser(new OctaveInterface("localhost", 6379));
-
                 var face = new Bitmap(pbxNormalisedFace.Image);
 
-                var recognitionResult = recogniser.ClassifyFace(face);
+                var recognitionResult = this.Recogniser.ClassifyFace(face);
 
                 MessageBox.Show("Result: " + recognitionResult.Id);
             }
@@ -406,5 +406,44 @@ namespace FacialRecognition
             }
         }
         #endregion
+
+        private void btnRetrainRecogniser_Click(object sender, EventArgs e)
+        {
+            // Send the retrain request
+            MessageBox.Show("Retraining - this will take some time", "Facial Recognition", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            try
+            {
+                this.Recogniser.RetrainRecogniser(this.Database.RetrieveAll());
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnPersistRecogniserData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Recogniser.SaveSession();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnReloadRecogniserData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Recogniser.ReloadSession();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

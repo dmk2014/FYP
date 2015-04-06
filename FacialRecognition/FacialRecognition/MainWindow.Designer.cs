@@ -1,6 +1,6 @@
 ﻿namespace FacialRecognition
 {
-    partial class frmFacialRecPrototype
+    partial class frmFacialRecognition
     {
         /// <summary>
         /// Required designer variable.
@@ -72,9 +72,12 @@
             this.colSurname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colImageCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabStreams = new System.Windows.Forms.TabPage();
-            this.tabPayment = new System.Windows.Forms.TabPage();
-            this.btnProcessPayment = new System.Windows.Forms.Button();
+            this.tabConfiguration = new System.Windows.Forms.TabPage();
+            this.btnRetrainRecogniser = new System.Windows.Forms.Button();
             this.diaOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.btnPersistRecogniserData = new System.Windows.Forms.Button();
+            this.btnReloadRecogniserData = new System.Windows.Forms.Button();
+            this.grpRecogniserControls = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDept)).BeginInit();
             this.grpControls.SuspendLayout();
@@ -90,7 +93,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbxPersonFacialImages)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdUsers)).BeginInit();
             this.tabStreams.SuspendLayout();
-            this.tabPayment.SuspendLayout();
+            this.tabConfiguration.SuspendLayout();
+            this.grpRecogniserControls.SuspendLayout();
             this.SuspendLayout();
             // 
             // pbxImage
@@ -189,7 +193,7 @@
             this.tabMain.Controls.Add(this.tabFacialRec);
             this.tabMain.Controls.Add(this.tabDatabase);
             this.tabMain.Controls.Add(this.tabStreams);
-            this.tabMain.Controls.Add(this.tabPayment);
+            this.tabMain.Controls.Add(this.tabConfiguration);
             this.tabMain.Location = new System.Drawing.Point(12, 12);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
@@ -566,34 +570,69 @@
             this.tabStreams.TabIndex = 0;
             this.tabStreams.Text = "Camera Streams";
             // 
-            // tabPayment
+            // tabConfiguration
             // 
-            this.tabPayment.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPayment.Controls.Add(this.btnProcessPayment);
-            this.tabPayment.Location = new System.Drawing.Point(4, 22);
-            this.tabPayment.Name = "tabPayment";
-            this.tabPayment.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPayment.Size = new System.Drawing.Size(1363, 613);
-            this.tabPayment.TabIndex = 2;
-            this.tabPayment.Text = "Process Payment";
+            this.tabConfiguration.BackColor = System.Drawing.SystemColors.Control;
+            this.tabConfiguration.Controls.Add(this.grpRecogniserControls);
+            this.tabConfiguration.Location = new System.Drawing.Point(4, 22);
+            this.tabConfiguration.Name = "tabConfiguration";
+            this.tabConfiguration.Padding = new System.Windows.Forms.Padding(3);
+            this.tabConfiguration.Size = new System.Drawing.Size(1363, 613);
+            this.tabConfiguration.TabIndex = 2;
+            this.tabConfiguration.Text = "Configuration";
             // 
-            // btnProcessPayment
+            // btnRetrainRecogniser
             // 
-            this.btnProcessPayment.Enabled = false;
-            this.btnProcessPayment.Location = new System.Drawing.Point(492, 98);
-            this.btnProcessPayment.Name = "btnProcessPayment";
-            this.btnProcessPayment.Size = new System.Drawing.Size(129, 41);
-            this.btnProcessPayment.TabIndex = 0;
-            this.btnProcessPayment.Text = "Process Payment";
-            this.btnProcessPayment.UseVisualStyleBackColor = true;
+            this.btnRetrainRecogniser.Enabled = false;
+            this.btnRetrainRecogniser.Location = new System.Drawing.Point(36, 33);
+            this.btnRetrainRecogniser.Name = "btnRetrainRecogniser";
+            this.btnRetrainRecogniser.Size = new System.Drawing.Size(129, 41);
+            this.btnRetrainRecogniser.TabIndex = 0;
+            this.btnRetrainRecogniser.Text = "Retrain Recogniser";
+            this.btnRetrainRecogniser.UseVisualStyleBackColor = true;
+            this.btnRetrainRecogniser.Click += new System.EventHandler(this.btnRetrainRecogniser_Click);
             // 
-            // frmFacialRecPrototype
+            // btnPersistRecogniserData
+            // 
+            this.btnPersistRecogniserData.Enabled = false;
+            this.btnPersistRecogniserData.Location = new System.Drawing.Point(171, 33);
+            this.btnPersistRecogniserData.Name = "btnPersistRecogniserData";
+            this.btnPersistRecogniserData.Size = new System.Drawing.Size(129, 41);
+            this.btnPersistRecogniserData.TabIndex = 1;
+            this.btnPersistRecogniserData.Text = "Persist Recogniser";
+            this.btnPersistRecogniserData.UseVisualStyleBackColor = true;
+            this.btnPersistRecogniserData.Click += new System.EventHandler(this.btnPersistRecogniserData_Click);
+            // 
+            // btnReloadRecogniserData
+            // 
+            this.btnReloadRecogniserData.Enabled = false;
+            this.btnReloadRecogniserData.Location = new System.Drawing.Point(306, 33);
+            this.btnReloadRecogniserData.Name = "btnReloadRecogniserData";
+            this.btnReloadRecogniserData.Size = new System.Drawing.Size(129, 41);
+            this.btnReloadRecogniserData.TabIndex = 2;
+            this.btnReloadRecogniserData.Text = "Reload Recogniser Data";
+            this.btnReloadRecogniserData.UseVisualStyleBackColor = true;
+            this.btnReloadRecogniserData.Click += new System.EventHandler(this.btnReloadRecogniserData_Click);
+            // 
+            // grpRecogniserControls
+            // 
+            this.grpRecogniserControls.Controls.Add(this.btnRetrainRecogniser);
+            this.grpRecogniserControls.Controls.Add(this.btnReloadRecogniserData);
+            this.grpRecogniserControls.Controls.Add(this.btnPersistRecogniserData);
+            this.grpRecogniserControls.Location = new System.Drawing.Point(394, 6);
+            this.grpRecogniserControls.Name = "grpRecogniserControls";
+            this.grpRecogniserControls.Size = new System.Drawing.Size(474, 199);
+            this.grpRecogniserControls.TabIndex = 3;
+            this.grpRecogniserControls.TabStop = false;
+            this.grpRecogniserControls.Text = "Recogniser Controls";
+            // 
+            // frmFacialRecognition
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1394, 663);
             this.Controls.Add(this.tabMain);
-            this.Name = "frmFacialRecPrototype";
+            this.Name = "frmFacialRecognition";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Facial Recognition System";
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).EndInit();
@@ -613,7 +652,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbxPersonFacialImages)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdUsers)).EndInit();
             this.tabStreams.ResumeLayout(false);
-            this.tabPayment.ResumeLayout(false);
+            this.tabConfiguration.ResumeLayout(false);
+            this.grpRecogniserControls.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -633,8 +673,8 @@
         private System.Windows.Forms.Button btnPerformFacialRec;
         private System.Windows.Forms.Button btnFacialDetection;
         private System.Windows.Forms.Button btnCaptureFrame;
-        private System.Windows.Forms.TabPage tabPayment;
-        private System.Windows.Forms.Button btnProcessPayment;
+        private System.Windows.Forms.TabPage tabConfiguration;
+        private System.Windows.Forms.Button btnRetrainRecogniser;
         private System.Windows.Forms.Button btnSaveFrameData;
         private System.Windows.Forms.PictureBox pbxCapturedColorImage;
         private System.Windows.Forms.PictureBox pbxNormalisedFace;
@@ -667,6 +707,9 @@
         private System.Windows.Forms.PictureBox pbxUserImage;
         private System.Windows.Forms.Button btnUserAddFace;
         private System.Windows.Forms.Button btnCaptureFrames;
+        private System.Windows.Forms.GroupBox grpRecogniserControls;
+        private System.Windows.Forms.Button btnReloadRecogniserData;
+        private System.Windows.Forms.Button btnPersistRecogniserData;
     }
 }
 
