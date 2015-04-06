@@ -21,15 +21,28 @@ namespace FacialRecognition
         {
             InitializeComponent();
             this.CenterToScreen();
+            this.SystemStartup();
+        }
 
-            this.Database = new CouchDatabase("localhost", 5984, "facial1");
-            this.UpdateDatabaseDisplay();
-            cboSelectCRUDMode.SelectedIndex = 0;
+        public void SystemStartup()
+        {
+            try
+            {
+                this.Database = new CouchDatabase("localhost", 5984, "facial1");
+                this.UpdateDatabaseDisplay();
+                cboSelectCRUDMode.SelectedIndex = (int)DatabaseEditingMode.AddingNewUser;
 
-            this.PrepareKinectSensor();
+                this.PrepareKinectSensor();
 
-            this.Detector = new FacialRecognition.Library.Core.FacialDetector();
-            this.Recogniser = new OctaveRecogniser("localhost", 6379);
+                this.Detector = new FacialRecognition.Library.Core.FacialDetector();
+                this.Recogniser = new OctaveRecogniser("localhost", 6379);
+            }
+            catch(Exception ex)
+            {
+                string error = "There were errors launching the application - this may prevent it from functioning correctly.\n\nError(s):\n" + ex.Message;
+                MessageBox.Show(this, error, "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tabMain.SelectTab(tabConfiguration);
+            }
         }
 
         #region CameraStreamsTab
@@ -418,7 +431,7 @@ namespace FacialRecognition
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -430,7 +443,7 @@ namespace FacialRecognition
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -442,8 +455,16 @@ namespace FacialRecognition
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnSaveSettings_Click(object sender, EventArgs e)
+        {
+            // Send settings to configuration file
+            // Then invoke system startup to use new settings
+
+            this.SystemStartup();
         }
     }
 }
