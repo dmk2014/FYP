@@ -5,12 +5,7 @@ function redisListener(R)
   
   # Reference globals that will be used
   global NO_REQUEST;
-  global REQUEST_REC;
   global REQUEST_RELOAD;
-  global REQUEST_SAVE;
-  global REQUEST_RETRAIN;
-  global RESPONSE_OK;
-  global RESPONSE_FAIL;
   global RECOGNISER_AVAILABLE;
   global RECOGNISER_BUSY;
   

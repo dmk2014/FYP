@@ -4,7 +4,6 @@ function sessionData = redisRequestHandler(R, sessionData)
   endif
   
   # Reference globals that will be used
-  global NO_REQUEST;
   global REQUEST_REC;
   global REQUEST_RELOAD;
   global REQUEST_SAVE;
@@ -12,12 +11,10 @@ function sessionData = redisRequestHandler(R, sessionData)
   global RESPONSE_OK;
   global RESPONSE_FAIL;
   
-  request = sessionData.requestCode;
-  
-  # Determine what type of request was received using its code and then
-  # attempt to execute the requested action.
+  # Determine the type of request received using its code
+  # Attempt to execute the requested action
   # A response is sent once the action completes, whether it is successful or not
-  if(request == REQUEST_REC)
+  if(sessionData.requestCode == REQUEST_REC)
   
     # Attempt to recognise an unknown face
     # Pass the sessionData to the dedicated recognition request handler
@@ -29,7 +26,7 @@ function sessionData = redisRequestHandler(R, sessionData)
       disp(lasterror.message);
     end_try_catch
     
-  elseif (request == REQUEST_RELOAD)
+  elseif (sessionData.requestCode == REQUEST_RELOAD)
   
     # Reload all data from disk
     try
@@ -42,7 +39,7 @@ function sessionData = redisRequestHandler(R, sessionData)
       disp(lasterror.message);
     end_try_catch
     
-  elseif (request == REQUEST_SAVE)
+  elseif (sessionData.requestCode == REQUEST_SAVE)
   
     # Save all session data to disk
     try
@@ -54,7 +51,7 @@ function sessionData = redisRequestHandler(R, sessionData)
       disp(lasterror.message);
     end_try_catch
   
-  elseif (request == REQUEST_RETRAIN)  
+  elseif (sessionData.requestCode == REQUEST_RETRAIN)  
   
     # Retrain the database
     # Call dedicated retrain handler that will read all data from Redis
