@@ -38,14 +38,14 @@ namespace FacialRecognition
                 this.RedisHost = Properties.Settings.Default.RedisHost;
                 this.RedisPort = Properties.Settings.Default.RedisPort;
 
-                this.Database = new CouchDatabase("localhost", 5984, "facial1");
+                this.Database = new CouchDatabase(this.CouchDBHost, this.CouchDBPort, "facial1");
                 this.UpdateDatabaseDisplay();
                 cboSelectCRUDMode.SelectedIndex = (int)DatabaseEditingMode.AddingNewUser;
 
                 this.PrepareKinectSensor();
 
                 this.Detector = new FacialRecognition.Library.Core.FacialDetector();
-                this.Recogniser = new OctaveRecogniser("localhost", 6379);
+                this.Recogniser = new OctaveRecogniser(this.RedisHost, this.RedisPort);
             }
             catch(Exception ex)
             {
@@ -479,9 +479,15 @@ namespace FacialRecognition
 
         private void btnSaveSettings_Click(object sender, EventArgs e)
         {
-            // Send settings to configuration file
-            // Then invoke system startup to use new settings
+            // Retrieve and save new settings
+            Properties.Settings.Default.CouchDBHost = txtCouchDBHost.Text;
+            Properties.Settings.Default.CouchDBPort = int.Parse(txtCouchDBPort.Text);
+            Properties.Settings.Default.RedisHost = txtRedisHost.Text;
+            Properties.Settings.Default.RedisPort = int.Parse(txtRedisPort.Text);
 
+            Properties.Settings.Default.Save();
+
+            // Initialise system using new settings
             this.SystemStartup();
         }
     }
