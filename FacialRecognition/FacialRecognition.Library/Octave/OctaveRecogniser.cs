@@ -9,14 +9,14 @@ namespace FacialRecognition.Library.Octave
     {
         private OctaveInterface Interface;
 
-        public OctaveRecogniser(OctaveInterface octaveInterface)
+        public OctaveRecogniser(string redisHost, int redisPort)
         {
-            this.SetInterface(octaveInterface);
+            this.SetInterface(redisHost, redisPort);
         }
 
-        public void SetInterface(OctaveInterface octaveInterface)
+        public void SetInterface(string redisHost, int redisPort)
         {
-            this.Interface = octaveInterface;
+            this.Interface = new OctaveInterface(redisHost, redisPort);
         }
 
         public Person ClassifyFace(Image facialImage)

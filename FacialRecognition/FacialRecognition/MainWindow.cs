@@ -29,7 +29,7 @@ namespace FacialRecognition
             this.PrepareKinectSensor();
 
             this.Detector = new FacialRecognition.Library.Core.FacialDetector();
-            this.Recogniser = new OctaveRecogniser(new OctaveInterface("localhost", 6379));
+            this.Recogniser = new OctaveRecogniser("localhost", 6379);
         }
 
         #region CameraStreamsTab

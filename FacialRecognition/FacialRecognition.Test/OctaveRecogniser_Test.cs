@@ -24,16 +24,13 @@ namespace FacialRecognition.Test
         public void InitializeTest()
         {
             Database = new CouchDatabase(CouchHost, CouchPort, DatabaseName);
-
-            var octaveInterface = new OctaveInterface(RedisHost, RedisPort);
-
-            Recogniser = new OctaveRecogniser(octaveInterface);
+            Recogniser = new OctaveRecogniser(RedisHost, RedisPort);
         }
 
         [TestMethod]
         public void TestSetRecogniserInterface()
         {
-            this.Recogniser.SetInterface(new OctaveInterface(RedisHost, RedisPort));
+            this.Recogniser.SetInterface(RedisHost, RedisPort);
         }
 
         [TestMethod]
