@@ -1,6 +1,7 @@
 ﻿using FacialRecognition.Library.Core;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System;
 
 namespace FacialRecognition.Library.Octave
 {
@@ -21,6 +22,7 @@ namespace FacialRecognition.Library.Octave
         public override Image SetColormap(Image source)
         {
             //Reference: http://tech.pro/tutorial/660/csharp-tutorial-convert-a-color-image-to-grayscale
+            //Conversion formula: http://www.johndcook.com/blog/2009/08/24/algorithms-convert-color-grayscale/
 
             var originalImage = new Bitmap(source);
             var result = new Bitmap(source.Width, source.Height);
@@ -30,7 +32,7 @@ namespace FacialRecognition.Library.Octave
                 for (int j = 0; j < source.Height; j++)
                 {
                     var pixel = originalImage.GetPixel(i, j);
-                    var grayscaleValueOfPixel = (pixel.R + pixel.G + pixel.B) / 3;
+                    var grayscaleValueOfPixel = Convert.ToInt32((0.21 * (int)pixel.R) + (0.72 * (int)pixel.G) + (0.07 * (int)pixel.B));
                     var pixelGrayscale = Color.FromArgb(grayscaleValueOfPixel, grayscaleValueOfPixel, grayscaleValueOfPixel);
 
                     result.SetPixel(i, j, pixelGrayscale);
