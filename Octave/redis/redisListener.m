@@ -33,7 +33,7 @@ function redisListener(R)
       # Prepare Redis to receive new requests
       redisSet(R, "facial.request.code", NO_REQUEST);
       redisSet(R, "facial.recogniser.status", RECOGNISER_AVAILABLE);
-      disp("Recogniser prepared to accept new request...");
+      disp("Recogniser prepared to accept new request...\n");
     endif
     
     # Wait 100 milliseconds before checking for a new request
