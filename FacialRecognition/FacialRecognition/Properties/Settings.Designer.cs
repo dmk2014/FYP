@@ -70,5 +70,17 @@ namespace FacialRecognition.Properties {
                 this["RedisPort"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("facial1")]
+        public string CouchDatabaseName {
+            get {
+                return ((string)(this["CouchDatabaseName"]));
+            }
+            set {
+                this["CouchDatabaseName"] = value;
+            }
+        }
     }
 }

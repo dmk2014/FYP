@@ -14,5 +14,8 @@
     <Setting Name="RedisPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">6379</Value>
     </Setting>
+    <Setting Name="CouchDatabaseName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">facial1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -19,6 +19,7 @@ namespace FacialRecognition
 
         private string CouchDBHost;
         private int CouchDBPort;
+        private string CouchDatabaseName;
         private string RedisHost;
         private int RedisPort;
 
@@ -35,10 +36,11 @@ namespace FacialRecognition
             {
                 this.CouchDBHost = Properties.Settings.Default.CouchDBHost;
                 this.CouchDBPort = Properties.Settings.Default.CouchDBPort;
+                this.CouchDatabaseName = Properties.Settings.Default.CouchDatabaseName;
                 this.RedisHost = Properties.Settings.Default.RedisHost;
                 this.RedisPort = Properties.Settings.Default.RedisPort;
 
-                this.Database = new CouchDatabase(this.CouchDBHost, this.CouchDBPort, "facial1");
+                this.Database = new CouchDatabase(this.CouchDBHost, this.CouchDBPort, this.CouchDatabaseName);
                 this.UpdateDatabaseDisplay();
                 cboSelectCRUDMode.SelectedIndex = (int)DatabaseEditingMode.AddingNewUser;
 
@@ -58,6 +60,7 @@ namespace FacialRecognition
                 // Display settings on configuration tab
                 txtCouchDBHost.Text = this.CouchDBHost;
                 txtCouchDBPort.Text = this.CouchDBPort.ToString();
+                txtCouchDatabaseName.Text = this.CouchDatabaseName;
                 txtRedisHost.Text = this.RedisHost;
                 txtRedisPort.Text = this.RedisPort.ToString();
             }
@@ -441,7 +444,7 @@ namespace FacialRecognition
         private void btnRetrainRecogniser_Click(object sender, EventArgs e)
         {
             // Send the retrain request
-            MessageBox.Show("Retraining - this will take some time", "Facial Recognition", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(this, "Retraining - this will take some time", "Facial Recognition", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             try
             {
@@ -482,10 +485,13 @@ namespace FacialRecognition
             // Retrieve and save new settings
             Properties.Settings.Default.CouchDBHost = txtCouchDBHost.Text;
             Properties.Settings.Default.CouchDBPort = int.Parse(txtCouchDBPort.Text);
+            Properties.Settings.Default.CouchDatabaseName = txtCouchDatabaseName.Text;
             Properties.Settings.Default.RedisHost = txtRedisHost.Text;
             Properties.Settings.Default.RedisPort = int.Parse(txtRedisPort.Text);
 
             Properties.Settings.Default.Save();
+
+            MessageBox.Show(this, "Setting saved successfully. Application will now attempt to re-connect to data stores using specified settings.", "Facial Recognition", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             // Initialise system using new settings
             this.SystemStartup();
