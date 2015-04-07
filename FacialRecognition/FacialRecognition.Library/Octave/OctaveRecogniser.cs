@@ -26,9 +26,9 @@ namespace FacialRecognition.Library.Octave
             var imageAsString = this.MarshalFacialImage(facialImage);
 
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRecognition, imageAsString);
-            Interface.SendRequest(recogniserRequest);
+            this.Interface.SendRequest(recogniserRequest);
 
-            var recogniserResponse = Interface.ReceiveResponse(15000);
+            var recogniserResponse = this.Interface.ReceiveResponse(15000);
 
             if (recogniserResponse.Code == (int)OctaveMessageType.ResponseOk)
             {
@@ -73,9 +73,9 @@ namespace FacialRecognition.Library.Octave
         public bool SaveSession()
         {
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestSave);
-            Interface.SendRequest(recogniserRequest);
+            this.Interface.SendRequest(recogniserRequest);
 
-            var response = Interface.ReceiveResponse(30000);
+            var response = this.Interface.ReceiveResponse(30000);
 
             if (response.Code == (int)OctaveMessageType.ResponseOk)
             {
@@ -90,9 +90,9 @@ namespace FacialRecognition.Library.Octave
         public bool ReloadSession()
         {
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestReload);
-            Interface.SendRequest(recogniserRequest);
+            this.Interface.SendRequest(recogniserRequest);
 
-            var response = Interface.ReceiveResponse(30000);
+            var response = this.Interface.ReceiveResponse(30000);
 
             if (response.Code == (int)OctaveMessageType.ResponseOk)
             {
@@ -111,11 +111,11 @@ namespace FacialRecognition.Library.Octave
 
             // Send a request to retrain the recogniser
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRetrain);
-            Interface.SendRequest(recogniserRequest);
+            this.Interface.SendRequest(recogniserRequest);
 
             // Wait for a response - large timeout because retraining requires considerable time period
             int timeoutThirtyMinutes = 1800000;
-            var repsonse = Interface.ReceiveResponse(timeoutThirtyMinutes);
+            var repsonse = this.Interface.ReceiveResponse(timeoutThirtyMinutes);
             
             if (repsonse.Code == (int)OctaveMessageType.ResponseOk)
             {
@@ -130,20 +130,20 @@ namespace FacialRecognition.Library.Octave
         private void SendDataToCacheForRetraining(List<Person> peopleInDatabase)
         {
             // Ensure cache is cleared of all previous data
-            Interface.EnsurePersonDataIsClearedFromCache();
+            this.Interface.EnsurePersonDataIsClearedFromCache();
 
             // Send all data to the cache
             foreach(var person in peopleInDatabase)
             {
                 foreach(var image in person.Images)
                 {
-                    Interface.SendPersonDataToCache(person.Id, this.MarshalFacialImage(image));
+                    this.Interface.SendPersonDataToCache(person.Id, this.MarshalFacialImage(image));
                 }
             }
 
             // Mark end of data in the cache - required by Octave
             var endOfData = ((int)OctaveMessageType.NoData).ToString();
-            Interface.SendPersonDataToCache(endOfData, endOfData);
+            this.Interface.SendPersonDataToCache(endOfData, endOfData);
         }
     }
 }
