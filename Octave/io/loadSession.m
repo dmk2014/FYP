@@ -1,21 +1,19 @@
 function sessionData = loadSession()
-  #clear("M","averageFace","reducedFaces","U","weights");
-   
-  #Load training set
+  % Load training set
   sessionData.M = loadMatrixData("training_set");
   
-  #Load face labels
+  % Load face labels
   sessionData.labels = loadMatrixData("face_labels");
 
-  #Load average face
+  % Load average face
   sessionData.averageFace = loadMatrixData("average_face");
 
-  #Load reduced faces
+  % Load reduced faces
   sessionData.reducedFaces = loadMatrixData("reduced_faces");
 
-  #Load eigenfaces
+  % Load eigenfaces
   sessionData.U = loadMatrixData("eigenfaces");
 
-  #Load weights
+  % Load weights
   sessionData.weights = loadMatrixData("weights");
 endfunction

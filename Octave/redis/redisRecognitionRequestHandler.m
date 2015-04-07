@@ -3,13 +3,13 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
     usage("redisRecognitionRequestHandler(sessionData)");
   endif
   
-  # Reference globals that will be used
+  % Reference globals that will be used
   global RESPONSE_OK;
   global RESPONSE_FAIL;
   
-  # First, unmarshal the facial data.
-  # Then invoke the recognisers classification function which returns
-  # the label of the closest match.
+  % First, unmarshal the facial data.
+  % Then invoke the recognisers classification function which returns
+  % the label of the closest match.
   
   try
     disp("Beginning facial recognition...");

@@ -3,10 +3,10 @@ function face = redisUnmarshalFacialData(faceData)
     usage("redisUnmarshalFacialData(faceData)");
   endif
   
-  # faceData is a string of comma seperated values.
-  # Each value is a pixel.
-  # Convert each pixel value to a double and store the result
-  # as a column vector.
+  % faceData is a string of comma seperated values.
+  % Each value is a pixel.
+  % Convert each pixel value to a double and store the result
+  % as a column vector.
   
   pixelValues = strsplit(faceData,",");
   face = [];
@@ -17,7 +17,7 @@ function face = redisUnmarshalFacialData(faceData)
     face = [face;curPixel];
   endfor
   
-  # Ensure that the unmarshalled facial data is in the correct range
-  # Each used by the recogniser requires pixel values in the range [0-255]
+  % Ensure that the unmarshalled facial data is in the correct range
+  % Each used by the recogniser requires pixel values in the range [0-255]
   face = normalize(face, 0, 255);
 endfunction

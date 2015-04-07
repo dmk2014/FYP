@@ -3,7 +3,7 @@ function sessionData = redisRequestHandler(R, sessionData)
     usage("redisRequestHandler(R, sessionData)");
   endif
   
-  # Reference globals that will be used
+  % Reference globals that will be used
   global REQUEST_REC;
   global REQUEST_RELOAD;
   global REQUEST_SAVE;
@@ -11,16 +11,16 @@ function sessionData = redisRequestHandler(R, sessionData)
   global RESPONSE_OK;
   global RESPONSE_FAIL;
   
-  # Determine the type of request received using its code
-  # Attempt to execute the requested action
-  # A response is sent once the action completes, whether it is successful or not
+  % Determine the type of request received using its code
+  % Attempt to execute the requested action
+  % A response is sent once the action completes, whether it is successful or not
   
   disp("Begin handling of recogniser request...");
   
   if(sessionData.requestCode == REQUEST_REC)
   
-    # Attempt to recognise an unknown face
-    # Pass the sessionData to the dedicated recognition request handler
+    % Attempt to recognise an unknown face
+    % Pass the sessionData to the dedicated recognition request handler
     try
       sessionData = redisRecognitionRequestHandler(sessionData);
       redisSendResponse(R, sessionData.responseCode, sessionData.responseData);
@@ -32,7 +32,7 @@ function sessionData = redisRequestHandler(R, sessionData)
     
   elseif (sessionData.requestCode == REQUEST_RELOAD)
   
-    # Reload all data from disk
+    % Reload all data from disk
     try
       clear("sessionData");
       sessionData = loadSession();
@@ -45,7 +45,7 @@ function sessionData = redisRequestHandler(R, sessionData)
     
   elseif (sessionData.requestCode == REQUEST_SAVE)
   
-    # Save all session data to disk
+    % Save all session data to disk
     try
       saveSession(sessionData);
       redisSendResponse(R, RESPONSE_OK, "Octave: save session success");
@@ -57,9 +57,9 @@ function sessionData = redisRequestHandler(R, sessionData)
   
   elseif (sessionData.requestCode == REQUEST_RETRAIN)  
   
-    # Retrain the database
-    # Call dedicated retrain handler that will read all data from Redis
-    # and pass it to the trainRecogniser function
+    % Retrain the database
+    % Call dedicated retrain handler that will read all data from Redis
+    % and pass it to the trainRecogniser function
     try
       clear("sessionData");
       sessionData = redisRetrainRequestHandler(R);
@@ -72,7 +72,7 @@ function sessionData = redisRequestHandler(R, sessionData)
     end_try_catch
     
   else
-    # An invalid request code was received
+    % An invalid request code was received
     redisSendResponse(R, RESPONSE_FAIL, "Octave: invalid request");
     disp("Response Sent: 100...the received request code was invalid");
   endif

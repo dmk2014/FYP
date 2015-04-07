@@ -3,21 +3,21 @@ function saveSession(sessionData)
     usage("saveSession(sessionData)");
   endif
   
-  #Save training set
+  % Save training set
   saveMatrixData(sessionData.M,"training_set");
   
-  #Save face labels
+  % Save face labels
   saveMatrixData(sessionData.labels,"face_labels");
 
-  #Save average face
+  % Save average face
   saveMatrixData(sessionData.averageFace,"average_face");
 
-  #Save reduced faces
+  % Save reduced faces
   saveMatrixData(sessionData.reducedFaces,"reduced_faces");
 
-  #Save eigenfaces
+  % Save eigenfaces
   saveMatrixData(sessionData.U,"eigenfaces");
 
-  #Save weights
+  % Save weights
   saveMatrixData(sessionData.weights,"weights");
 endfunction

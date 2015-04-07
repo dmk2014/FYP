@@ -3,12 +3,12 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
     usage("redisRetrainRequestHandler(redisConnection)");
   endif
   
-  # Constants
+  % Constants
   redisListLabels = "facial.database.labels";
   redisListData = "facial.database.data";
   noRemainingData = "50";
   
-  # Read all data from the cache
+  % Read all data from the cache
   faceLabels = {};
   faces = [];
   done = false;
@@ -18,13 +18,13 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
   while(!done)
     label = redisListLPOP(redisConnection, redisListLabels);
     
-    # strcmp returns 1 (or true) if strings are equals
+    % strcmp returns 1 (or true) if strings are equals
     dataRemaining = strcmp(label, noRemainingData);
     
     if (!dataRemaining)
       faceLabels = [faceLabels; label];
       
-      # Pop the facial data from Redis, unmarshal it, and add it to the face array
+      % Pop the facial data from Redis, unmarshal it, and add it to the face array
       faceData = redisListLPOP(redisConnection, redisListData);
       face = redisUnmarshalFacialData(faceData);
       faces = [faces, face];
@@ -33,10 +33,10 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
     endif
   endwhile
   
-  # Convert labels cell array to a matrix - required for data persistence
+  % Convert labels cell array to a matrix - required for data persistence
   faceLabels = cell2mat(faceLabels);
   disp("Retrieving database contents from Redis...DONE");
   
-  # Pass data and labels acquired from Redis to the trainRecogniser function
+  % Pass data and labels acquired from Redis to the trainRecogniser function
   sessionData = trainRecogniser(faces, faceLabels);
 endfunction

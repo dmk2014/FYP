@@ -3,16 +3,16 @@ function result = normalize(M, low, high)
     usage("normalise(M, low, high)");
   endif
   
-  # Normalise all values of M to within the range [low - high]
+  % Normalise all values of M to within the range [low - high]
   
   minimumValue = min(M);
   maximumValue = max(M);
   
-  # Normalise the data using its current minimum and maximum value
+  % Normalise the data using its current minimum and maximum value
   result = M - minimumValue;
   result = result / (maximumValue - minimumValue);
   
-  # Normalise to the data to within the specified low/high range
+  % Normalise to the data to within the specified low/high range
   result = result * (high - low);
   result = result + low;
 endfunction

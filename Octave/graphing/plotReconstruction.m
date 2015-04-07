@@ -4,7 +4,7 @@ function plotReconstruction(originalFace, reconstructedFace, k)
   endif
   
   subplot(1,2,1);
-  originalFace = reshape(originalFace,192,168); #TODO: remove hard-coded values
+  originalFace = reshape(originalFace,192,168); % TODO: remove hard-coded values
   imshow(originalFace, []);
   title("Original Face");
   
