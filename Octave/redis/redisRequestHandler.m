@@ -14,6 +14,9 @@ function sessionData = redisRequestHandler(R, sessionData)
   # Determine the type of request received using its code
   # Attempt to execute the requested action
   # A response is sent once the action completes, whether it is successful or not
+  
+  disp("Begin handling of recogniser request...");
+  
   if(sessionData.requestCode == REQUEST_REC)
   
     # Attempt to recognise an unknown face
@@ -21,6 +24,7 @@ function sessionData = redisRequestHandler(R, sessionData)
     try
       sessionData = redisRecognitionRequestHandler(sessionData);
       redisSendResponse(R, sessionData.responseCode, sessionData.responseData);
+      disp("Response Sent: Recognition completed without error");
     catch
       redisSendResponse(R, RESPONSE_FAIL, "Octave: facial recognition failed with an exception");
       disp(lasterror.message);
@@ -73,5 +77,5 @@ function sessionData = redisRequestHandler(R, sessionData)
     disp("Response Sent: 100...the received request code was invalid");
   endif
   
-  disp("Request Parsed, Handled & Response Sent");
+  disp("Request handling completed...");
 endfunction

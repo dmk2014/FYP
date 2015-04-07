@@ -12,11 +12,15 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
   # the label of the closest match.
   
   try
+    disp("Beginning facial recognition...");
+  
     face = redisUnmarshalFacialData(sessionData.requestData);
     labelOfClosestMatch = classifyAnUnknownFace(sessionData.U, sessionData.weights, face, sessionData.averageFace, sessionData.labels);
   
     sessionData.responseCode = RESPONSE_OK;
     sessionData.responseData = labelOfClosestMatch;
+    
+    disp("Facial recognition completed...");
   catch
     sessionData.responseCode = RESPONSE_FAIL;
     sessionData.responseData = "An error occurred while handling the recognition request";
