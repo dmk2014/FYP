@@ -67,14 +67,18 @@ namespace FacialRecognition.Library.Octave
 
             while (watch.ElapsedMilliseconds <= timeout && !responseReceived)
             {
-                var responseCodeString = this.RedisDatabase.StringGet(this.FacialResponseCodeKey);
-                var responseCode = int.Parse(responseCodeString);
+                var responseCodeString = this.RedisDatabase.StringGet(this.FacialResponseCodeKey).ToString();
 
-                if (responseCode != (int)OctaveMessageType.NoData)
+                if (responseCodeString != null)
                 {
-                    var responseData = this.RedisDatabase.StringGet(this.FacialResponseDataKey);
-                    response = new OctaveMessage(responseCode, responseData);
-                    responseReceived = true;
+                    var responseCode = int.Parse(responseCodeString);
+
+                    if (responseCode != (int)OctaveMessageType.NoData)
+                    {
+                        var responseData = this.RedisDatabase.StringGet(this.FacialResponseDataKey);
+                        response = new OctaveMessage(responseCode, responseData);
+                        responseReceived = true;
+                    }
                 }
             }
 
