@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using System.Drawing;
+using System.IO;
 
 namespace FacialRecognition.Library.Core
 {
@@ -13,24 +14,53 @@ namespace FacialRecognition.Library.Core
         // ScaleFactor is how much the image size is reduced at each image scale
         // 5% here. Low value, compationally tougher -> greater than 2x slower than using 10%
         // It should produce better recognition results
-        double ScaleFactor = 1.05;
+        private double ScaleFactor = 1.05;
 
         // How many neighbours a candidate rectangle requires to be classed as a face
         // The following article was consulted when researching this value:
         // http://fewtutorials.bravesites.com/entries/emgu-cv-c/level-3c---how-to-improve-face-detection
-        int MinimumNeighbours = 6;
+        private int MinimumNeighbours = 6;
 
         // MinimumSize is the minimum possible object size, i.e. smaller objects are ignored
-        Size MinimumSize = new Size(50, 50);
+        private Size MinimumSize = new Size(50, 50);
 
         // MaximumSize is the maximum possible object size, i.e. larger objects are ignored
         // This is not specified - detect faces of any size, once they are larger than that specified
         // in MinimumSize
-        Size MaximumSize = Size.Empty;
+        private Size MaximumSize = Size.Empty;
 
         // Location of cascade classifier
-        string ClassifierPath = @"C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\bin\haarcascade_frontalface_default.xml";
+        private string ClassifierPath;
 
+        /// <summary>
+        /// Creates a FacialDetector that utilises the default EmguCV cascade classifier
+        /// </summary>
+        public FacialDetector()
+        {
+            this.ClassifierPath = @"C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\bin\haarcascade_frontalface_default.xml";
+        }
+
+        /// <summary>
+        /// Creates a FacialDector that utilises a specified classifier
+        /// </summary>
+        /// <param name="pathToClassifier">The location of the classifier that is to be used</param>
+        public FacialDetector(string pathToClassifier)
+        {
+            if(File.Exists(pathToClassifier))
+            {
+                this.ClassifierPath = pathToClassifier;
+            }
+            else
+            {
+                throw new FileNotFoundException("The specified classifier (" + pathToClassifier + ") could not be found");
+            }
+        }
+        
+        /// <summary>
+        /// Detects faces present in a given Bitmap image
+        /// </summary>
+        /// <param name="image">The source Bitmap image on which to perform detection</param>
+        /// <returns>A array of System.Drawing.Rectangle whose contents defines the locations of all detected faces</returns>
         public Rectangle[] DetectFaces(Bitmap image)
         {
             var emguImage = new Image<Gray, byte>(image);
