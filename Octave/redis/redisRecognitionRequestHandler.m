@@ -4,8 +4,8 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
   endif
   
   % Reference globals that will be used
-  global RESPONSE_OK;
-  global RESPONSE_FAIL;
+  global ResponseOK;
+  global ResponseFail;
   
   % First, unmarshal the facial data.
   % Then invoke the recognisers classification function which returns
@@ -17,12 +17,12 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
     face = redisUnmarshalFacialData(sessionData.requestData);
     labelOfClosestMatch = classifyAnUnknownFace(sessionData.U, sessionData.weights, face, sessionData.averageFace, sessionData.labels);
   
-    sessionData.responseCode = RESPONSE_OK;
+    sessionData.responseCode = ResponseOK;
     sessionData.responseData = labelOfClosestMatch;
     
     disp("Facial recognition completed...");
   catch
-    sessionData.responseCode = RESPONSE_FAIL;
+    sessionData.responseCode = ResponseFail;
     sessionData.responseData = "An error occurred while handling the recognition request";
   end_try_catch
 endfunction
