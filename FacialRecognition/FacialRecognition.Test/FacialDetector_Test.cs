@@ -3,6 +3,7 @@ using FacialRecognition.Test.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
 using System;
+using System.IO;
 
 namespace FacialRecognition.Test
 {
@@ -29,6 +30,21 @@ namespace FacialRecognition.Test
             {
                 Assert.Fail("TestFacialDetection failed with an exception:\n\n" + e.Message);
             }
+        }
+
+        [TestMethod]
+        public void TestConstructFacialDetectorWithClassifier()
+        {
+            var pathToClassifier = @"C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\bin\haarcascade_frontalface_default.xml";
+            var detector = new FacialDetector(pathToClassifier);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void TestConstructFacialDetectorWithInvalidClassifier()
+        {
+            var pathToClassifier = @"C:\aninvalidclassifierfile.xml";
+            var detector = new FacialDetector(pathToClassifier);
         }
     }
 }
