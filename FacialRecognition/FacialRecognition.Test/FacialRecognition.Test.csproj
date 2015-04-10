@@ -85,6 +85,7 @@
     <Compile Include="OctaveRecogniser_Test.cs" />
     <Compile Include="OctaveInterface_Test.cs" />
     <Compile Include="OctaveNormaliser_Test.cs" />
+    <Compile Include="FacialDetector_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FacialRecognition.Library\FacialRecognition.Library.csproj">
