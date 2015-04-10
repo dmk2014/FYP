@@ -1,6 +1,7 @@
 ﻿using FacialRecognition.Library.Octave;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StackExchange.Redis;
+using System;
 
 namespace FacialRecognition.Test
 {
@@ -129,6 +130,16 @@ namespace FacialRecognition.Test
             // Assert that the response specified was received
             Assert.AreEqual(responseCode, result.Code);
             Assert.AreEqual(responseData, result.Data);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TimeoutException))]
+        public void TestTimeout()
+        {
+            // Send a request for which there will be no response
+            // A TimeoutException should be thrown
+            var timeoutTenSeconds = 10000;
+            this.Interface.ReceiveResponse(timeoutTenSeconds);
         }
     }
 }
