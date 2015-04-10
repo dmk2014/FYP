@@ -75,7 +75,8 @@ namespace FacialRecognition.Library.Octave
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestSave);
             this.Interface.SendRequest(recogniserRequest);
 
-            var response = this.Interface.ReceiveResponse(30000);
+            int timeoutTenMinutes = 600000;
+            var response = this.Interface.ReceiveResponse(timeoutTenMinutes);
 
             if (response.Code == (int)OctaveMessageType.ResponseOk)
             {
