@@ -2,6 +2,11 @@
 % These values must be loaded on application startup
 
 % Recogniser Request Globals
+% Request Keys
+global RequestCodeKey = "facial.request.code";
+global RequestDataKey = "facial.request.data";
+
+% Request Codes
 global NoData = 50;
 global RequestRecognition = 100;
 global RequestReload = 200;
