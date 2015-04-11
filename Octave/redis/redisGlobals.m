@@ -14,6 +14,11 @@ global RequestSave = 300;
 global RequestRetrain = 400;
 
 % Recogniser Response Globals
+% Response Keys
+global ResponseCodeKey = "facial.response.code";
+global ResponseDataKey = "facial.response.data";
+
+% Response Codes
 global ResponseOK = 100;
 global ResponseFail = 200;
 
