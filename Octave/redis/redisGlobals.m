@@ -23,5 +23,9 @@ global ResponseOK = 100;
 global ResponseFail = 200;
 
 % Recogniser Status Globals
+% Status Key
+global RecogniserStatusKey = "facial.recogniser.status"
+
+% Status Codes
 global RecogniserAvailable = 100;
 global RecogniserBusy = 200;

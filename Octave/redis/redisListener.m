@@ -8,6 +8,7 @@ function redisListener(R)
   global RequestDataKey;
   global NoData;
   global RequestReload;
+  global RecogniserStatusKey;
   global RecogniserAvailable;
   global RecogniserBusy;
   
@@ -21,20 +22,19 @@ function redisListener(R)
     requestCode = redisGet(R, RequestCodeKey);
     
     if(requestCode != NoData)
-      redisSet(R, "facial.recogniser.status", RecogniserBusy);
+      redisSet(R, RecogniserStatusKey, RecogniserBusy);
       printf("Request Received: %d", requestCode);
       
       % Store the Redis request code and data
       sessionData.requestCode = requestCode;
       sessionData.requestData = redisGet(R, RequestDataKey);
       
-      % Pass to request to the handler. It will be executed and a
-      % response will be sent
+      % Pass the request to the handler for execution and response
       sessionData = redisRequestHandler(R, sessionData);
       
       % Prepare Redis to receive new requests
       redisSet(R, RequestCodeKey, NoData);
-      redisSet(R, "facial.recogniser.status", RecogniserAvailable);
+      redisSet(R, RecogniserStatusKey, RecogniserAvailable);
       disp("Recogniser prepared to accept new request...\n");
     endif
     
