@@ -7,43 +7,27 @@ namespace FacialRecognition.Library.Hardware.KinectV1
 {
     public class SensorDataProcessor
     {
-        // While these methods are quite similar, a conscious design design was made to not refactor them
-        // Numerous errors occurred following a refactoring attempt
-        // There are minor but important differences between the methods
-        // First note that ColorImageFrame and DepthImageFrame have different data structures
-        // -> ColorToBitmap requires byte[]
-        // -> DepthToBitmap requires short[]
-        // Parameters required for Marshal.copy() method are different
         public Bitmap ColorToBitmap(ColorImageFrame imageFrame)
         {
             var sourceImageData = new byte[imageFrame.PixelDataLength];
             imageFrame.CopyPixelDataTo(sourceImageData);
 
-            var image = new Bitmap(imageFrame.Width, imageFrame.Height, PixelFormat.Format32bppRgb);
-            var imageRectangle = new Rectangle(0, 0, imageFrame.Width, imageFrame.Height);
-            var bitmapData = image.LockBits(imageRectangle, ImageLockMode.WriteOnly, image.PixelFormat);
-            var addressFirstPixel = bitmapData.Scan0;
-
-            Marshal.Copy(sourceImageData, 0, addressFirstPixel, imageFrame.PixelDataLength);
-            image.UnlockBits(bitmapData);
-
-            return image;
+            return this.ConvertColorByteArrayToBitmap(sourceImageData,
+                imageFrame.Width,
+                imageFrame.Height,
+                imageFrame.PixelDataLength,
+                PixelFormat.Format32bppRgb);
         }
 
         public Bitmap DepthToBitmap(DepthImageFrame imageFrame)
         {
             var sourceDepthData = new short[imageFrame.PixelDataLength];
             imageFrame.CopyPixelDataTo(sourceDepthData);
-            
-            var image = new Bitmap(imageFrame.Width, imageFrame.Height, PixelFormat.Format16bppRgb555);
-            var imageRectangle = new Rectangle(0, 0, imageFrame.Width, imageFrame.Height);
-            var bitmapData = image.LockBits(imageRectangle, ImageLockMode.WriteOnly, image.PixelFormat);
-            var addressFirstPixel = bitmapData.Scan0;
 
-            Marshal.Copy(sourceDepthData, 0, addressFirstPixel, imageFrame.Width * imageFrame.Height);
-            image.UnlockBits(bitmapData);
-
-            return image;
+            return this.ConvertDepthShortArrayToBitmap(sourceDepthData,
+                imageFrame.Width,
+                imageFrame.Height,
+                PixelFormat.Format16bppRgb555);
         }
 
         public Bitmap ReduceColorImageUsingDepthData(ColorImageFrame colorFrame, DepthImageFrame depthFrame, int maxDepth)
@@ -85,12 +69,43 @@ namespace FacialRecognition.Library.Hardware.KinectV1
             }
 
             // Convert the processed color byte array to a Bitmap and return it
-            var image = new Bitmap(colorFrame.Width, colorFrame.Height, PixelFormat.Format32bppRgb);
-            var imageRectangle = new Rectangle(0, 0, colorFrame.Width, colorFrame.Height);
+            var image = this.ConvertColorByteArrayToBitmap(colorImageData,
+                colorFrame.Width,
+                colorFrame.Height,
+                colorFrame.PixelDataLength,
+                PixelFormat.Format32bppRgb);
+
+            return image;
+        }
+
+        // While these methods are quite similar, a conscious design design was made to not refactor them
+        // Numerous errors occurred following a refactoring attempt
+        // There are minor but important differences between the methods
+        // First note that ColorImageFrame and DepthImageFrame have different data structures
+        // -> ColorToBitmap requires byte[]
+        // -> DepthToBitmap requires short[]
+        // Parameters required for Marshal.copy() method are different
+        private Bitmap ConvertColorByteArrayToBitmap(byte[] colorData, int imageWidth, int imageHeight, int pixelDataLength, PixelFormat pixelFormat)
+        {
+            var image = new Bitmap(imageWidth, imageHeight, pixelFormat);
+            var imageRectangle = new Rectangle(0, 0, imageWidth, imageHeight);
             var bitmapData = image.LockBits(imageRectangle, ImageLockMode.WriteOnly, image.PixelFormat);
             var addressFirstPixel = bitmapData.Scan0;
 
-            Marshal.Copy(colorImageData, 0, addressFirstPixel, colorFrame.PixelDataLength);
+            Marshal.Copy(colorData, 0, addressFirstPixel, pixelDataLength);
+            image.UnlockBits(bitmapData);
+
+            return image;
+        }
+
+        private Bitmap ConvertDepthShortArrayToBitmap(short[] depthData, int imageWidth, int imageHeight, PixelFormat pixelFormat)
+        {
+            var image = new Bitmap(imageWidth, imageHeight, pixelFormat);
+            var imageRectangle = new Rectangle(0, 0, imageWidth, imageHeight);
+            var bitmapData = image.LockBits(imageRectangle, ImageLockMode.WriteOnly, image.PixelFormat);
+            var addressFirstPixel = bitmapData.Scan0;
+
+            Marshal.Copy(depthData, 0, addressFirstPixel, imageWidth * imageHeight);
             image.UnlockBits(bitmapData);
 
             return image;
