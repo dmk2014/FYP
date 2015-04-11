@@ -15,7 +15,7 @@ namespace FacialRecognition.Test
             var normalisationHeight = 192;
 
             var result = normaliser.NormaliseImage(sourceImage, normalisationWidth, normalisationHeight);
-
+            
             Assert.AreEqual(normalisationWidth, result.Width);
             Assert.AreEqual(normalisationHeight, result.Height);
         }
