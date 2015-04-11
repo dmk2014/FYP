@@ -7,39 +7,56 @@ namespace FacialRecognition.Library.Hardware.KinectV1
 {
     public class SensorDataProcessor
     {
-        public Bitmap ColorToBitmap(ColorImageFrame imageFrame)
+        /// <summary>
+        /// Convert a raw ColorImageFrame to a Bitmap image.
+        /// </summary>
+        /// <param name="colorFrame">The source color frame to be converted.</param>
+        /// <returns>A Bitmap image.</returns>
+        public Bitmap ColorToBitmap(ColorImageFrame colorFrame)
         {
-            var sourceImageData = new byte[imageFrame.PixelDataLength];
-            imageFrame.CopyPixelDataTo(sourceImageData);
+            var sourceImageData = new byte[colorFrame.PixelDataLength];
+            colorFrame.CopyPixelDataTo(sourceImageData);
 
             return this.ConvertColorByteArrayToBitmap(sourceImageData,
-                imageFrame.Width,
-                imageFrame.Height,
-                imageFrame.PixelDataLength,
+                colorFrame.Width,
+                colorFrame.Height,
+                colorFrame.PixelDataLength,
                 PixelFormat.Format32bppRgb);
         }
 
-        public Bitmap DepthToBitmap(DepthImageFrame imageFrame)
+        /// <summary>
+        /// Converts a raw DepthImageFrame to a Bitmap image.
+        /// </summary>
+        /// <param name="depthFrame">The source depth frame to be converted.</param>
+        /// <returns>A Bitmap image.</returns>
+        public Bitmap DepthToBitmap(DepthImageFrame depthFrame)
         {
-            var sourceDepthData = new short[imageFrame.PixelDataLength];
-            imageFrame.CopyPixelDataTo(sourceDepthData);
+            var sourceDepthData = new short[depthFrame.PixelDataLength];
+            depthFrame.CopyPixelDataTo(sourceDepthData);
 
             return this.ConvertDepthShortArrayToBitmap(sourceDepthData,
-                imageFrame.Width,
-                imageFrame.Height,
+                depthFrame.Width,
+                depthFrame.Height,
                 PixelFormat.Format16bppRgb555);
         }
 
+        /// <summary>
+        /// Uses the provided depth data to reduce a color image frame. Pixels outside the max depth are removed.
+        /// </summary>
+        /// <param name="colorFrame">The source color image frame to be reduced.</param>
+        /// <param name="depthFrame">The depth frame.</param>
+        /// <param name="maxDepth">The max depth in millimetres.</param>
+        /// <returns>A Bitmap image.</returns>
         public Bitmap ReduceColorImageUsingDepthData(ColorImageFrame colorFrame, DepthImageFrame depthFrame, int maxDepth)
         {
             // Reference used for Kinect Depth API functions: https://msdn.microsoft.com/en-us/library/jj131029.aspx
-
+            
             // Get the depth data
-            DepthImagePixel[] depthData = new DepthImagePixel[depthFrame.PixelDataLength];
+            var depthData = new DepthImagePixel[depthFrame.PixelDataLength];
             depthFrame.CopyDepthImagePixelDataTo(depthData);
 
             // Get the color data
-            byte[] colorImageData = new byte[colorFrame.PixelDataLength];
+            var colorImageData = new byte[colorFrame.PixelDataLength];
             colorFrame.CopyPixelDataTo(colorImageData);
 
             // The color data is four times the size of the depth data
