@@ -5,6 +5,7 @@ using FacialRecognition.Library.Models;
 using FacialRecognition.Library.Octave;
 using Microsoft.Kinect;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -32,38 +33,77 @@ namespace FacialRecognition
 
         public void SystemStartup()
         {
+            var errorsOccured = false;
+            var errorMessages = new List<String>();
+
+            // Read settings
+            this.CouchDBHost = Properties.Settings.Default.CouchDBHost;
+            this.CouchDBPort = Properties.Settings.Default.CouchDBPort;
+            this.CouchDatabaseName = Properties.Settings.Default.CouchDatabaseName;
+            this.RedisHost = Properties.Settings.Default.RedisHost;
+            this.RedisPort = Properties.Settings.Default.RedisPort;
+
+            // Display settings on configuration tab
+            txtCouchDBHost.Text = this.CouchDBHost;
+            txtCouchDBPort.Text = this.CouchDBPort.ToString();
+            txtCouchDatabaseName.Text = this.CouchDatabaseName;
+            txtRedisHost.Text = this.RedisHost;
+            txtRedisPort.Text = this.RedisPort.ToString();
+
+            // Construct Facial Detector
+            this.Detector = new FacialRecognition.Library.Core.FacialDetector();
+
+            // Initialise hardware & data stores:
+            // Initialise Database
             try
             {
-                this.CouchDBHost = Properties.Settings.Default.CouchDBHost;
-                this.CouchDBPort = Properties.Settings.Default.CouchDBPort;
-                this.CouchDatabaseName = Properties.Settings.Default.CouchDatabaseName;
-                this.RedisHost = Properties.Settings.Default.RedisHost;
-                this.RedisPort = Properties.Settings.Default.RedisPort;
-
                 this.Database = new CouchDatabase(this.CouchDBHost, this.CouchDBPort, this.CouchDatabaseName);
                 this.UpdateDatabaseDisplay();
                 cboSelectCRUDMode.SelectedIndex = (int)DatabaseEditingMode.AddingNewUser;
+            }
+            catch(Exception ex)
+            {
+                errorsOccured = true;
+                errorMessages.Add(ex.Message);
+            }
 
-                this.PrepareKinectSensor();
+            // Initialise Kinect sensor
+            try
+            {
+                this.PrepareKinectSensor(); 
+            }
+            catch(Exception ex)
+            {
+                errorsOccured = true;
+                errorMessages.Add(ex.Message);
+            }
 
-                this.Detector = new FacialRecognition.Library.Core.FacialDetector();
+            // Initialise OctaveRecogniser which utilises Redis
+            try
+            {
                 this.Recogniser = new OctaveRecogniser(this.RedisHost, this.RedisPort);
             }
             catch(Exception ex)
             {
-                string error = "There were errors launching the application - this may prevent it from functioning correctly.\n\nError(s):\n" + ex.Message;
-                MessageBox.Show(this, error, "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                tabMain.SelectTab(tabConfiguration);
+                errorsOccured = true;
+                errorMessages.Add(ex.Message);
             }
-            finally
+
+            if(errorsOccured)
             {
-                // Display settings on configuration tab
-                txtCouchDBHost.Text = this.CouchDBHost;
-                txtCouchDBPort.Text = this.CouchDBPort.ToString();
-                txtCouchDatabaseName.Text = this.CouchDatabaseName;
-                txtRedisHost.Text = this.RedisHost;
-                txtRedisPort.Text = this.RedisPort.ToString();
-            }
+                var errorOutput = String.Empty;
+
+                foreach(var message in errorMessages)
+                {
+                    errorOutput += message + "\n\n";
+                }
+
+                errorOutput.TrimEnd('\n');
+
+                string error = "There were errors launching the application - this may prevent it from functioning correctly.\n\nError(s):\n" + errorOutput;
+                MessageBox.Show(this, error, "Initialisation Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tabMain.SelectTab(tabConfiguration);
+            } 
         }
 
         #region CameraStreamsTab
@@ -131,7 +171,7 @@ namespace FacialRecognition
             }
             else
             {
-                MessageBox.Show("Could find a Kinect sensor attached to this system","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                throw new Exception("Could find a Kinect sensor attached to this system");
             }
         }
 
@@ -441,6 +481,7 @@ namespace FacialRecognition
         }
         #endregion
 
+        #region ConfigurationTab
         private void btnRetrainRecogniser_Click(object sender, EventArgs e)
         {
             // Send the retrain request
@@ -496,5 +537,6 @@ namespace FacialRecognition
             // Initialise system using new settings
             this.SystemStartup();
         }
+        #endregion
     }
 }
