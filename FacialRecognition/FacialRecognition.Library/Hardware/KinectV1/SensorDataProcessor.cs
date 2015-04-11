@@ -34,7 +34,7 @@ namespace FacialRecognition.Library.Hardware.KinectV1
         {
             var sourceDepthData = new short[imageFrame.PixelDataLength];
             imageFrame.CopyPixelDataTo(sourceDepthData);
-
+            
             var image = new Bitmap(imageFrame.Width, imageFrame.Height, PixelFormat.Format16bppRgb555);
             var imageRectangle = new Rectangle(0, 0, imageFrame.Width, imageFrame.Height);
             var bitmapData = image.LockBits(imageRectangle, ImageLockMode.WriteOnly, image.PixelFormat);
