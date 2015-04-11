@@ -3,10 +3,10 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
     usage("redisRetrainRequestHandler(redisConnection)");
   endif
   
-  % Constants
-  redisListLabels = "facial.database.labels";
-  redisListData = "facial.database.data";
-  noRemainingData = "50";
+  % Reference globals that will be used
+  global DatabaseLabelsKey;
+  global DatabaseDataKey;
+  global NoData;
   
   % Read all data from the cache
   faceLabels = {};
@@ -16,16 +16,16 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
   disp("Retrieving database contents from Redis...");
   
   while(!done)
-    label = redisListLPOP(redisConnection, redisListLabels);
+    label = redisListLPOP(redisConnection, DatabaseLabelsKey);
     
     % strcmp returns 1 (or true) if strings are equals
-    dataRemaining = strcmp(label, noRemainingData);
+    dataRemaining = strcmp(label, NoData);
     
     if (!dataRemaining)
       faceLabels = [faceLabels; label];
       
       % Pop the facial data from Redis, unmarshal it, and add it to the face array
-      faceData = redisListLPOP(redisConnection, redisListData);
+      faceData = redisListLPOP(redisConnection, DatabaseDataKey);
       face = redisUnmarshalFacialData(faceData);
       faces = [faces, face];
     else

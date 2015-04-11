@@ -22,6 +22,10 @@ global ResponseDataKey = "facial.response.data";
 global ResponseOK = 100;
 global ResponseFail = 200;
 
+% Recogniser Database Globals
+global DatabaseLabelsKey = "facial.database.labels";
+global DatabaseDataKey = "facial.database.data";
+
 % Recogniser Status Globals
 % Status Key
 global RecogniserStatusKey = "facial.recogniser.status"
