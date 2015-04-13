@@ -28,6 +28,9 @@ namespace FacialRecognition.Library.Database
             // Ensure database exists
             this.CreateDatabase(databaseName);
 
+            // Get database reference
+            this.Database = this.Couch.GetDatabase(databaseName);
+
             // Ensure view to retrieve all documents exists
             if (!this.Database.DocumentExists(DesignDocuments + DesignDocumentName))
             {
@@ -45,13 +48,6 @@ namespace FacialRecognition.Library.Database
             {
                 this.Couch.CreateDatabase(databaseName);
             }
-
-            this.Database = this.Couch.GetDatabase(databaseName);
-        }
-
-        private void ValidateDatabaseName(string databaseName)
-        {
-            // TODO
         }
 
         public void DeleteDatabase(string databaseName)
