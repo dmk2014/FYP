@@ -73,23 +73,31 @@
             this.colImageCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabStreams = new System.Windows.Forms.TabPage();
             this.tabConfiguration = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtCouchDatabaseName = new System.Windows.Forms.TextBox();
+            this.lblCouchDatabaseName = new System.Windows.Forms.Label();
+            this.btnSaveSettings = new System.Windows.Forms.Button();
+            this.txtCouchDBPort = new System.Windows.Forms.TextBox();
+            this.lblCouchDBPort = new System.Windows.Forms.Label();
+            this.txtCouchDBHost = new System.Windows.Forms.TextBox();
+            this.lblCouchDBHost = new System.Windows.Forms.Label();
+            this.txtRedisPort = new System.Windows.Forms.TextBox();
+            this.lblRedisPort = new System.Windows.Forms.Label();
+            this.txtRedisHost = new System.Windows.Forms.TextBox();
+            this.lblRedisHost = new System.Windows.Forms.Label();
             this.grpRecogniserControls = new System.Windows.Forms.GroupBox();
             this.btnRetrainRecogniser = new System.Windows.Forms.Button();
             this.btnReloadRecogniserData = new System.Windows.Forms.Button();
             this.btnPersistRecogniserData = new System.Windows.Forms.Button();
             this.diaOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblRedisHost = new System.Windows.Forms.Label();
-            this.txtRedisHost = new System.Windows.Forms.TextBox();
-            this.txtRedisPort = new System.Windows.Forms.TextBox();
-            this.lblRedisPort = new System.Windows.Forms.Label();
-            this.txtCouchDBPort = new System.Windows.Forms.TextBox();
-            this.lblCouchDBPort = new System.Windows.Forms.Label();
-            this.txtCouchDBHost = new System.Windows.Forms.TextBox();
-            this.lblCouchDBHost = new System.Windows.Forms.Label();
-            this.btnSaveSettings = new System.Windows.Forms.Button();
-            this.txtCouchDatabaseName = new System.Windows.Forms.TextBox();
-            this.lblCouchDatabaseName = new System.Windows.Forms.Label();
+            this.grpRecognitionResult = new System.Windows.Forms.GroupBox();
+            this.lblRecognisedPersonID = new System.Windows.Forms.Label();
+            this.lblRecognisedSurname = new System.Windows.Forms.Label();
+            this.lblRecognisedForename = new System.Windows.Forms.Label();
+            this.txtRecognisedID = new System.Windows.Forms.TextBox();
+            this.txtRecognisedSurname = new System.Windows.Forms.TextBox();
+            this.txtRecognisedForename = new System.Windows.Forms.TextBox();
+            this.btnViewRecognitionResultInDatabase = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDept)).BeginInit();
             this.grpControls.SuspendLayout();
@@ -106,8 +114,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdUsers)).BeginInit();
             this.tabStreams.SuspendLayout();
             this.tabConfiguration.SuspendLayout();
-            this.grpRecogniserControls.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.grpRecogniserControls.SuspendLayout();
+            this.grpRecognitionResult.SuspendLayout();
             this.SuspendLayout();
             // 
             // pbxImage
@@ -216,6 +225,7 @@
             // tabFacialRec
             // 
             this.tabFacialRec.BackColor = System.Drawing.SystemColors.Control;
+            this.tabFacialRec.Controls.Add(this.grpRecognitionResult);
             this.tabFacialRec.Controls.Add(this.btnLoadImage);
             this.tabFacialRec.Controls.Add(this.pbxSourceFace);
             this.tabFacialRec.Controls.Add(this.lblDetectedFaces);
@@ -247,7 +257,7 @@
             // 
             this.pbxSourceFace.BackColor = System.Drawing.SystemColors.Control;
             this.pbxSourceFace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxSourceFace.Location = new System.Drawing.Point(824, 207);
+            this.pbxSourceFace.Location = new System.Drawing.Point(785, 126);
             this.pbxSourceFace.MaximumSize = new System.Drawing.Size(168, 192);
             this.pbxSourceFace.Name = "pbxSourceFace";
             this.pbxSourceFace.Size = new System.Drawing.Size(168, 192);
@@ -257,7 +267,7 @@
             // lblDetectedFaces
             // 
             this.lblDetectedFaces.AutoSize = true;
-            this.lblDetectedFaces.Location = new System.Drawing.Point(821, 150);
+            this.lblDetectedFaces.Location = new System.Drawing.Point(785, 97);
             this.lblDetectedFaces.Name = "lblDetectedFaces";
             this.lblDetectedFaces.Size = new System.Drawing.Size(95, 13);
             this.lblDetectedFaces.TabIndex = 6;
@@ -278,7 +288,7 @@
             // 
             this.pbxNormalisedFace.BackColor = System.Drawing.SystemColors.Control;
             this.pbxNormalisedFace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxNormalisedFace.Location = new System.Drawing.Point(1079, 207);
+            this.pbxNormalisedFace.Location = new System.Drawing.Point(1040, 126);
             this.pbxNormalisedFace.Name = "pbxNormalisedFace";
             this.pbxNormalisedFace.Size = new System.Drawing.Size(168, 192);
             this.pbxNormalisedFace.TabIndex = 4;
@@ -595,6 +605,117 @@
             this.tabConfiguration.TabIndex = 2;
             this.tabConfiguration.Text = "Configuration";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtCouchDatabaseName);
+            this.groupBox1.Controls.Add(this.lblCouchDatabaseName);
+            this.groupBox1.Controls.Add(this.btnSaveSettings);
+            this.groupBox1.Controls.Add(this.txtCouchDBPort);
+            this.groupBox1.Controls.Add(this.lblCouchDBPort);
+            this.groupBox1.Controls.Add(this.txtCouchDBHost);
+            this.groupBox1.Controls.Add(this.lblCouchDBHost);
+            this.groupBox1.Controls.Add(this.txtRedisPort);
+            this.groupBox1.Controls.Add(this.lblRedisPort);
+            this.groupBox1.Controls.Add(this.txtRedisHost);
+            this.groupBox1.Controls.Add(this.lblRedisHost);
+            this.groupBox1.Location = new System.Drawing.Point(394, 232);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(396, 268);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Settings";
+            // 
+            // txtCouchDatabaseName
+            // 
+            this.txtCouchDatabaseName.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.txtCouchDatabaseName.Location = new System.Drawing.Point(136, 98);
+            this.txtCouchDatabaseName.Name = "txtCouchDatabaseName";
+            this.txtCouchDatabaseName.Size = new System.Drawing.Size(235, 20);
+            this.txtCouchDatabaseName.TabIndex = 9;
+            // 
+            // lblCouchDatabaseName
+            // 
+            this.lblCouchDatabaseName.AutoSize = true;
+            this.lblCouchDatabaseName.Location = new System.Drawing.Point(9, 101);
+            this.lblCouchDatabaseName.Name = "lblCouchDatabaseName";
+            this.lblCouchDatabaseName.Size = new System.Drawing.Size(121, 13);
+            this.lblCouchDatabaseName.TabIndex = 8;
+            this.lblCouchDatabaseName.Text = "Couch Database Name:";
+            // 
+            // btnSaveSettings
+            // 
+            this.btnSaveSettings.Location = new System.Drawing.Point(242, 211);
+            this.btnSaveSettings.Name = "btnSaveSettings";
+            this.btnSaveSettings.Size = new System.Drawing.Size(129, 41);
+            this.btnSaveSettings.TabIndex = 3;
+            this.btnSaveSettings.Text = "Save Settings";
+            this.btnSaveSettings.UseVisualStyleBackColor = true;
+            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
+            // 
+            // txtCouchDBPort
+            // 
+            this.txtCouchDBPort.Location = new System.Drawing.Point(136, 65);
+            this.txtCouchDBPort.Name = "txtCouchDBPort";
+            this.txtCouchDBPort.Size = new System.Drawing.Size(235, 20);
+            this.txtCouchDBPort.TabIndex = 7;
+            // 
+            // lblCouchDBPort
+            // 
+            this.lblCouchDBPort.AutoSize = true;
+            this.lblCouchDBPort.Location = new System.Drawing.Point(52, 68);
+            this.lblCouchDBPort.Name = "lblCouchDBPort";
+            this.lblCouchDBPort.Size = new System.Drawing.Size(78, 13);
+            this.lblCouchDBPort.TabIndex = 6;
+            this.lblCouchDBPort.Text = "CouchDB Port:";
+            // 
+            // txtCouchDBHost
+            // 
+            this.txtCouchDBHost.Location = new System.Drawing.Point(136, 32);
+            this.txtCouchDBHost.Name = "txtCouchDBHost";
+            this.txtCouchDBHost.Size = new System.Drawing.Size(235, 20);
+            this.txtCouchDBHost.TabIndex = 5;
+            // 
+            // lblCouchDBHost
+            // 
+            this.lblCouchDBHost.AutoSize = true;
+            this.lblCouchDBHost.Location = new System.Drawing.Point(49, 35);
+            this.lblCouchDBHost.Name = "lblCouchDBHost";
+            this.lblCouchDBHost.Size = new System.Drawing.Size(81, 13);
+            this.lblCouchDBHost.TabIndex = 4;
+            this.lblCouchDBHost.Text = "CouchDB Host:";
+            // 
+            // txtRedisPort
+            // 
+            this.txtRedisPort.Location = new System.Drawing.Point(136, 167);
+            this.txtRedisPort.Name = "txtRedisPort";
+            this.txtRedisPort.Size = new System.Drawing.Size(235, 20);
+            this.txtRedisPort.TabIndex = 3;
+            // 
+            // lblRedisPort
+            // 
+            this.lblRedisPort.AutoSize = true;
+            this.lblRedisPort.Location = new System.Drawing.Point(71, 170);
+            this.lblRedisPort.Name = "lblRedisPort";
+            this.lblRedisPort.Size = new System.Drawing.Size(59, 13);
+            this.lblRedisPort.TabIndex = 2;
+            this.lblRedisPort.Text = "Redis Port:";
+            // 
+            // txtRedisHost
+            // 
+            this.txtRedisHost.Location = new System.Drawing.Point(136, 134);
+            this.txtRedisHost.Name = "txtRedisHost";
+            this.txtRedisHost.Size = new System.Drawing.Size(235, 20);
+            this.txtRedisHost.TabIndex = 1;
+            // 
+            // lblRedisHost
+            // 
+            this.lblRedisHost.AutoSize = true;
+            this.lblRedisHost.Location = new System.Drawing.Point(71, 137);
+            this.lblRedisHost.Name = "lblRedisHost";
+            this.lblRedisHost.Size = new System.Drawing.Size(62, 13);
+            this.lblRedisHost.TabIndex = 0;
+            this.lblRedisHost.Text = "Redis Host:";
+            // 
             // grpRecogniserControls
             // 
             this.grpRecogniserControls.Controls.Add(this.btnRetrainRecogniser);
@@ -637,116 +758,82 @@
             this.btnPersistRecogniserData.UseVisualStyleBackColor = true;
             this.btnPersistRecogniserData.Click += new System.EventHandler(this.btnPersistRecogniserData_Click);
             // 
-            // groupBox1
+            // grpRecognitionResult
             // 
-            this.groupBox1.Controls.Add(this.txtCouchDatabaseName);
-            this.groupBox1.Controls.Add(this.lblCouchDatabaseName);
-            this.groupBox1.Controls.Add(this.btnSaveSettings);
-            this.groupBox1.Controls.Add(this.txtCouchDBPort);
-            this.groupBox1.Controls.Add(this.lblCouchDBPort);
-            this.groupBox1.Controls.Add(this.txtCouchDBHost);
-            this.groupBox1.Controls.Add(this.lblCouchDBHost);
-            this.groupBox1.Controls.Add(this.txtRedisPort);
-            this.groupBox1.Controls.Add(this.lblRedisPort);
-            this.groupBox1.Controls.Add(this.txtRedisHost);
-            this.groupBox1.Controls.Add(this.lblRedisHost);
-            this.groupBox1.Location = new System.Drawing.Point(394, 232);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(396, 268);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Settings";
+            this.grpRecognitionResult.Controls.Add(this.btnViewRecognitionResultInDatabase);
+            this.grpRecognitionResult.Controls.Add(this.txtRecognisedForename);
+            this.grpRecognitionResult.Controls.Add(this.txtRecognisedSurname);
+            this.grpRecognitionResult.Controls.Add(this.txtRecognisedID);
+            this.grpRecognitionResult.Controls.Add(this.lblRecognisedForename);
+            this.grpRecognitionResult.Controls.Add(this.lblRecognisedSurname);
+            this.grpRecognitionResult.Controls.Add(this.lblRecognisedPersonID);
+            this.grpRecognitionResult.Location = new System.Drawing.Point(785, 337);
+            this.grpRecognitionResult.Name = "grpRecognitionResult";
+            this.grpRecognitionResult.Size = new System.Drawing.Size(426, 232);
+            this.grpRecognitionResult.TabIndex = 9;
+            this.grpRecognitionResult.TabStop = false;
+            this.grpRecognitionResult.Text = "Recognition Result";
             // 
-            // lblRedisHost
+            // lblRecognisedPersonID
             // 
-            this.lblRedisHost.AutoSize = true;
-            this.lblRedisHost.Location = new System.Drawing.Point(71, 137);
-            this.lblRedisHost.Name = "lblRedisHost";
-            this.lblRedisHost.Size = new System.Drawing.Size(62, 13);
-            this.lblRedisHost.TabIndex = 0;
-            this.lblRedisHost.Text = "Redis Host:";
+            this.lblRecognisedPersonID.AutoSize = true;
+            this.lblRecognisedPersonID.Location = new System.Drawing.Point(48, 27);
+            this.lblRecognisedPersonID.Name = "lblRecognisedPersonID";
+            this.lblRecognisedPersonID.Size = new System.Drawing.Size(81, 13);
+            this.lblRecognisedPersonID.TabIndex = 10;
+            this.lblRecognisedPersonID.Text = "Couch Identifier";
             // 
-            // txtRedisHost
+            // lblRecognisedSurname
             // 
-            this.txtRedisHost.Location = new System.Drawing.Point(136, 134);
-            this.txtRedisHost.Name = "txtRedisHost";
-            this.txtRedisHost.Size = new System.Drawing.Size(235, 20);
-            this.txtRedisHost.TabIndex = 1;
+            this.lblRecognisedSurname.AutoSize = true;
+            this.lblRecognisedSurname.Location = new System.Drawing.Point(76, 79);
+            this.lblRecognisedSurname.Name = "lblRecognisedSurname";
+            this.lblRecognisedSurname.Size = new System.Drawing.Size(49, 13);
+            this.lblRecognisedSurname.TabIndex = 11;
+            this.lblRecognisedSurname.Text = "Surname";
             // 
-            // txtRedisPort
+            // lblRecognisedForename
             // 
-            this.txtRedisPort.Location = new System.Drawing.Point(136, 167);
-            this.txtRedisPort.Name = "txtRedisPort";
-            this.txtRedisPort.Size = new System.Drawing.Size(235, 20);
-            this.txtRedisPort.TabIndex = 3;
+            this.lblRecognisedForename.AutoSize = true;
+            this.lblRecognisedForename.Location = new System.Drawing.Point(75, 53);
+            this.lblRecognisedForename.Name = "lblRecognisedForename";
+            this.lblRecognisedForename.Size = new System.Drawing.Size(54, 13);
+            this.lblRecognisedForename.TabIndex = 12;
+            this.lblRecognisedForename.Text = "Forename";
             // 
-            // lblRedisPort
+            // txtRecognisedID
             // 
-            this.lblRedisPort.AutoSize = true;
-            this.lblRedisPort.Location = new System.Drawing.Point(71, 170);
-            this.lblRedisPort.Name = "lblRedisPort";
-            this.lblRedisPort.Size = new System.Drawing.Size(59, 13);
-            this.lblRedisPort.TabIndex = 2;
-            this.lblRedisPort.Text = "Redis Port:";
+            this.txtRecognisedID.Location = new System.Drawing.Point(143, 24);
+            this.txtRecognisedID.Name = "txtRecognisedID";
+            this.txtRecognisedID.ReadOnly = true;
+            this.txtRecognisedID.Size = new System.Drawing.Size(198, 20);
+            this.txtRecognisedID.TabIndex = 13;
             // 
-            // txtCouchDBPort
+            // txtRecognisedSurname
             // 
-            this.txtCouchDBPort.Location = new System.Drawing.Point(136, 65);
-            this.txtCouchDBPort.Name = "txtCouchDBPort";
-            this.txtCouchDBPort.Size = new System.Drawing.Size(235, 20);
-            this.txtCouchDBPort.TabIndex = 7;
+            this.txtRecognisedSurname.Location = new System.Drawing.Point(143, 76);
+            this.txtRecognisedSurname.Name = "txtRecognisedSurname";
+            this.txtRecognisedSurname.ReadOnly = true;
+            this.txtRecognisedSurname.Size = new System.Drawing.Size(198, 20);
+            this.txtRecognisedSurname.TabIndex = 14;
             // 
-            // lblCouchDBPort
+            // txtRecognisedForename
             // 
-            this.lblCouchDBPort.AutoSize = true;
-            this.lblCouchDBPort.Location = new System.Drawing.Point(52, 68);
-            this.lblCouchDBPort.Name = "lblCouchDBPort";
-            this.lblCouchDBPort.Size = new System.Drawing.Size(78, 13);
-            this.lblCouchDBPort.TabIndex = 6;
-            this.lblCouchDBPort.Text = "CouchDB Port:";
+            this.txtRecognisedForename.Location = new System.Drawing.Point(143, 50);
+            this.txtRecognisedForename.Name = "txtRecognisedForename";
+            this.txtRecognisedForename.ReadOnly = true;
+            this.txtRecognisedForename.Size = new System.Drawing.Size(198, 20);
+            this.txtRecognisedForename.TabIndex = 15;
             // 
-            // txtCouchDBHost
+            // btnViewRecognitionResultInDatabase
             // 
-            this.txtCouchDBHost.Location = new System.Drawing.Point(136, 32);
-            this.txtCouchDBHost.Name = "txtCouchDBHost";
-            this.txtCouchDBHost.Size = new System.Drawing.Size(235, 20);
-            this.txtCouchDBHost.TabIndex = 5;
-            // 
-            // lblCouchDBHost
-            // 
-            this.lblCouchDBHost.AutoSize = true;
-            this.lblCouchDBHost.Location = new System.Drawing.Point(49, 35);
-            this.lblCouchDBHost.Name = "lblCouchDBHost";
-            this.lblCouchDBHost.Size = new System.Drawing.Size(81, 13);
-            this.lblCouchDBHost.TabIndex = 4;
-            this.lblCouchDBHost.Text = "CouchDB Host:";
-            // 
-            // btnSaveSettings
-            // 
-            this.btnSaveSettings.Location = new System.Drawing.Point(242, 211);
-            this.btnSaveSettings.Name = "btnSaveSettings";
-            this.btnSaveSettings.Size = new System.Drawing.Size(129, 41);
-            this.btnSaveSettings.TabIndex = 3;
-            this.btnSaveSettings.Text = "Save Settings";
-            this.btnSaveSettings.UseVisualStyleBackColor = true;
-            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
-            // 
-            // txtCouchDatabaseName
-            // 
-            this.txtCouchDatabaseName.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.txtCouchDatabaseName.Location = new System.Drawing.Point(136, 98);
-            this.txtCouchDatabaseName.Name = "txtCouchDatabaseName";
-            this.txtCouchDatabaseName.Size = new System.Drawing.Size(235, 20);
-            this.txtCouchDatabaseName.TabIndex = 9;
-            // 
-            // lblCouchDatabaseName
-            // 
-            this.lblCouchDatabaseName.AutoSize = true;
-            this.lblCouchDatabaseName.Location = new System.Drawing.Point(9, 101);
-            this.lblCouchDatabaseName.Name = "lblCouchDatabaseName";
-            this.lblCouchDatabaseName.Size = new System.Drawing.Size(121, 13);
-            this.lblCouchDatabaseName.TabIndex = 8;
-            this.lblCouchDatabaseName.Text = "Couch Database Name:";
+            this.btnViewRecognitionResultInDatabase.Enabled = false;
+            this.btnViewRecognitionResultInDatabase.Location = new System.Drawing.Point(218, 102);
+            this.btnViewRecognitionResultInDatabase.Name = "btnViewRecognitionResultInDatabase";
+            this.btnViewRecognitionResultInDatabase.Size = new System.Drawing.Size(123, 40);
+            this.btnViewRecognitionResultInDatabase.TabIndex = 10;
+            this.btnViewRecognitionResultInDatabase.Text = "View in Database";
+            this.btnViewRecognitionResultInDatabase.UseVisualStyleBackColor = true;
             // 
             // frmFacialRecognition
             // 
@@ -779,9 +866,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdUsers)).EndInit();
             this.tabStreams.ResumeLayout(false);
             this.tabConfiguration.ResumeLayout(false);
-            this.grpRecogniserControls.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.grpRecogniserControls.ResumeLayout(false);
+            this.grpRecognitionResult.ResumeLayout(false);
+            this.grpRecognitionResult.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -850,6 +939,14 @@
         private System.Windows.Forms.Label lblRedisHost;
         private System.Windows.Forms.TextBox txtCouchDatabaseName;
         private System.Windows.Forms.Label lblCouchDatabaseName;
+        private System.Windows.Forms.GroupBox grpRecognitionResult;
+        private System.Windows.Forms.TextBox txtRecognisedForename;
+        private System.Windows.Forms.TextBox txtRecognisedSurname;
+        private System.Windows.Forms.TextBox txtRecognisedID;
+        private System.Windows.Forms.Label lblRecognisedForename;
+        private System.Windows.Forms.Label lblRecognisedSurname;
+        private System.Windows.Forms.Label lblRecognisedPersonID;
+        private System.Windows.Forms.Button btnViewRecognitionResultInDatabase;
     }
 }
 
