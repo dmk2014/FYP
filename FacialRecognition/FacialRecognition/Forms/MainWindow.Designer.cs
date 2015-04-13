@@ -1,4 +1,4 @@
-﻿namespace FacialRecognition
+﻿namespace FacialRecognition.Forms
 {
     partial class frmFacialRecognition
     {
