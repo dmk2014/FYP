@@ -17,10 +17,17 @@ namespace FacialRecognition.Library.Database
         private const string AllDocumentsViewDefinition = "function(doc) {emit(null, doc)}";
         private const string AllDocumentsViewName = "all";
 
-        public CouchDatabase(string host, int port, string database)
+        /// <summary>
+        /// Connect to CouchDB at the specified host, port and supplied database name.
+        /// </summary>
+        /// <param name="host">The host where CouchDB is running.</param>
+        /// <param name="port">The port where CouchDB is running.</param>
+        /// <param name="databaseName">The Couch database to use. Created if it doesn't exist. Must start with a
+        ///     lowercase letter and contain only lowercase or _$()+-/ characters.</param>
+        public CouchDatabase(string host, int port, string databaseName)
         {
             this.Couch = new CouchClient();
-            this.InitializeDatabase(database);
+            this.InitializeDatabase(databaseName);
         }
 
         private void InitializeDatabase(string databaseName)
@@ -42,6 +49,11 @@ namespace FacialRecognition.Library.Database
             }
         }
 
+        /// <summary>
+        /// Create a Couch database using the specified name.
+        /// </summary>
+        /// <param name="databaseName">The Couch database to use. Created if it doesn't exist. Must start with a
+        ///     lowercase letter and contain only lowercase or _$()+-/ characters.</param>
         public void CreateDatabase(string databaseName)
         {
             if (!this.Couch.HasDatabase(databaseName))
@@ -50,6 +62,10 @@ namespace FacialRecognition.Library.Database
             }
         }
 
+        /// <summary>
+        /// Deletes a Couch database of the specified name.
+        /// </summary>
+        /// <param name="databaseName">The name of the Couch database to be deleted.</param>
         public void DeleteDatabase(string databaseName)
         {
             if (this.Couch.HasDatabase(databaseName))
@@ -58,6 +74,11 @@ namespace FacialRecognition.Library.Database
             }
         }
 
+        /// <summary>
+        /// Store a person object in CouchDB.
+        /// </summary>
+        /// <param name="person">The person to be stored.</param>
+        /// <returns>Boolean value indicating if the operation was successful.</returns>
         public bool Store(Person person)
         {
             var couchModel = new PersonCouchDB();
@@ -76,6 +97,11 @@ namespace FacialRecognition.Library.Database
             return true;
         }
 
+        /// <summary>
+        /// Update a person object in CouchDB.
+        /// </summary>
+        /// <param name="person">The person to be updated.</param>
+        /// <returns>Boolean value indicating if the operation was successful.</returns>
         public bool Update(Person person)
         {
             if (this.Database.DocumentExists(person.Id))
@@ -105,28 +131,11 @@ namespace FacialRecognition.Library.Database
             }
         }
 
-        private void AddAttachments(string documentID, List<Image> images)
-        {
-            for (int i = 0; i < images.Count; i++)
-            {
-                var attachmentName = i + ".bmp";
-                var imageAsByteArray = this.ImageToByteArray(images[i]);
-
-                this.Database.AddAttachment(documentID, new MemoryStream(imageAsByteArray), attachmentName);
-            }
-        }
-
-        private byte[] ImageToByteArray(Image image)
-        {
-            // Reference: http://stackoverflow.com/questions/17352061/fastest-way-to-convert-image-to-byte-array
-            // Save the image to a memory stream
-            var stream = new MemoryStream();
-            image.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-
-            // Return the stream as a byte array
-            return stream.ToArray();
-        }
-
+        /// <summary>
+        /// Retrieve a single person from the database using their document identifier.
+        /// </summary>
+        /// <param name="ID">The document identifier of the person to retrieve.</param>
+        /// <returns>The retrieved person object.</returns>
         public Person Retrieve(string ID)
         {
             if (this.Database.DocumentExists(ID))
@@ -142,26 +151,10 @@ namespace FacialRecognition.Library.Database
             }
         }
 
-        private List<Image> RetrieveAttachments(string personID)
-        {
-            var images = new List<Image>();
-            var person = this.Database.GetDocument<CouchDocument>(personID);
-
-            if (person.HasAttachment)
-            {
-                var attachmentNames = person.GetAttachmentNames();
-
-                foreach (var name in attachmentNames)
-                {
-                    var attachmentStream = this.Database.GetAttachment(personID, name);
-                    var image = Image.FromStream(attachmentStream);
-                    images.Add(image);
-                }
-            }
-
-            return images;
-        }
-
+        /// <summary>
+        /// Retrieve all people stored in the the database.
+        /// </summary>
+        /// <returns>A list of all people stored in the database. Each item is a person object.</returns>
         public List<Person> RetrieveAll()
         {
             var result = new List<Models.Person>();
@@ -188,6 +181,48 @@ namespace FacialRecognition.Library.Database
             }
 
             return result;
+        }
+
+        private void AddAttachments(string documentID, List<Image> images)
+        {
+            for (int i = 0; i < images.Count; i++)
+            {
+                var attachmentName = i + ".bmp";
+                var imageAsByteArray = this.ImageToByteArray(images[i]);
+
+                this.Database.AddAttachment(documentID, new MemoryStream(imageAsByteArray), attachmentName);
+            }
+        }
+
+        private List<Image> RetrieveAttachments(string personID)
+        {
+            var images = new List<Image>();
+            var person = this.Database.GetDocument<CouchDocument>(personID);
+
+            if (person.HasAttachment)
+            {
+                var attachmentNames = person.GetAttachmentNames();
+
+                foreach (var name in attachmentNames)
+                {
+                    var attachmentStream = this.Database.GetAttachment(personID, name);
+                    var image = Image.FromStream(attachmentStream);
+                    images.Add(image);
+                }
+            }
+
+            return images;
+        }
+
+        private byte[] ImageToByteArray(Image image)
+        {
+            // Reference: http://stackoverflow.com/questions/17352061/fastest-way-to-convert-image-to-byte-array
+            // Save the image to a memory stream
+            var stream = new MemoryStream();
+            image.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+
+            // Return the stream as a byte array
+            return stream.ToArray();
         }
     }
 }
