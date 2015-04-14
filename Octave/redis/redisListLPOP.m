@@ -1,4 +1,17 @@
 function value = redisListLPOP(redisConnection, redisKey)
+  % redisListLPOP - Left-Pops an item from a Redis list specified by its key
+  %
+  % Inputs:
+  %    redisConnection - the redisConnection to use
+  %    redisKey - the key identifying the list from which to pop an item
+  %
+  % Outputs:
+  %    value - the value popped from the list
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if (nargin != 2)
     usage("redisListLPOP(redisConnection, redisKey)");
   endif
