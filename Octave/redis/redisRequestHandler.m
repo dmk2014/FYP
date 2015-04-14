@@ -1,6 +1,6 @@
-function sessionData = redisRequestHandler(R, sessionData)
+function recogniserData = redisRequestHandler(R, recogniserData)
   if(nargin != 2)
-    usage("redisRequestHandler(R, sessionData)");
+    usage("redisRequestHandler(R, recogniserData)");
   endif
   
   % Reference globals that will be used
@@ -17,52 +17,54 @@ function sessionData = redisRequestHandler(R, sessionData)
   
   disp("Begin handling of recogniser request...");
   
-  if(sessionData.requestCode == RequestRecognition)
+  if(recogniserData.requestCode == RequestRecognition)
   
     % Attempt to recognise an unknown face
     % Pass the sessionData to the dedicated recognition request handler
     try
-      sessionData = redisRecognitionRequestHandler(sessionData);
-      redisSendResponse(R, sessionData.responseCode, sessionData.responseData);
+      recogniserData = redisRecognitionRequestHandler(recogniserData);
+      redisSendResponse(R, recogniserData.responseCode, recogniserData.responseData);
       disp("Response Sent: Recognition completed without error");
     catch
       redisSendResponse(R, ResponseFail, "Octave: facial recognition failed with an exception");
       disp(lasterror.message);
     end_try_catch
     
-  elseif (sessionData.requestCode == RequestReload)
+  elseif (recogniserData.requestCode == RequestReload)
   
     % Reload all data from disk
     try
       clear("sessionData");
-      sessionData = loadSession();
+      recogniserData = loadSession();
       redisSendResponse(R, ResponseOK, "Octave: reload session success");
       disp("Response Sent: 100...reload succeeded");
     catch
       redisSendResponse(R, ResponseFail, "Octave: load session failed");
+      disp("Response sent: 200...load session encountered an error and failed");
       disp(lasterror.message);
     end_try_catch
     
-  elseif (sessionData.requestCode == RequestSave)
+  elseif (recogniserData.requestCode == RequestSave)
   
     % Save all session data to disk
     try
-      saveSession(sessionData);
+      saveSession(recogniserData);
       redisSendResponse(R, ResponseOK, "Octave: save session success");
       disp("Response Sent: 100...recogniser data saved successfully");
     catch
       redisSendResponse(R, ResponseFail, "Octave: save session failed");
+      disp("Response sent: 200...save session encountered an error and failed");
       disp(lasterror.message);
     end_try_catch
   
-  elseif (sessionData.requestCode == RequestRetrain)  
+  elseif (recogniserData.requestCode == RequestRetrain)  
   
     % Retrain the database
     % Call dedicated retrain handler that will read all data from Redis
     % and pass it to the trainRecogniser function
     try
       clear("sessionData");
-      sessionData = redisRetrainRequestHandler(R);
+      recogniserData = redisRetrainRequestHandler(R);
       redisSendResponse(R, ResponseOK, "Octave: retraining recogniser success");
       disp("Response Sent: 100...retrain completed successfully");
     catch

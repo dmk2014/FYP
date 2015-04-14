@@ -1,19 +1,19 @@
-function sessionData = loadSession()
+function recogniserData = loadSession()
   % Load training set
-  sessionData.M = loadMatrixData("training_set");
+  recogniserData.M = loadMatrixData("training_set");
   
   % Load face labels
-  sessionData.labels = loadMatrixData("face_labels");
+  recogniserData.labels = loadMatrixData("face_labels");
 
   % Load average face
-  sessionData.averageFace = loadMatrixData("average_face");
+  recogniserData.averageFace = loadMatrixData("average_face");
 
   % Load reduced faces
-  sessionData.reducedFaces = loadMatrixData("reduced_faces");
+  recogniserData.reducedFaces = loadMatrixData("reduced_faces");
 
   % Load eigenfaces
-  sessionData.U = loadMatrixData("eigenfaces");
+  recogniserData.U = loadMatrixData("eigenfaces");
 
   % Load weights
-  sessionData.weights = loadMatrixData("weights");
+  recogniserData.weights = loadMatrixData("weights");
 endfunction

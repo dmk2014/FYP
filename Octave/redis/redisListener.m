@@ -35,11 +35,11 @@ function redisListener(R)
       printf("Request Received: %d", requestCode);
       
       % Store the Redis request code and data
-      sessionData.requestCode = requestCode;
-      sessionData.requestData = redisGet(R, RequestDataKey);
+      recogniserData.requestCode = requestCode;
+      recogniserData.requestData = redisGet(R, RequestDataKey);
       
       % Pass the request to the handler for execution and response
-      sessionData = redisRequestHandler(R, sessionData);
+      recogniserData = redisRequestHandler(R, recogniserData);
       
       % Prepare Redis to receive new requests
       redisSet(R, RequestCodeKey, NoData);

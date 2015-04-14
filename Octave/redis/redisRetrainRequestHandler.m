@@ -1,4 +1,4 @@
-function sessionData = redisRetrainRequestHandler(redisConnection)
+function recogniserData = redisRetrainRequestHandler(redisConnection)
   if(nargin != 1)
     usage("redisRetrainRequestHandler(redisConnection)");
   endif
@@ -38,5 +38,5 @@ function sessionData = redisRetrainRequestHandler(redisConnection)
   disp("Retrieving database contents from Redis...DONE");
   
   % Pass data and labels acquired from Redis to the trainRecogniser function
-  sessionData = trainRecogniser(faces, faceLabels);
+  recogniserData = trainRecogniser(faces, faceLabels);
 endfunction

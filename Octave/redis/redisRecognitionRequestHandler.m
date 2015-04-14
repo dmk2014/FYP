@@ -1,18 +1,18 @@
-function sessionData = redisRecognitionRequestHandler(sessionData)
+function recogniserData = redisRecognitionRequestHandler(recogniserData)
   % redisRecognitionRequestHandler - handles a Redis request to recognise an unknown face
   %
   % Inputs:
-  %    sessionData - struct containing the recognisers required data
+  %    recogniserData - struct containing the recognisers required data
   %
   % Outputs:
-  %    sessionData - struct containing the recognisers required data, updated with recogniton results
+  %    recogniserData - struct containing the recognisers required data, updated with recogniton results
 
   % Author: Darren Keane
   % Institute of Technology, Tralee
   % email: darren.m.keane@students.ittralee.ie
   
   if(nargin != 1)
-    usage("redisRecognitionRequestHandler(sessionData)");
+    usage("redisRecognitionRequestHandler(recogniserData)");
   endif
   
   % Reference globals that will be used
@@ -26,15 +26,20 @@ function sessionData = redisRecognitionRequestHandler(sessionData)
   try
     disp("Beginning facial recognition...");
   
-    face = redisUnmarshalFacialData(sessionData.requestData);
-    labelOfClosestMatch = classifyAnUnknownFace(sessionData.U, sessionData.weights, face, sessionData.averageFace, sessionData.labels);
+    face = redisUnmarshalFacialData(recogniserData.requestData);
+    
+    labelOfClosestMatch = classifyAnUnknownFace(recogniserData.U,
+      recogniserData.weights,
+      face,
+      recogniserData.averageFace,
+      recogniserData.labels);
   
-    sessionData.responseCode = ResponseOK;
-    sessionData.responseData = labelOfClosestMatch;
+    recogniserData.responseCode = ResponseOK;
+    recogniserData.responseData = labelOfClosestMatch;
     
     disp("Facial recognition completed...");
   catch
-    sessionData.responseCode = ResponseFail;
-    sessionData.responseData = "An error occurred while handling the recognition request";
+    recogniserData.responseCode = ResponseFail;
+    recogniserData.responseData = "An error occurred while handling the recognition request";
   end_try_catch
 endfunction

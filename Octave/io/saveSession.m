@@ -1,23 +1,23 @@
-function saveSession(sessionData)
+function saveSession(recogniserData)
   if(nargin != 1)
-    usage("saveSession(sessionData)");
+    usage("saveSession(recogniserData)");
   endif
   
   % Save training set
-  saveMatrixData(sessionData.M,"training_set");
+  saveMatrixData(recogniserData.M, "training_set");
   
   % Save face labels
-  saveMatrixData(sessionData.labels,"face_labels");
+  saveMatrixData(recogniserData.labels, "face_labels");
 
   % Save average face
-  saveMatrixData(sessionData.averageFace,"average_face");
+  saveMatrixData(recogniserData.averageFace, "average_face");
 
   % Save reduced faces
-  saveMatrixData(sessionData.reducedFaces,"reduced_faces");
+  saveMatrixData(recogniserData.reducedFaces, "reduced_faces");
 
   % Save eigenfaces
-  saveMatrixData(sessionData.U,"eigenfaces");
+  saveMatrixData(recogniserData.U, "eigenfaces");
 
   % Save weights
-  saveMatrixData(sessionData.weights,"weights");
+  saveMatrixData(recogniserData.weights, "weights");
 endfunction

@@ -18,6 +18,6 @@ function face = redisUnmarshalFacialData(faceData)
   endfor
   
   % Ensure that the unmarshalled facial data is in the correct range
-  % Each used by the recogniser requires pixel values in the range [0-255]
+  % Each face used by the recogniser requires pixel values in the range [0-255]
   face = normalize(face, 0, 255);
 endfunction
