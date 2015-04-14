@@ -31,7 +31,7 @@ function recogniserData = trainRecogniser(databaseFaces, databaseLabels)
   
   % Reduce matrix using mean
   disp("Calculating mean and reducing data...");
-  recogniserData.averageFace = calculateMean(recogniserData.M);
+  recogniserData.averageFace = calculateAverageFace(recogniserData.M);
   recogniserData.reducedFaces = reduceFaces(recogniserData.M, recogniserData.averageFace);
 
   % Get eigenfaces using SVD method

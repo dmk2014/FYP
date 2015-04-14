@@ -1,8 +1,8 @@
-function result = calculateMean(M)
-  % calculateMean - find a column vector representing the average face in M
+function result = calculateAverageFace(M)
+  % calculateAverageFace - finds the average face in a matrix of faces
   %
   % Inputs:
-  %    M - the matrix
+  %    M - the matrix of faces, where each face is a column vector
   %
   % Outputs:
   %    result - the average face
@@ -12,7 +12,7 @@ function result = calculateMean(M)
   % email: darren.m.keane@students.ittralee.ie
   
   if(nargin != 1)
-    usage("calculateMean(matrix)");
+    usage("calculateAverageFace(matrix)");
   endif
   
   if(ismatrix(M))
@@ -24,6 +24,6 @@ function result = calculateMean(M)
       result = [result; rowMean];
     endfor
   else
-    error("calculateMean: expecting matrix argument");
+    error("calculateAverageFace: expecting matrix argument");
   endif
 endfunction

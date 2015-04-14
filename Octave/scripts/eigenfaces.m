@@ -3,7 +3,7 @@ tic;
 sessionData.M = loadYaleTrainingDatabase("C:/FacialRecognition/FYP/YaleTrainingDatabase/");
 
 % Reduce matrix using mean
-sessionData.averageFace = calculateMean(sessionData.M.data);
+sessionData.averageFace = calculateAverageFace(sessionData.M.data);
 sessionData.reducedFaces = reduceFaces(sessionData.M.data,sessionData.averageFace);
 
 % Get eigenfaces using SVD method
