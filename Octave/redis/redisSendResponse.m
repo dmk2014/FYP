@@ -1,9 +1,19 @@
 function redisSendResponse(R, code, data)
+  % redisSendResponse - send a response message to Redis
+  %
+  % Inputs:
+  %    R - the redisConnection to which the response will be sent
+  %    code - the response code
+  %    data - the response data
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if (nargin != 3)
     usage("redisSendResponse(R, code, data)");
   endif
-  % Sends a response to Redis
-  
+ 
   % Reference globals that will be used
   global ResponseCodeKey;
   global ResponseDataKey;
