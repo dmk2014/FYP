@@ -1,15 +1,29 @@
-function result = reconstructFace(weights,U,averageFace,i)
+function facialImage = reconstructFace(weights, eigenfaces, averageFace, idxToReconstruct)
+  % reconstructFace - reconstruct a face using its weights and the eigenfaces
+  %
+  % Inputs:
+  %    weights - weights calculated for the original data set
+  %    eigenfaces - eigenfaces calculated for the original data set
+  %    averageFace - the average face calculated for the original data set
+  %    idxToReconstruct - index of face in the original data set to reconstruct
+  %
+  % Outputs:
+  %    facialImage - reconstructed facial image
+  
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 4)
-    usage("reconstructFace(weights, U, averageFace, i)");
+    usage("reconstructFace(weights, eigenfaces, averageFace, idxToReconstruct)");
   endif
-  % reconstructs face i in the training set
   
-  % select the weights that were calculated for that face
-  faceWeights = weights(:,i); #column vector of dim cols(U) x 1
+  % Get the weights that were calculated for the face to be reconstructed
+  faceWeights = weights(:, idxToReconstruct);
   
-  % multiply the weights for face i by all eigenfaces
-  % and then add back the average face
-  result = U * faceWeights;
-  result = normalize(result,0,255)
-  result += averageFace;
+  % Multiply the weights for this face by all eigenfaces
+  % Finally, add back the average face
+  facialImage = eigenfaces * faceWeights;
+  facialImage = normalize(facialImage, 0, 255)
+  facialImage += averageFace;
 endfunction

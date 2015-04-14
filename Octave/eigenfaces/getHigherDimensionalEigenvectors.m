@@ -1,24 +1,29 @@
-% Select K eigenvectors
-% They must be in the original dimensionality, i.e 32256 x 2432
-% Ui = MVi
-% M "into" Vi will give corresponding eigenvector in higher dimensional space
-% where: Ui is eigenvector in higher dimensional space
-%        Vi is eigenvector in lower dimensional space
-%        M is face set
-
-function U = getHigherDimensionalEigenvectors(V, M, k)
-  % args: V = lower dimensional eigenvectors
-  %       M = original set of faces OR reduced faces //TODO: Verify this step
-  %       k = number of eigenvectors to retrieve
+function eigenvectors = getHigherDimensionalEigenvectors(lowerEigenvectors, originalData, nEigenvectors)
+  % getHigherDimensionalEigenvectors - return lower dimensional eigenvectors to the dimensionality 
+  %                                    of the original data
+  %
+  % Inputs:
+  %    lowerEigenvectors - lower dimensional eigenvectors
+  %    originalData - original data from which lower dimensional eigenvectors were calculated
+  %    nEigenvectors - the number of eigenvectors to retain
+  %
+  % Outputs:
+  %    eigenvectors - a matrix of eigenvectors
+  
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 3)
-    usage("calculateMean(lower dimensional eigenvectors, original face set, number of eigenvectors to retrieve)");
+    usage("getHigherDimensionalEigenvectors(lowerEigenvectors, originalData, nEigenvectors)");
   endif
   
-  if(k > columns(V))
-    error("getHigherDimensionalEigenvectors: k must be less than the number of faces in the set");
-  else
-    for i=1:k
-      U(:,i) = M * V(:,i); % Debug and verify
-    endfor
-  endif 
+  if(nEigenvectors > columns(lowerEigenvectors))
+    error("getHigherDimensionalEigenvectors: nEigenvectors must be less than the number of faces in the set");
+  endif
+  
+  % Get higher dimensional eigenvectors
+  for i=1:nEigenvectors
+    eigenvectors(:, i) = originalData * lowerEigenvectors(:, i);
+  endfor
 endfunction

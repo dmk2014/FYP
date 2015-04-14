@@ -1,4 +1,17 @@
 function recogniserData = trainRecogniser(databaseFaces, databaseLabels)
+  % trainRecogniser - train the facial recognition system
+  %
+  % Inputs:
+  %    databaseFaces - faces retrieved from the facial database
+  %    databaseLabels - associated labels for the database faces
+  %
+  % Outputs:
+  %    recogniserData - struct containing all data required for the recogniser to function
+  
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 0 && nargin != 2)
     usage("trainRecogniser() OR trainRecogniser(databaseFaces, databaseLabels)");
   endif
@@ -23,11 +36,9 @@ function recogniserData = trainRecogniser(databaseFaces, databaseLabels)
 
   % Get eigenfaces using SVD method
   disp("Calculating top 250 eigenfaces...");
-  recogniserData.U = getEigenfacesSVD(recogniserData.reducedFaces, 250); % returns top k eigenvectors
+  recogniserData.U = getEigenfacesSVD(recogniserData.reducedFaces, 250); % Returns top k eigenfaces
 
-  % Represent each image in terms of the k eignenfaces
-  % Find a weight vector for each training set image
-  % Wj = Uj' * ReducedFacesi
+  % Calculate weights for each image in the training set
   disp("Finding weights...");
   sessionData.weights = findWeights(recogniserData.reducedFaces, recogniserData.U);
   
