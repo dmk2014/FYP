@@ -1,3 +1,7 @@
+% Author: Darren Keane
+% Institute of Technology, Tralee
+% email: darren.m.keane@students.ittralee.ie
+
 cd("C:/FacialRecognition/startup");
 
 % Ensure FacialRecognition functions are accessible

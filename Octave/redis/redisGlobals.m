@@ -1,3 +1,7 @@
+% Author: Darren Keane
+% Institute of Technology, Tralee
+% email: darren.m.keane@students.ittralee.ie
+  
 % Global values utilised by the Redis integration
 % These values must be loaded on application startup
 
