@@ -1,4 +1,16 @@
 function recogniserData = redisRetrainRequestHandler(redisConnection)
+  % redisRetrainRequestHandler - handles a Redis request to retrain the recogniser
+  %
+  % Inputs:
+  %    redisConnection - the redisConnection on which the request was received
+  %
+  % Outputs:
+  %    recogniserData - struct containing the recognisers data following retraining
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 1)
     usage("redisRetrainRequestHandler(redisConnection)");
   endif
