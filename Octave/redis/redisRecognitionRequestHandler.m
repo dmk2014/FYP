@@ -1,4 +1,16 @@
 function sessionData = redisRecognitionRequestHandler(sessionData)
+  % redisRecognitionRequestHandler - handles a Redis request to recognise an unknown face
+  %
+  % Inputs:
+  %    sessionData - struct containing the recognisers required data
+  %
+  % Outputs:
+  %    sessionData - struct containing the recognisers required data, updated with recogniton results
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 1)
     usage("redisRecognitionRequestHandler(sessionData)");
   endif
