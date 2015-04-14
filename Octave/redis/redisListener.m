@@ -1,4 +1,13 @@
 function redisListener(R)
+  % redisListener - Listens for, and controls execution of, recogniser requests send via Redis
+  %
+  % Inputs:
+  %    R - the redisConnection on which to listen for requests
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+
   if(nargin != 1)
     usage("redisListener(redisConnection)");
   endif
