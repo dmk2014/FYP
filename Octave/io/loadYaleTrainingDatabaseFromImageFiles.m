@@ -1,4 +1,17 @@
 function [data, labels] = loadYaleTrainingDatabaseFromImageFiles(path)
+  % loadYaleTrainingDatabaseFromImageFiles - load the database from its raw data
+  %
+  % Inputs:
+  %    path - the location of the training database raw image files on disk
+  %
+  % Outputs:
+  %    data - the training database faces
+  %    labels - the training database labels
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 1)
     usage("loadYaleTrainingDatabaseFromImageFiles(path)");
   endif
@@ -54,6 +67,16 @@ function [data, labels] = loadYaleTrainingDatabaseFromImageFiles(path)
 endfunction
 
 function persistData(images, labels)
+  % persistData - persist the Yale database for future recogniser sessions
+  %
+  % Inputs:
+  %    images - the training database faces
+  %    labels - the training database labels
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 2)
     usage("persistData(images, labels");
   endif

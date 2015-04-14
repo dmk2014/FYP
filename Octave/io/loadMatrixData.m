@@ -1,4 +1,16 @@
 function result = loadMatrixData(fileName)
+  % loadMatrixData - load a matrix from disk
+  %
+  % Inputs:
+  %    fileName - the name, on disk, of the matrix to be loaded
+  %
+  % Outputs:
+  %    result - loaded matrix data
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 1)
     usage("loadMatrixData(fileName)");
   endif

@@ -1,4 +1,13 @@
 function saveSession(recogniserData)
+  % saveSession - save a recogniser session to disk
+  %
+  % Inputs:
+  %    recogniserData - struct containing the recognisers required data
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 1)
     usage("saveSession(recogniserData)");
   endif

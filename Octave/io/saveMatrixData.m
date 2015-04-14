@@ -1,4 +1,14 @@
-function saveMatrixData(M,fileName)
+function saveMatrixData(M, fileName)
+  % saveMatrixData - save a matrix to disk
+  %
+  % Inputs:
+  %    M - the matrix to be saved
+  %    fileName - the filename to be used
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 2)
     usage("saveMatrixData(M, fileName)");
   endif
@@ -13,7 +23,7 @@ function saveMatrixData(M,fileName)
   endif
   
   cd("C:/FacialRecognition/data");
-  save("-hdf5",fileName,"M");
+  save("-hdf5", fileName, "M");
   
   cd(dir);
 endfunction
