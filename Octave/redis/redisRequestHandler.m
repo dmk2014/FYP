@@ -1,4 +1,17 @@
 function recogniserData = redisRequestHandler(R, recogniserData)
+  % redisRequestHandler - handles all Redis requests
+  %
+  % Inputs:
+  %    R - the redisConnection on which the request was received
+  %    recogniserData - struct containing the recognisers required data
+  %
+  % Outputs:
+  %    recogniserData - struct containing the recognisers required data, updated with request handling results
+
+  % Author: Darren Keane
+  % Institute of Technology, Tralee
+  % email: darren.m.keane@students.ittralee.ie
+  
   if(nargin != 2)
     usage("redisRequestHandler(R, recogniserData)");
   endif
