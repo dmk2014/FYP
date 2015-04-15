@@ -34,4 +34,9 @@ disp("Octave startup complete");
 disp("Starting Redis listener with default settings...\n");
 
 % Start listening for Redis connections
-redisListener(redisConnection())
+try
+  redisListener(redisConnection())
+catch
+  disp("An error occurred connecting to Redis...")
+  disp(lasterror.message);
+end_try_catch
