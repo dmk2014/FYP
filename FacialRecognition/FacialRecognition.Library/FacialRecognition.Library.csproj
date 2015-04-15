@@ -123,6 +123,7 @@
     <Compile Include="Octave\OctaveMessage.cs" />
     <Compile Include="Octave\OctaveMessageType.cs" />
     <Compile Include="Octave\OctaveRecogniser.cs" />
+    <Compile Include="Octave\OctaveStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

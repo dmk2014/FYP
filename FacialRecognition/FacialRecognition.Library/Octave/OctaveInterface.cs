@@ -19,6 +19,9 @@ namespace FacialRecognition.Library.Octave
         private string FacialResponseCodeKey = "facial.response.code";
         private string FacialResponseDataKey = "facial.response.data";
 
+        // Recogniser Status Key
+        private string FacialRecogniserStatusKey = "facial.recogniser.status";
+
         public OctaveInterface(string redisHost, int redisPort)
         {
             this.Connection = ConnectionMultiplexer.Connect(redisHost + ":" + redisPort);
@@ -43,6 +46,26 @@ namespace FacialRecognition.Library.Octave
             transaction.ListRightPushAsync(this.DatabaseDataKey, imageAsString);
 
             transaction.Execute();
+        }
+
+        private bool CheckRecogniserStatus()
+        {
+            var status = this.RedisDatabase.StringGet(this.FacialRecogniserStatusKey).ToString();
+
+            if (status != null)
+            {
+                var statusCode = int.Parse(status);
+
+                if (statusCode == (int)OctaveStatus.Available)
+                    return true;
+                else
+                    throw new Exception("Octave reports that it is busy and cannot currently handle a request. Please wait and try again.");
+            }
+            else
+            {
+                throw new Exception("The status of the recogniser could not be determined. " +
+                    "Please ensure that it is running and correct Redis address has been supplied.");
+            }
         }
 
         public bool SendRequest(OctaveMessage message)
