@@ -2,12 +2,9 @@
 
 namespace FacialRecognition.Library.Hardware
 {
-    interface IImagingHardware
+    public interface IImagingHardware
     {
-        // TODO
-        // Defines the generic functions of connected hardware
-        // Allows system to easily use diff cameras such as a webcam
-
+        // Defines the minimum required, generic functionality of a connecting camera
         Bitmap CaptureImage();
     }
 }
