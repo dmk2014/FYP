@@ -22,12 +22,20 @@ namespace FacialRecognition.Library.Octave
         // Recogniser Status Key
         private string FacialRecogniserStatusKey = "facial.recogniser.status";
 
+        /// <summary>
+        /// Connects to Octave using the Redis server at the specified host and port.
+        /// </summary>
+        /// <param name="redisHost">Host where Redis server is running.</param>
+        /// <param name="redisPort">Port where Redis server is running.</param>
         public OctaveInterface(string redisHost, int redisPort)
         {
             this.Connection = ConnectionMultiplexer.Connect(redisHost + ":" + redisPort);
             this.RedisDatabase = this.Connection.GetDatabase();
         }
 
+        /// <summary>
+        /// Ensures that the facial.database.* keys are cleared from Redis.
+        /// </summary>
         public void EnsurePersonDataIsClearedFromCache()
         {
             var transaction = this.RedisDatabase.CreateTransaction();
@@ -38,6 +46,11 @@ namespace FacialRecognition.Library.Octave
             transaction.Execute();
         }
 
+        /// <summary>
+        /// Appends the person data provided to the facial.data.* lists in Redis
+        /// </summary>
+        /// <param name="personLabel">The label of the person being added.</param>
+        /// <param name="imageAsString">An image of the person in string delimited format.</param>
         public void SendPersonDataToCache(string personLabel, string imageAsString)
         {
             var transaction = this.RedisDatabase.CreateTransaction();
@@ -68,6 +81,11 @@ namespace FacialRecognition.Library.Octave
             }
         }
 
+        /// <summary>
+        /// Send a request to the facial recogniser using Redis.
+        /// </summary>
+        /// <param name="message">An OctaveMessage that specifies the requirements of the request.</param>
+        /// <returns>Boolean value indicating if sending the request was successful.</returns>
         public bool SendRequest(OctaveMessage message)
         {
             if (this.IsRecogniserAvailable())
@@ -87,6 +105,11 @@ namespace FacialRecognition.Library.Octave
             }
         }
 
+        /// <summary>
+        /// Wait for a response via Redis from the facial recogniser. 
+        /// </summary>
+        /// <param name="timeout">The maximum time (in milliseconds) to wait for a response.</param>
+        /// <returns>An OctaveMessage containing the response code & data.</returns>
         public OctaveMessage ReceiveResponse(int timeout)
         {
             var response = new OctaveMessage();

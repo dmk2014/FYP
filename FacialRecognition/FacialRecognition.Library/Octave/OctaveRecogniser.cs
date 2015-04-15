@@ -9,37 +9,124 @@ namespace FacialRecognition.Library.Octave
     {
         private OctaveInterface Interface;
 
+        /// <summary>
+        /// Connects to an Octave recogniser using the Redis server at the specified host and port.
+        /// </summary>
+        /// <param name="redisHost">Host where Redis server is running.</param>
+        /// <param name="redisPort">Port where Redis server is running.</param>
         public OctaveRecogniser(string redisHost, int redisPort)
         {
             this.SetInterface(redisHost, redisPort);
         }
 
+        /// <summary>
+        /// Sets the Redis server utilised to that at the specified host and port.
+        /// </summary>
+        /// <param name="redisHost">Host where Redis server is running.</param>
+        /// <param name="redisPort">Port where Redis server is running.</param>
         public void SetInterface(string redisHost, int redisPort)
         {
             this.Interface = new OctaveInterface(redisHost, redisPort);
         }
 
+        /// <summary>
+        /// Classify an unknown facial image.
+        /// </summary>
+        /// <param name="facialImage">A normalised facial image.</param>
+        /// <returns>A person whose ID field contains the closest database match found.</returns>
         public Person ClassifyFace(Image facialImage)
         {
-            // FacialImage parameter is expected to be received in normalised form
-            // It is an image that must be marshalled to a string
+            // Normalised image that must be marshalled to a string
             var imageAsString = this.MarshalFacialImage(facialImage);
 
             var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRecognition, imageAsString);
             this.Interface.SendRequest(recogniserRequest);
 
-            var recogniserResponse = this.Interface.ReceiveResponse(15000);
+            var timeoutThirtySeconds = 30000;
+            var response = this.Interface.ReceiveResponse(timeoutThirtySeconds);
 
-            if (recogniserResponse.Code == (int)OctaveMessageType.ResponseOk)
+            if (response.Code == (int)OctaveMessageType.ResponseOk)
             {
                 // The recogniser response will be the ID of the closest match found in the facial database
                 var result = new Person();
-                result.Id = recogniserResponse.Data;
+                result.Id = response.Data;
                 return result;
             }
             else
             {
-                throw new Exception(recogniserResponse.Data);
+                throw new Exception(response.Data);
+            }
+        }
+
+        /// <summary>
+        /// Save all data of the active recogniser to disk.
+        /// </summary>
+        /// <returns>A boolean indictaing the success of the operation.</returns>
+        public bool SaveSession()
+        {
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestSave);
+            this.Interface.SendRequest(recogniserRequest);
+
+            int timeoutTenMinutes = 600000;
+            var response = this.Interface.ReceiveResponse(timeoutTenMinutes);
+
+            if (response.Code == (int)OctaveMessageType.ResponseOk)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception(response.Data);
+            }
+        }
+
+        /// <summary>
+        /// Reload all data of the recogniser from the most recent persisted data.
+        /// </summary>
+        /// <returns>A boolean indictaing the success of the operation.</returns>
+        public bool ReloadSession()
+        {
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestReload);
+            this.Interface.SendRequest(recogniserRequest);
+
+            int timeoutFiveMinutes = 300000;
+            var response = this.Interface.ReceiveResponse(timeoutFiveMinutes);
+
+            if (response.Code == (int)OctaveMessageType.ResponseOk)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception(response.Data);
+            }
+        }
+
+        /// <summary>
+        /// Retrain the recogniser using the training set and a supplied list of people.
+        /// </summary>
+        /// <param name="people">People to be included in the retrained recogniser.</param>
+        /// <returns>A boolean indictaing the success of the operation.</returns>
+        public bool RetrainRecogniser(List<Person> people)
+        {
+            // Prepare the data for retraining
+            this.SendDataToCacheForRetraining(people);
+
+            // Send a request to retrain the recogniser
+            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRetrain);
+            this.Interface.SendRequest(recogniserRequest);
+
+            // Wait for a response - large timeout because retraining requires considerable time period
+            int timeoutThirtyMinutes = 1800000;
+            var response = this.Interface.ReceiveResponse(timeoutThirtyMinutes);
+            
+            if (response.Code == (int)OctaveMessageType.ResponseOk)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception(response.Data);
             }
         }
 
@@ -68,64 +155,6 @@ namespace FacialRecognition.Library.Octave
             faceAsString = faceAsString.TrimEnd(seperator);
 
             return faceAsString;
-        }
-
-        public bool SaveSession()
-        {
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestSave);
-            this.Interface.SendRequest(recogniserRequest);
-
-            int timeoutTenMinutes = 600000;
-            var response = this.Interface.ReceiveResponse(timeoutTenMinutes);
-
-            if (response.Code == (int)OctaveMessageType.ResponseOk)
-            {
-                return true;
-            }
-            else
-            {
-                throw new Exception(response.Data);
-            }
-        }
-
-        public bool ReloadSession()
-        {
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestReload);
-            this.Interface.SendRequest(recogniserRequest);
-
-            var response = this.Interface.ReceiveResponse(30000);
-
-            if (response.Code == (int)OctaveMessageType.ResponseOk)
-            {
-                return true;
-            }
-            else
-            {
-                throw new Exception(response.Data);
-            }
-        }
-
-        public bool RetrainRecogniser(List<Person> people)
-        {
-            // Prepare the data for retraining
-            this.SendDataToCacheForRetraining(people);
-
-            // Send a request to retrain the recogniser
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRetrain);
-            this.Interface.SendRequest(recogniserRequest);
-
-            // Wait for a response - large timeout because retraining requires considerable time period
-            int timeoutThirtyMinutes = 1800000;
-            var repsonse = this.Interface.ReceiveResponse(timeoutThirtyMinutes);
-            
-            if (repsonse.Code == (int)OctaveMessageType.ResponseOk)
-            {
-                return true;
-            }
-            else
-            {
-                throw new Exception(repsonse.Data);
-            }
         }
 
         private void SendDataToCacheForRetraining(List<Person> peopleInDatabase)
