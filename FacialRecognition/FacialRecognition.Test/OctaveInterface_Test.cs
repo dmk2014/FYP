@@ -19,6 +19,7 @@ namespace FacialRecognition.Test
         private const string RequestDataKey = "facial.request.data";
         private const string ResponseCodeKey = "facial.response.code";
         private const string ResponseDataKey = "facial.response.data";
+        private const string RecogniserStatusKey = "facial.recogniser.status";
 
         [TestInitialize]
         public void InitializeTest()
@@ -33,6 +34,23 @@ namespace FacialRecognition.Test
             this.RedisDatabase.KeyDelete(RequestDataKey);
             this.RedisDatabase.KeyDelete(ResponseCodeKey);
             this.RedisDatabase.KeyDelete(ResponseDataKey);
+        }
+
+        [TestMethod]
+        public void TestCreateOctaveInterface()
+        {
+            // No exception indicates success
+            var octaveInterface = new OctaveInterface(RedisHost, RedisPort);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(StackExchange.Redis.RedisConnectionException))]
+        public void TestCreateOctaveInterfaceUsingNoExistantServer()
+        {
+            var host = "localhost";
+            var port = 123;
+
+            var octaveInterface = new OctaveInterface(host, port);
         }
         
         [TestMethod]
@@ -94,7 +112,32 @@ namespace FacialRecognition.Test
         }
 
         [TestMethod]
-        public void TestSendRequest()
+        [ExpectedException(typeof(System.Reflection.TargetInvocationException))]
+        public void TestIsRecogniserAvailableThrowsException()
+        {
+            this.RedisDatabase.KeyDelete(RecogniserStatusKey);
+
+            var isRecogniserAvailableMethod = this.Interface.GetType().GetMethod("IsRecogniserAvailable",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            isRecogniserAvailableMethod.Invoke(this.Interface, new Object[] { });
+        }
+
+        [TestMethod]
+        public void TestIsRecogniserAvailableSucceeds()
+        {
+            this.RedisDatabase.StringSet(RecogniserStatusKey, (int)OctaveStatus.Available);
+
+            var isRecogniserAvailableMethod = this.Interface.GetType().GetMethod("IsRecogniserAvailable",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            var result = (bool)isRecogniserAvailableMethod.Invoke(this.Interface, new Object[] { });
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestSendRequestToOctaveRecogniser()
         {
             // Create a test message
             var testCode = 21;
@@ -114,7 +157,7 @@ namespace FacialRecognition.Test
         }
 
         [TestMethod]
-        public void TestReceiveResponse()
+        public void TestReceiveResponseFromOctaveRecogniser()
         {
             // Send a fake response to Redis
             var responseCode = 22;
@@ -134,7 +177,7 @@ namespace FacialRecognition.Test
 
         [TestMethod]
         [ExpectedException(typeof(TimeoutException))]
-        public void TestTimeout()
+        public void TestOctaveRecogniserTimeout()
         {
             // Send a request for which there will be no response
             // A TimeoutException should be thrown
