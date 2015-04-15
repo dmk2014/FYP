@@ -40,7 +40,7 @@ function recogniserData = trainRecogniser(databaseFaces, databaseLabels)
 
   % Calculate weights for each image in the training set
   disp("Finding weights...");
-  sessionData.weights = findWeights(recogniserData.reducedFaces, recogniserData.U);
+  recogniserData.weights = findWeights(recogniserData.reducedFaces, recogniserData.U);
   
   printf("Train Recogniser COMPLETED. Time Taken: %.2f seconds\n", toc)
 endfunction

@@ -31,9 +31,9 @@ function recogniserData = redisRetrainRequestHandler(redisConnection)
     label = redisListLPOP(redisConnection, DatabaseLabelsKey);
     
     % strcmp returns 1 (or true) if strings are equals
-    dataRemaining = strcmp(label, NoData);
+    allDataProcessed = strcmp(label, num2str(NoData));
     
-    if (!dataRemaining)
+    if (!allDataProcessed)
       faceLabels = [faceLabels; label];
       
       % Pop the facial data from Redis, unmarshal it, and add it to the face array
