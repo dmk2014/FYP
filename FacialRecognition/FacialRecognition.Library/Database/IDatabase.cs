@@ -8,8 +8,8 @@ namespace FacialRecognition.Library.Database
     {
         void CreateDatabase(string database);
         void DeleteDatabase(string database);
-        Boolean Store(Person person);
-        Boolean Update(Person person);
+        bool Store(Person person);
+        bool Update(Person person);
         Person Retrieve(String id);
         List<Person> RetrieveAll();
     }
