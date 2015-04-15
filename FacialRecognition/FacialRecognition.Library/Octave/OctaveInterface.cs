@@ -70,14 +70,21 @@ namespace FacialRecognition.Library.Octave
 
         public bool SendRequest(OctaveMessage message)
         {
-            var transaction = this.RedisDatabase.CreateTransaction();
+            if (this.IsRecogniserAvailable())
+            {
+                var transaction = this.RedisDatabase.CreateTransaction();
 
-            transaction.StringSetAsync(this.FacialRequestCodeKey, message.Code);
-            transaction.StringSetAsync(this.FacialRequestDataKey, message.Data);
-            transaction.StringSetAsync(this.FacialResponseCodeKey, (int)OctaveMessageType.NoData);
-            transaction.StringSetAsync(this.FacialResponseDataKey, (int)OctaveMessageType.NoData);
+                transaction.StringSetAsync(this.FacialRequestCodeKey, message.Code);
+                transaction.StringSetAsync(this.FacialRequestDataKey, message.Data);
+                transaction.StringSetAsync(this.FacialResponseCodeKey, (int)OctaveMessageType.NoData);
+                transaction.StringSetAsync(this.FacialResponseDataKey, (int)OctaveMessageType.NoData);
 
-            return transaction.Execute();
+                return transaction.Execute();
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public OctaveMessage ReceiveResponse(int timeout)
