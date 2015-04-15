@@ -48,7 +48,7 @@ namespace FacialRecognition.Library.Octave
             transaction.Execute();
         }
 
-        private bool CheckRecogniserStatus()
+        private bool IsRecogniserAvailable()
         {
             var status = this.RedisDatabase.StringGet(this.FacialRecogniserStatusKey).ToString();
 
