@@ -83,7 +83,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="OctaveRecogniser_Test.cs" />
-    <Compile Include="OctaveInterface_Test.cs" />
+    <Compile Include="RedisConnection_Test.cs" />
     <Compile Include="OctaveNormaliser_Test.cs" />
     <Compile Include="FacialDetector_Test.cs" />
   </ItemGroup>

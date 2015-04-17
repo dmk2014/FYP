@@ -1,13 +1,12 @@
-﻿using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Diagnostics;
 
 namespace FacialRecognition.Library.Octave
 {
-    public class OctaveInterface
+    public class RedisConnection
     {
-        private ConnectionMultiplexer Connection;
-        private IDatabase RedisDatabase;
+        private StackExchange.Redis.ConnectionMultiplexer Connection;
+        private StackExchange.Redis.IDatabase RedisDatabase;
 
         // Database Related Redis Keys
         private string DatabaseLabelsKey = "facial.database.labels";
@@ -23,13 +22,13 @@ namespace FacialRecognition.Library.Octave
         private string FacialRecogniserStatusKey = "facial.recogniser.status";
 
         /// <summary>
-        /// Connects to Octave using the Redis server at the specified host and port.
+        /// Connects a Redis connection, for sending messages to Octave, to the server at the specified host and port.
         /// </summary>
         /// <param name="redisHost">Host where Redis server is running.</param>
         /// <param name="redisPort">Port where Redis server is running.</param>
-        public OctaveInterface(string redisHost, int redisPort)
+        public RedisConnection(string redisHost, int redisPort)
         {
-            this.Connection = ConnectionMultiplexer.Connect(redisHost + ":" + redisPort);
+            this.Connection = StackExchange.Redis.ConnectionMultiplexer.Connect(redisHost + ":" + redisPort);
             this.RedisDatabase = this.Connection.GetDatabase();
         }
 

@@ -7,7 +7,7 @@ namespace FacialRecognition.Library.Octave
 {
     public class OctaveRecogniser : Core.IFacialRecogniser
     {
-        private OctaveInterface Interface;
+        private RedisConnection Interface;
 
         /// <summary>
         /// Connects to an Octave recogniser using the Redis server at the specified host and port.
@@ -26,7 +26,7 @@ namespace FacialRecognition.Library.Octave
         /// <param name="redisPort">Port where Redis server is running.</param>
         public void SetInterface(string redisHost, int redisPort)
         {
-            this.Interface = new OctaveInterface(redisHost, redisPort);
+            this.Interface = new RedisConnection(redisHost, redisPort);
         }
 
         /// <summary>

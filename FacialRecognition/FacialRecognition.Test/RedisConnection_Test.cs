@@ -1,17 +1,16 @@
 ﻿using FacialRecognition.Library.Octave;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StackExchange.Redis;
 using System;
 
 namespace FacialRecognition.Test
 {
     [TestClass]
-    public class OctaveInterface_Test
+    public class RedisConnection_Test
     {
-        private ConnectionMultiplexer Connection;
-        private IDatabase RedisDatabase;
+        private StackExchange.Redis.ConnectionMultiplexer Connection;
+        private StackExchange.Redis.IDatabase RedisDatabase;
 
-        private OctaveInterface Interface;
+        private RedisConnection Interface;
         private const string RedisHost = "localhost";
         private const int RedisPort = 6379;
 
@@ -24,9 +23,9 @@ namespace FacialRecognition.Test
         [TestInitialize]
         public void InitializeTest()
         {
-            this.Connection = ConnectionMultiplexer.Connect(RedisHost + ":" + RedisPort);
+            this.Connection = StackExchange.Redis.ConnectionMultiplexer.Connect(RedisHost + ":" + RedisPort);
             this.RedisDatabase = this.Connection.GetDatabase();
-            this.Interface = new OctaveInterface(RedisHost, RedisPort);
+            this.Interface = new RedisConnection(RedisHost, RedisPort);
 
             // Ensure a clear cache
             this.Interface.EnsurePersonDataIsClearedFromCache();
@@ -37,20 +36,20 @@ namespace FacialRecognition.Test
         }
 
         [TestMethod]
-        public void TestCreateOctaveInterface()
+        public void TestCreateRedisConnection()
         {
             // No exception indicates success
-            var octaveInterface = new OctaveInterface(RedisHost, RedisPort);
+            var octaveInterface = new RedisConnection(RedisHost, RedisPort);
         }
 
         [TestMethod]
         [ExpectedException(typeof(StackExchange.Redis.RedisConnectionException))]
-        public void TestCreateOctaveInterfaceUsingNoExistantServer()
+        public void TestCreateRedisConnectionUsingNoExistantServer()
         {
             var host = "localhost";
             var port = 123;
 
-            var octaveInterface = new OctaveInterface(host, port);
+            var octaveInterface = new RedisConnection(host, port);
         }
         
         [TestMethod]
@@ -137,7 +136,7 @@ namespace FacialRecognition.Test
         }
 
         [TestMethod]
-        public void TestSendRequestToOctaveRecogniser()
+        public void TestSendRequestUsingRedisConnection()
         {
             // Create a test message
             var testCode = 21;
@@ -157,7 +156,7 @@ namespace FacialRecognition.Test
         }
 
         [TestMethod]
-        public void TestReceiveResponseFromOctaveRecogniser()
+        public void TestReceiveResponseUsingRedisConnection()
         {
             // Send a fake response to Redis
             var responseCode = 22;
@@ -177,7 +176,7 @@ namespace FacialRecognition.Test
 
         [TestMethod]
         [ExpectedException(typeof(TimeoutException))]
-        public void TestOctaveRecogniserTimeout()
+        public void TestRedisConnectionReceiveResponseTimeout()
         {
             // Send a request for which there will be no response
             // A TimeoutException should be thrown
