@@ -1,7 +1,8 @@
-﻿using System;
+﻿using FacialRecognition.Library.Recognition;
+using System;
 using System.Diagnostics;
 
-namespace FacialRecognition.Library.Octave
+namespace FacialRecognition.Library.Redis
 {
     public class RedisConnection
     {

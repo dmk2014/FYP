@@ -1,8 +1,9 @@
-﻿using FacialRecognition.Library.Core;
-using FacialRecognition.Library.Database;
+﻿using FacialRecognition.Library.Database;
+using FacialRecognition.Library.Detection;
 using FacialRecognition.Library.Hardware.KinectV1;
+using FacialRecognition.Library.ImageProcessing;
 using FacialRecognition.Library.Models;
-using FacialRecognition.Library.Octave;
+using FacialRecognition.Library.Recognition;
 using Microsoft.Kinect;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace FacialRecognition.Forms
             txtRedisPort.Text = this.RedisPort.ToString();
 
             // Construct Facial Detector
-            this.Detector = new FacialRecognition.Library.Core.FacialDetector();
+            this.Detector = new FacialDetector();
 
             // Initialise hardware & data stores:
             // Initialise Database
@@ -263,7 +264,7 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                var normaliser = new FacialRecognition.Library.Octave.PhotometricFacialImageNormaliser();
+                var normaliser = new PhotometricFacialImageNormaliser();
                 var face = RecognitionSourceImage.Clone(LocationOfDetectedFaces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
 
                 pbxSourceFace.Size = face.Size;

@@ -1,11 +1,12 @@
 ﻿using FacialRecognition.Library.Models;
+using FacialRecognition.Library.Redis;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace FacialRecognition.Library.Octave
+namespace FacialRecognition.Library.Recognition
 {
-    public class PhotometricFacialRecogniser : Core.IFacialRecogniser
+    public class PhotometricFacialRecogniser : IFacialRecogniser
     {
         private RedisConnection Interface;
 

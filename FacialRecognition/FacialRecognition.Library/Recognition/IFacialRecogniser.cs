@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Collections.Generic;
 
-namespace FacialRecognition.Library.Core
+namespace FacialRecognition.Library.Recognition
 {
     public interface IFacialRecogniser
     {

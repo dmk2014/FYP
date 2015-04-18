@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace FacialRecognition.Library.Core
+namespace FacialRecognition.Library.ImageProcessing
 {
     public abstract class FacialImageNormaliser
     {

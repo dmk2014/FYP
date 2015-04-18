@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FacialRecognition.Library.Recognition;
 
-namespace FacialRecognition.Library.Octave
+namespace FacialRecognition.Library.Redis
 {
     public class RedisMessage
     {

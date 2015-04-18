@@ -1,4 +1,4 @@
-﻿namespace FacialRecognition.Library.Octave
+﻿namespace FacialRecognition.Library.Recognition
 {
     public enum RecogniserStatus
     {

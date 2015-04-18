@@ -108,22 +108,22 @@
   <ItemGroup>
     <Compile Include="Database\CouchDatabase.cs" />
     <Compile Include="Database\IDatabase.cs" />
-    <Compile Include="Core\FacialDetector.cs" />
-    <Compile Include="Core\FacialImageNormaliser.cs" />
+    <Compile Include="Detection\FacialDetector.cs" />
+    <Compile Include="ImageProcessing\FacialImageNormaliser.cs" />
     <Compile Include="Hardware\IImagingHardware.cs" />
     <Compile Include="Hardware\KinectV1\KinectV1Sensor.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataIO.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataProcessor.cs" />
-    <Compile Include="Core\IFacialDetector.cs" />
-    <Compile Include="Core\IFacialRecogniser.cs" />
+    <Compile Include="Detection\IFacialDetector.cs" />
+    <Compile Include="Recognition\IFacialRecogniser.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonCouchDB.cs" />
-    <Compile Include="Octave\OctaveNormaliser.cs" />
-    <Compile Include="Octave\RedisConnection.cs" />
-    <Compile Include="Octave\RedisMessage.cs" />
-    <Compile Include="Octave\OctaveMessageType.cs" />
-    <Compile Include="Octave\OctaveRecogniser.cs" />
-    <Compile Include="Octave\OctaveStatus.cs" />
+    <Compile Include="ImageProcessing\PhotometricFacialImageNormaliser.cs" />
+    <Compile Include="Redis\RedisConnection.cs" />
+    <Compile Include="Redis\RedisMessage.cs" />
+    <Compile Include="Recognition\RecogniserCode.cs" />
+    <Compile Include="Recognition\PhotometricFacialRecogniser.cs" />
+    <Compile Include="Recognition\RecogniserStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

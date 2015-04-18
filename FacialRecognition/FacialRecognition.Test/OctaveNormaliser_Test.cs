@@ -1,4 +1,4 @@
-﻿using FacialRecognition.Library.Octave;
+﻿using FacialRecognition.Library.ImageProcessing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
 

@@ -3,9 +3,9 @@ using Emgu.CV.Structure;
 using System.Drawing;
 using System.IO;
 
-namespace FacialRecognition.Library.Core
+namespace FacialRecognition.Library.Detection
 {
-    public class FacialDetector : FacialRecognition.Library.Core.IFacialDetector
+    public class FacialDetector : IFacialDetector
     {
         // These variables are used to tune the cascade classifier
         // The following links are sources that were consulted when deciding these values:

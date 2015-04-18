@@ -1,4 +1,4 @@
-﻿using FacialRecognition.Library.Core;
+﻿using FacialRecognition.Library.Detection;
 using FacialRecognition.Test.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;

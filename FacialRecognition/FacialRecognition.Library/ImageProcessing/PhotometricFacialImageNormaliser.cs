@@ -1,9 +1,8 @@
-﻿using FacialRecognition.Library.Core;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System;
 
-namespace FacialRecognition.Library.Octave
+namespace FacialRecognition.Library.ImageProcessing
 {
     public class PhotometricFacialImageNormaliser : FacialImageNormaliser
     {

@@ -1,4 +1,5 @@
-﻿using FacialRecognition.Library.Octave;
+﻿using FacialRecognition.Library.Recognition;
+using FacialRecognition.Library.Redis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 

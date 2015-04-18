@@ -1,6 +1,5 @@
-﻿using FacialRecognition.Library.Core;
-using FacialRecognition.Library.Database;
-using FacialRecognition.Library.Octave;
+﻿using FacialRecognition.Library.Database;
+using FacialRecognition.Library.Recognition;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Drawing;
