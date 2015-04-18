@@ -17,7 +17,7 @@ namespace FacialRecognition.Forms
         private IDatabase Database;
         private KinectV1Sensor Kinect;
         private IFacialDetector Detector;
-        private PhotometricFacialRecogniser Recogniser;
+        private IFacialRecogniser Recogniser;
 
         private string CouchDBHost;
         private int CouchDBPort;
