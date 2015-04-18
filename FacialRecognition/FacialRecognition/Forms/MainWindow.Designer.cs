@@ -39,6 +39,14 @@
             this.grpDepth = new System.Windows.Forms.GroupBox();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabFacialRec = new System.Windows.Forms.TabPage();
+            this.grpRecognitionResult = new System.Windows.Forms.GroupBox();
+            this.btnViewRecognitionResultInDatabase = new System.Windows.Forms.Button();
+            this.txtRecognisedForename = new System.Windows.Forms.TextBox();
+            this.txtRecognisedSurname = new System.Windows.Forms.TextBox();
+            this.txtRecognisedID = new System.Windows.Forms.TextBox();
+            this.lblRecognisedForename = new System.Windows.Forms.Label();
+            this.lblRecognisedSurname = new System.Windows.Forms.Label();
+            this.lblRecognisedPersonID = new System.Windows.Forms.Label();
             this.btnLoadImage = new System.Windows.Forms.Button();
             this.pbxSourceFace = new System.Windows.Forms.PictureBox();
             this.lblDetectedFaces = new System.Windows.Forms.Label();
@@ -90,14 +98,6 @@
             this.btnReloadRecogniserData = new System.Windows.Forms.Button();
             this.btnPersistRecogniserData = new System.Windows.Forms.Button();
             this.diaOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.grpRecognitionResult = new System.Windows.Forms.GroupBox();
-            this.lblRecognisedPersonID = new System.Windows.Forms.Label();
-            this.lblRecognisedSurname = new System.Windows.Forms.Label();
-            this.lblRecognisedForename = new System.Windows.Forms.Label();
-            this.txtRecognisedID = new System.Windows.Forms.TextBox();
-            this.txtRecognisedSurname = new System.Windows.Forms.TextBox();
-            this.txtRecognisedForename = new System.Windows.Forms.TextBox();
-            this.btnViewRecognitionResultInDatabase = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDept)).BeginInit();
             this.grpControls.SuspendLayout();
@@ -105,6 +105,7 @@
             this.grpDepth.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.tabFacialRec.SuspendLayout();
+            this.grpRecognitionResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxSourceFace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxNormalisedFace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxCapturedColorImage)).BeginInit();
@@ -116,7 +117,6 @@
             this.tabConfiguration.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpRecogniserControls.SuspendLayout();
-            this.grpRecognitionResult.SuspendLayout();
             this.SuspendLayout();
             // 
             // pbxImage
@@ -241,6 +241,83 @@
             this.tabFacialRec.Size = new System.Drawing.Size(1363, 613);
             this.tabFacialRec.TabIndex = 1;
             this.tabFacialRec.Text = "Facial Recognition";
+            // 
+            // grpRecognitionResult
+            // 
+            this.grpRecognitionResult.Controls.Add(this.btnViewRecognitionResultInDatabase);
+            this.grpRecognitionResult.Controls.Add(this.txtRecognisedForename);
+            this.grpRecognitionResult.Controls.Add(this.txtRecognisedSurname);
+            this.grpRecognitionResult.Controls.Add(this.txtRecognisedID);
+            this.grpRecognitionResult.Controls.Add(this.lblRecognisedForename);
+            this.grpRecognitionResult.Controls.Add(this.lblRecognisedSurname);
+            this.grpRecognitionResult.Controls.Add(this.lblRecognisedPersonID);
+            this.grpRecognitionResult.Location = new System.Drawing.Point(785, 337);
+            this.grpRecognitionResult.Name = "grpRecognitionResult";
+            this.grpRecognitionResult.Size = new System.Drawing.Size(426, 232);
+            this.grpRecognitionResult.TabIndex = 9;
+            this.grpRecognitionResult.TabStop = false;
+            this.grpRecognitionResult.Text = "Recognition Result";
+            // 
+            // btnViewRecognitionResultInDatabase
+            // 
+            this.btnViewRecognitionResultInDatabase.Enabled = false;
+            this.btnViewRecognitionResultInDatabase.Location = new System.Drawing.Point(218, 102);
+            this.btnViewRecognitionResultInDatabase.Name = "btnViewRecognitionResultInDatabase";
+            this.btnViewRecognitionResultInDatabase.Size = new System.Drawing.Size(123, 40);
+            this.btnViewRecognitionResultInDatabase.TabIndex = 10;
+            this.btnViewRecognitionResultInDatabase.Text = "View in Database";
+            this.btnViewRecognitionResultInDatabase.UseVisualStyleBackColor = true;
+            // 
+            // txtRecognisedForename
+            // 
+            this.txtRecognisedForename.Location = new System.Drawing.Point(143, 50);
+            this.txtRecognisedForename.Name = "txtRecognisedForename";
+            this.txtRecognisedForename.ReadOnly = true;
+            this.txtRecognisedForename.Size = new System.Drawing.Size(198, 20);
+            this.txtRecognisedForename.TabIndex = 15;
+            // 
+            // txtRecognisedSurname
+            // 
+            this.txtRecognisedSurname.Location = new System.Drawing.Point(143, 76);
+            this.txtRecognisedSurname.Name = "txtRecognisedSurname";
+            this.txtRecognisedSurname.ReadOnly = true;
+            this.txtRecognisedSurname.Size = new System.Drawing.Size(198, 20);
+            this.txtRecognisedSurname.TabIndex = 14;
+            // 
+            // txtRecognisedID
+            // 
+            this.txtRecognisedID.Location = new System.Drawing.Point(143, 24);
+            this.txtRecognisedID.Name = "txtRecognisedID";
+            this.txtRecognisedID.ReadOnly = true;
+            this.txtRecognisedID.Size = new System.Drawing.Size(198, 20);
+            this.txtRecognisedID.TabIndex = 13;
+            // 
+            // lblRecognisedForename
+            // 
+            this.lblRecognisedForename.AutoSize = true;
+            this.lblRecognisedForename.Location = new System.Drawing.Point(75, 53);
+            this.lblRecognisedForename.Name = "lblRecognisedForename";
+            this.lblRecognisedForename.Size = new System.Drawing.Size(54, 13);
+            this.lblRecognisedForename.TabIndex = 12;
+            this.lblRecognisedForename.Text = "Forename";
+            // 
+            // lblRecognisedSurname
+            // 
+            this.lblRecognisedSurname.AutoSize = true;
+            this.lblRecognisedSurname.Location = new System.Drawing.Point(76, 79);
+            this.lblRecognisedSurname.Name = "lblRecognisedSurname";
+            this.lblRecognisedSurname.Size = new System.Drawing.Size(49, 13);
+            this.lblRecognisedSurname.TabIndex = 11;
+            this.lblRecognisedSurname.Text = "Surname";
+            // 
+            // lblRecognisedPersonID
+            // 
+            this.lblRecognisedPersonID.AutoSize = true;
+            this.lblRecognisedPersonID.Location = new System.Drawing.Point(48, 27);
+            this.lblRecognisedPersonID.Name = "lblRecognisedPersonID";
+            this.lblRecognisedPersonID.Size = new System.Drawing.Size(81, 13);
+            this.lblRecognisedPersonID.TabIndex = 10;
+            this.lblRecognisedPersonID.Text = "Couch Identifier";
             // 
             // btnLoadImage
             // 
@@ -758,83 +835,6 @@
             this.btnPersistRecogniserData.UseVisualStyleBackColor = true;
             this.btnPersistRecogniserData.Click += new System.EventHandler(this.btnPersistRecogniserData_Click);
             // 
-            // grpRecognitionResult
-            // 
-            this.grpRecognitionResult.Controls.Add(this.btnViewRecognitionResultInDatabase);
-            this.grpRecognitionResult.Controls.Add(this.txtRecognisedForename);
-            this.grpRecognitionResult.Controls.Add(this.txtRecognisedSurname);
-            this.grpRecognitionResult.Controls.Add(this.txtRecognisedID);
-            this.grpRecognitionResult.Controls.Add(this.lblRecognisedForename);
-            this.grpRecognitionResult.Controls.Add(this.lblRecognisedSurname);
-            this.grpRecognitionResult.Controls.Add(this.lblRecognisedPersonID);
-            this.grpRecognitionResult.Location = new System.Drawing.Point(785, 337);
-            this.grpRecognitionResult.Name = "grpRecognitionResult";
-            this.grpRecognitionResult.Size = new System.Drawing.Size(426, 232);
-            this.grpRecognitionResult.TabIndex = 9;
-            this.grpRecognitionResult.TabStop = false;
-            this.grpRecognitionResult.Text = "Recognition Result";
-            // 
-            // lblRecognisedPersonID
-            // 
-            this.lblRecognisedPersonID.AutoSize = true;
-            this.lblRecognisedPersonID.Location = new System.Drawing.Point(48, 27);
-            this.lblRecognisedPersonID.Name = "lblRecognisedPersonID";
-            this.lblRecognisedPersonID.Size = new System.Drawing.Size(81, 13);
-            this.lblRecognisedPersonID.TabIndex = 10;
-            this.lblRecognisedPersonID.Text = "Couch Identifier";
-            // 
-            // lblRecognisedSurname
-            // 
-            this.lblRecognisedSurname.AutoSize = true;
-            this.lblRecognisedSurname.Location = new System.Drawing.Point(76, 79);
-            this.lblRecognisedSurname.Name = "lblRecognisedSurname";
-            this.lblRecognisedSurname.Size = new System.Drawing.Size(49, 13);
-            this.lblRecognisedSurname.TabIndex = 11;
-            this.lblRecognisedSurname.Text = "Surname";
-            // 
-            // lblRecognisedForename
-            // 
-            this.lblRecognisedForename.AutoSize = true;
-            this.lblRecognisedForename.Location = new System.Drawing.Point(75, 53);
-            this.lblRecognisedForename.Name = "lblRecognisedForename";
-            this.lblRecognisedForename.Size = new System.Drawing.Size(54, 13);
-            this.lblRecognisedForename.TabIndex = 12;
-            this.lblRecognisedForename.Text = "Forename";
-            // 
-            // txtRecognisedID
-            // 
-            this.txtRecognisedID.Location = new System.Drawing.Point(143, 24);
-            this.txtRecognisedID.Name = "txtRecognisedID";
-            this.txtRecognisedID.ReadOnly = true;
-            this.txtRecognisedID.Size = new System.Drawing.Size(198, 20);
-            this.txtRecognisedID.TabIndex = 13;
-            // 
-            // txtRecognisedSurname
-            // 
-            this.txtRecognisedSurname.Location = new System.Drawing.Point(143, 76);
-            this.txtRecognisedSurname.Name = "txtRecognisedSurname";
-            this.txtRecognisedSurname.ReadOnly = true;
-            this.txtRecognisedSurname.Size = new System.Drawing.Size(198, 20);
-            this.txtRecognisedSurname.TabIndex = 14;
-            // 
-            // txtRecognisedForename
-            // 
-            this.txtRecognisedForename.Location = new System.Drawing.Point(143, 50);
-            this.txtRecognisedForename.Name = "txtRecognisedForename";
-            this.txtRecognisedForename.ReadOnly = true;
-            this.txtRecognisedForename.Size = new System.Drawing.Size(198, 20);
-            this.txtRecognisedForename.TabIndex = 15;
-            // 
-            // btnViewRecognitionResultInDatabase
-            // 
-            this.btnViewRecognitionResultInDatabase.Enabled = false;
-            this.btnViewRecognitionResultInDatabase.Location = new System.Drawing.Point(218, 102);
-            this.btnViewRecognitionResultInDatabase.Name = "btnViewRecognitionResultInDatabase";
-            this.btnViewRecognitionResultInDatabase.Size = new System.Drawing.Size(123, 40);
-            this.btnViewRecognitionResultInDatabase.TabIndex = 10;
-            this.btnViewRecognitionResultInDatabase.Text = "View in Database";
-            this.btnViewRecognitionResultInDatabase.UseVisualStyleBackColor = true;
-            // 
             // frmFacialRecognition
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -856,6 +856,8 @@
             this.tabMain.ResumeLayout(false);
             this.tabFacialRec.ResumeLayout(false);
             this.tabFacialRec.PerformLayout();
+            this.grpRecognitionResult.ResumeLayout(false);
+            this.grpRecognitionResult.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxSourceFace)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxNormalisedFace)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxCapturedColorImage)).EndInit();
@@ -869,8 +871,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.grpRecogniserControls.ResumeLayout(false);
-            this.grpRecognitionResult.ResumeLayout(false);
-            this.grpRecognitionResult.PerformLayout();
             this.ResumeLayout(false);
 
         }

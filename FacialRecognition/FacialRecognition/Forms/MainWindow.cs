@@ -1,13 +1,7 @@
 ﻿using FacialRecognition.Globals;
-using FacialRecognition.Library.Database;
-using FacialRecognition.Library.Detection;
-using FacialRecognition.Library.Hardware.KinectV1;
-using FacialRecognition.Library.ImageProcessing;
 using FacialRecognition.Library.Models;
-using FacialRecognition.Library.Recognition;
-using Microsoft.Kinect;
+using FacialRecognition.Util;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,97 +9,35 @@ namespace FacialRecognition.Forms
 {
     public partial class frmFacialRecognition : Form
     {
-        private IDatabase Database;
-        private KinectV1Sensor Kinect;
-        private IFacialDetector Detector;
-        private IFacialRecogniser Recogniser;
-
-        private string CouchDBHost;
-        private int CouchDBPort;
-        private string CouchDatabaseName;
-        private string RedisHost;
-        private int RedisPort;
+        private Controllers.StartupController StartupController;
+        private Controllers.DetectionController DetectionController;
+        private Controllers.ImageProcessingController ImageProcessingController;
+        private Bitmap RecognitionSourceImage;
+        private DatabaseEditingMode EditingMode = DatabaseEditingMode.AddingNewUser;
 
         public frmFacialRecognition()
         {
             InitializeComponent();
             this.CenterToScreen();
-            this.SystemStartup();
+            this.DisplaySettings();
+            this.StartupController = new FacialRecognition.Controllers.StartupController();
+            this.DetectionController = new Controllers.DetectionController();
+            this.ImageProcessingController = new Controllers.ImageProcessingController();
+            this.InitialiseApplication();
+            cboSelectCRUDMode.SelectedIndex = 0;
+            this.UpdateDatabaseDisplay();
         }
 
-        public void SystemStartup()
+        public void InitialiseApplication()
         {
-            var errorsOccured = false;
-            var errorMessages = new List<String>();
-
-            // Read settings
-            this.CouchDBHost = Properties.Settings.Default.CouchDBHost;
-            this.CouchDBPort = Properties.Settings.Default.CouchDBPort;
-            this.CouchDatabaseName = Properties.Settings.Default.CouchDatabaseName;
-            this.RedisHost = Properties.Settings.Default.RedisHost;
-            this.RedisPort = Properties.Settings.Default.RedisPort;
-
-            // Display settings on configuration tab
-            txtCouchDBHost.Text = this.CouchDBHost;
-            txtCouchDBPort.Text = this.CouchDBPort.ToString();
-            txtCouchDatabaseName.Text = this.CouchDatabaseName;
-            txtRedisHost.Text = this.RedisHost;
-            txtRedisPort.Text = this.RedisPort.ToString();
-
-            // Construct Facial Detector
-            this.Detector = new FacialDetector();
-
-            // Initialise hardware & data stores:
-            // Initialise Database
             try
             {
-                this.Database = new CouchDatabase(this.CouchDBHost, this.CouchDBPort, this.CouchDatabaseName);
-                this.UpdateDatabaseDisplay();
-                cboSelectCRUDMode.SelectedIndex = (int)DatabaseEditingMode.AddingNewUser;
+                this.StartupController.SystemStartup();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                errorsOccured = true;
-                errorMessages.Add(ex.Message);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
-
-            // Initialise Kinect sensor
-            try
-            {
-                this.PrepareKinectSensor(); 
-            }
-            catch(Exception ex)
-            {
-                errorsOccured = true;
-                errorMessages.Add(ex.Message);
-            }
-
-            // Initialise OctaveRecogniser which utilises Redis
-            try
-            {
-                this.Recogniser = new PhotometricFacialRecogniser(this.RedisHost, this.RedisPort);
-            }
-            catch(Exception ex)
-            {
-                errorsOccured = true;
-                errorMessages.Add(ex.Message);
-            }
-
-            if(errorsOccured)
-            {
-                var errorOutput = String.Empty;
-
-                foreach(var message in errorMessages)
-                {
-                    errorOutput += message + "\n\n";
-                }
-
-                errorOutput.TrimEnd('\n');
-
-                string error = "There were errors launching the application - this may prevent it from functioning correctly.\n\nError(s):\n" + errorOutput;
-                MessageBox.Show(this, error, "Initialisation Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                tabMain.SelectTab(tabConfiguration);
-            } 
         }
 
         #region CameraStreamsTab
@@ -113,12 +45,12 @@ namespace FacialRecognition.Forms
         {
             try 
             {
-                pbxImage.Image = this.Kinect.CaptureImage();
-                pbxDept.Image = this.Kinect.CaptureDepthImage();
+                pbxImage.Image = ApplicationGlobals.Kinect.CaptureImage();
+                pbxDept.Image = ApplicationGlobals.Kinect.CaptureDepthImage();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
 
@@ -126,11 +58,11 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                this.Kinect.AdjustElevation(10);
+                ApplicationGlobals.Kinect.AdjustElevation(10);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
 
@@ -138,11 +70,11 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                this.Kinect.AdjustElevation(-10);
+                ApplicationGlobals.Kinect.AdjustElevation(-10);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
 
@@ -150,47 +82,31 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                this.Kinect.SaveFrameData();
-
+                ApplicationGlobals.Kinect.SaveFrameData();
                 MessageBox.Show("Data saved successfully to your Desktop", "Facial Recognition", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
         #endregion
 
         #region FacialRecognitionTab
-        Bitmap RecognitionSourceImage;
-        Rectangle[] LocationOfDetectedFaces;
-
-        private void PrepareKinectSensor()
-        {
-            if (KinectSensor.KinectSensors.Count > 0)
-            {
-                this.Kinect = new KinectV1Sensor(KinectSensor.KinectSensors[0]);
-            }
-            else
-            {
-                throw new Exception("Could find a Kinect sensor attached to this system");
-            }
-        }
-
         private void btnCaptureFrame_Click(object sender, EventArgs e)
         {
             try
             {
-                if (this.Kinect != null)
+                if (ApplicationGlobals.Kinect != null)
                 {
-                    this.RecognitionSourceImage = this.Kinect.CaptureImage();
+                    this.RecognitionSourceImage = ApplicationGlobals.Kinect.CaptureImage(true);
                     pbxCapturedColorImage.Image = this.RecognitionSourceImage;
                     btnFacialDetection.Enabled = true;
                 }
             }
-            catch(Exception _ex)
+            catch(Exception ex)
             {
-                MessageBox.Show(_ex.Message + "\n\n" + _ex.StackTrace);
+                Messages.DisplayErrorMessage(this, ex.Message + "\n\n" + ex.StackTrace);
             }
         }
 
@@ -234,51 +150,30 @@ namespace FacialRecognition.Forms
         {
             try 
             {
-                this.LocationOfDetectedFaces = Detector.DetectFaces(RecognitionSourceImage);
-
-                if (this.LocationOfDetectedFaces.Length < 1)
-                {
-                    MessageBox.Show("No faces detected");
-                }
-                else
-                {
-                    var graphics = pbxCapturedColorImage.CreateGraphics();
-                    var pen = new Pen(Color.Green, 3);
-
-                    foreach(var rectangle in this.LocationOfDetectedFaces)
-                    {
-                        graphics.DrawRectangle(pen, rectangle);
-                    }
-
-                    lblDetectedFaces.Text = "Detected Faces: " + this.LocationOfDetectedFaces.Length;
-                    btnNormalise.Enabled = true;
-                }
+                pbxCapturedColorImage.Image = this.DetectionController.FindAndDrawDetectedFaces(RecognitionSourceImage).Image;
+                btnNormalise.Enabled = true;
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "FacialDetection", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
-            
         }
 
         private void btnNormalise_Click(object sender, EventArgs e)
         {
             try
             {
-                var normaliser = new PhotometricFacialImageNormaliser();
-                var face = RecognitionSourceImage.Clone(LocationOfDetectedFaces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-
+                var face = DetectionController.ExtractFacialImage(this.RecognitionSourceImage, ApplicationGlobals.LocationOfDetectedFaces);
                 pbxSourceFace.Size = face.Size;
                 pbxSourceFace.Image = face;
 
-                var normalisedFace = normaliser.NormaliseImage(face, 168, 192);
-
+                var normalisedFace = this.ImageProcessingController.NormaliseFacialImage(pbxSourceFace.Image);
                 pbxNormalisedFace.Image = normalisedFace;
                 btnPerformFacialRec.Enabled = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
 
@@ -287,14 +182,12 @@ namespace FacialRecognition.Forms
             try
             {
                 var face = new Bitmap(pbxNormalisedFace.Image);
-
-                var recognitionResult = this.Recogniser.ClassifyFace(face);
-
+                var recognitionResult = ApplicationGlobals.Recogniser.ClassifyFace(face);
                 MessageBox.Show(this, "Result: " + recognitionResult.Id);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
         #endregion    
@@ -302,8 +195,32 @@ namespace FacialRecognition.Forms
         #region DatabaseTab
         private void UpdateDatabaseDisplay()
         {
-            var people = this.Database.RetrieveAll();
+            var people = ApplicationGlobals.Database.RetrieveAll();
             grdUsers.DataSource = people;
+            this.SetDatabaseCrudMode();
+        }
+
+        private void SetDatabaseCrudMode()
+        {
+            if (cboSelectCRUDMode.SelectedIndex == 0)
+            {
+                this.EditingMode = DatabaseEditingMode.AddingNewUser;
+                txtPersonID.Text = "auto-assigned";
+                txtPersonForename.Text = String.Empty;
+                txtPersonSurname.Text = String.Empty;
+                btnSavePersonToDatabase.Text = "Save Person";
+                pbxPersonFacialImages.Image = null;
+                DisplayedPerson.Person = new Person();
+                DisplayedPerson.ImageIndex = 0;
+                txtPersonForename.Focus();
+            }
+            else if (cboSelectCRUDMode.SelectedIndex == 1)
+            {
+                this.EditingMode = DatabaseEditingMode.UpdatingExistingUser;
+                this.DisplayAPersonsDetailsForEditing();
+                btnSavePersonToDatabase.Text = "Update Person";
+                grdUsers.Focus();
+            }
         }
 
         private void grdUsers_SelectionChanged(object sender, EventArgs e)
@@ -314,6 +231,11 @@ namespace FacialRecognition.Forms
             }
         }
 
+        private void cboSelectCRUDMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.SetDatabaseCrudMode();
+        }
+
         private void DisplayAPersonsDetailsForEditing()
         {
             var selectedPerson = grdUsers.SelectedRows;
@@ -322,7 +244,7 @@ namespace FacialRecognition.Forms
             {
                 var idOfSelectedPerson = selectedPerson[0].Cells["colIdentifier"].Value.ToString();
 
-                var person = this.Database.Retrieve(idOfSelectedPerson);
+                var person = ApplicationGlobals.Database.Retrieve(idOfSelectedPerson);
                 DisplayedPerson.Person = person;
                 pbxPersonFacialImages.Image = null;
 
@@ -338,47 +260,18 @@ namespace FacialRecognition.Forms
             }
         }
 
-        private DatabaseEditingMode EditingMode = DatabaseEditingMode.AddingNewUser;
-
-        private void cboSelectCRUDMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cboSelectCRUDMode.SelectedIndex == 0)
-            {
-                this.EditingMode = DatabaseEditingMode.AddingNewUser;
-                txtPersonID.Text = "auto-assigned";
-                txtPersonForename.Text = String.Empty;
-                txtPersonSurname.Text = String.Empty;
-                btnSavePersonToDatabase.Text = "Save Person";
-                pbxPersonFacialImages.Image = null;
-
-                //TODO
-                //Extract this code
-                DisplayedPerson.Person = new Person();               
-                DisplayedPerson.ImageIndex = 0;
-
-                txtPersonForename.Focus();
-            }
-            else if (cboSelectCRUDMode.SelectedIndex == 1)
-            {
-                this.EditingMode = DatabaseEditingMode.UpdatingExistingUser;
-                this.DisplayAPersonsDetailsForEditing();
-                btnSavePersonToDatabase.Text = "Update Person";
-                grdUsers.Focus();
-            }
-        }
-
         private void btnSavePersonToDatabase_Click(object sender, EventArgs e)
         {
             // TODO - validation
             if (this.EditingMode == DatabaseEditingMode.UpdatingExistingUser)
             {
-                var personToUpdate = this.Database.Retrieve(txtPersonID.Text);
+                var personToUpdate = ApplicationGlobals.Database.Retrieve(txtPersonID.Text);
 
                 personToUpdate.Forename = txtPersonForename.Text;
                 personToUpdate.Surname = txtPersonSurname.Text;
                 personToUpdate.Images = DisplayedPerson.Person.Images;
 
-                this.Database.Update(personToUpdate);
+                ApplicationGlobals.Database.Update(personToUpdate);
 
                 MessageBox.Show("Person Updated");
             }
@@ -389,7 +282,7 @@ namespace FacialRecognition.Forms
                 person.Surname = txtPersonSurname.Text;
                 person.Images = DisplayedPerson.Person.Images;
 
-                this.Database.Store(person);
+                ApplicationGlobals.Database.Store(person);
 
                 MessageBox.Show("Person Stored");
 
@@ -403,9 +296,13 @@ namespace FacialRecognition.Forms
 
         private void btnUserCaptureImage_Click(object sender, EventArgs e)
         {
-            if (this.Kinect != null)
+            try
             {
-                pbxUserImage.Image = this.Kinect.CaptureImage();
+                pbxUserImage.Image = ApplicationGlobals.Kinect.CaptureImage();
+            }
+            catch(Exception ex)
+            {
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
 
@@ -413,26 +310,12 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                LocationOfDetectedFaces = Detector.DetectFaces((Bitmap)pbxUserImage.Image);
-
-                if (LocationOfDetectedFaces.Length < 1)
-                {
-                    MessageBox.Show("No faces detected");
-                }
-                else
-                {
-                    var graphics = pbxUserImage.CreateGraphics();
-                    var pen = new Pen(Color.Green, 3);
-
-                    foreach (var rectangle in this.LocationOfDetectedFaces)
-                    {
-                        graphics.DrawRectangle(pen, rectangle);
-                    }
-                }
+                var sourceImage = new Bitmap(pbxUserImage.Image);
+                pbxUserImage.Image = this.DetectionController.FindAndDrawDetectedFaces(sourceImage).Image;
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "FacialDetection", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
 
@@ -440,20 +323,17 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                var normaliser = new PhotometricFacialImageNormaliser();
-                var capturedImage = new Bitmap(pbxUserImage.Image);
-                var face = capturedImage.Clone(LocationOfDetectedFaces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-
-                var normalisedImage = normaliser.NormaliseImage(face, 168, 192);
+                var face = this.DetectionController.ExtractFacialImage(pbxUserImage.Image, ApplicationGlobals.LocationOfDetectedFaces);
+                var normalisedImage = this.ImageProcessingController.NormaliseFacialImage(face);
                 
                 // Add to user images
                 DisplayedPerson.Person.Images.Add(normalisedImage);
                 pbxPersonFacialImages.Image = DisplayedPerson.Person.Images[DisplayedPerson.Person.Images.Count - 1];
                 DisplayedPerson.ImageIndex = DisplayedPerson.Person.Images.Count - 1;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(_ex.Message);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
 
@@ -494,15 +374,15 @@ namespace FacialRecognition.Forms
         private void btnRetrainRecogniser_Click(object sender, EventArgs e)
         {
             // Send the retrain request
-            MessageBox.Show(this, "Retraining - this will take some time", "Facial Recognition", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Messages.DisplayInformationMessage(this, "Retraining - this will take some time");
 
             try
             {
-                this.Recogniser.RetrainRecogniser(this.Database.RetrieveAll());
+                ApplicationGlobals.Recogniser.RetrainRecogniser(ApplicationGlobals.Database.RetrieveAll());
             }
             catch(Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
 
@@ -510,11 +390,11 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                this.Recogniser.SaveSession();
+                ApplicationGlobals.Recogniser.SaveSession();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
         }
 
@@ -522,12 +402,21 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                this.Recogniser.ReloadSession();
+                ApplicationGlobals.Recogniser.ReloadSession();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Messages.DisplayErrorMessage(this, ex.Message);
             }
+        }
+
+        public void DisplaySettings()
+        {
+            txtCouchDBHost.Text = Properties.Settings.Default.CouchDBHost;
+            txtCouchDBPort.Text = Properties.Settings.Default.CouchDBPort.ToString();
+            txtCouchDatabaseName.Text = Properties.Settings.Default.CouchDatabaseName;
+            txtRedisHost.Text = Properties.Settings.Default.RedisHost;
+            txtRedisPort.Text = Properties.Settings.Default.RedisPort.ToString();
         }
 
         private void btnSaveSettings_Click(object sender, EventArgs e)
@@ -538,13 +427,14 @@ namespace FacialRecognition.Forms
             Properties.Settings.Default.CouchDatabaseName = txtCouchDatabaseName.Text;
             Properties.Settings.Default.RedisHost = txtRedisHost.Text;
             Properties.Settings.Default.RedisPort = int.Parse(txtRedisPort.Text);
-
             Properties.Settings.Default.Save();
 
-            MessageBox.Show(this, "Setting saved successfully. Application will now attempt to re-connect to data stores using specified settings.", "Facial Recognition", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Messages.DisplayInformationMessage(this, "Setting saved successfully. Application will now attempt to re-connect to data stores using specified settings.");
 
             // Initialise system using new settings
-            this.SystemStartup();
+            this.Cursor = Cursors.WaitCursor;
+            this.InitialiseApplication();
+            this.Cursor = Cursors.Default;
         }
         #endregion
     }
