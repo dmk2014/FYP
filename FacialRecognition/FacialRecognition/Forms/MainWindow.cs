@@ -409,21 +409,28 @@ namespace FacialRecognition.Forms
 
         private void btnUserDetectFacialImage_Click(object sender, EventArgs e)
         {
-            LocationOfDetectedFaces = Detector.DetectFaces((Bitmap)pbxUserImage.Image);
-
-            if (LocationOfDetectedFaces.Length < 1)
+            try
             {
-                MessageBox.Show("No faces detected");
-            }
-            else
-            {
-                var graphics = pbxUserImage.CreateGraphics();
-                var pen = new Pen(Color.Green, 3);
+                LocationOfDetectedFaces = Detector.DetectFaces((Bitmap)pbxUserImage.Image);
 
-                foreach(var rectangle in this.LocationOfDetectedFaces)
+                if (LocationOfDetectedFaces.Length < 1)
                 {
-                    graphics.DrawRectangle(pen, rectangle);
+                    MessageBox.Show("No faces detected");
                 }
+                else
+                {
+                    var graphics = pbxUserImage.CreateGraphics();
+                    var pen = new Pen(Color.Green, 3);
+
+                    foreach (var rectangle in this.LocationOfDetectedFaces)
+                    {
+                        graphics.DrawRectangle(pen, rectangle);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "FacialDetection", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
