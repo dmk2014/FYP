@@ -1,6 +1,4 @@
-﻿using Emgu.CV;
-using Emgu.CV.Structure;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 
 namespace FacialRecognition.Library.Detection
@@ -63,9 +61,9 @@ namespace FacialRecognition.Library.Detection
         /// <returns>A array of System.Drawing.Rectangle whose contents defines the locations of all detected faces</returns>
         public Rectangle[] DetectFaces(Bitmap image)
         {
-            var emguImage = new Image<Gray, byte>(image);
+            var emguImage = new Emgu.CV.Image<Emgu.CV.Structure.Gray, byte>(image);
 
-            var classifier = new CascadeClassifier(this.ClassifierPath);
+            var classifier = new Emgu.CV.CascadeClassifier(this.ClassifierPath);
 
             var faces = classifier.DetectMultiScale(emguImage, this.ScaleFactor, this.MinimumNeighbours, this.MinimumSize, this.MaximumSize);
 
