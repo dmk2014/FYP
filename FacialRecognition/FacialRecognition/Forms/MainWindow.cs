@@ -181,14 +181,26 @@ namespace FacialRecognition.Forms
         {
             try
             {
+                this.ResetRecognitionResult();
                 var face = new Bitmap(pbxNormalisedFace.Image);
                 var recognitionResult = ApplicationGlobals.Recogniser.ClassifyFace(face);
-                MessageBox.Show(this, "Result: " + recognitionResult.Id);
+
+                var person = ApplicationGlobals.Database.Retrieve(recognitionResult.Id);
+                txtRecognisedID.Text = person.Id;
+                txtRecognisedForename.Text = person.Forename;
+                txtRecognisedSurname.Text = person.Surname;
             }
             catch (Exception ex)
             {
                 Messages.DisplayErrorMessage(this, ex.Message);
             }
+        }
+
+        private void ResetRecognitionResult()
+        {
+            txtRecognisedID.Text = String.Empty;
+            txtRecognisedForename.Text = String.Empty;
+            txtRecognisedSurname.Text = String.Empty;
         }
         #endregion    
 
