@@ -2,7 +2,7 @@
 
 namespace FacialRecognition.Library.Detection
 {
-    interface IFacialDetector
+    public interface IFacialDetector
     {
         Rectangle[] DetectFaces(Bitmap image);
     }
