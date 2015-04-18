@@ -1,11 +1,10 @@
-﻿using Microsoft.Kinect;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace FacialRecognition.Library.Hardware.KinectV1
 {
     public class KinectV1Sensor : IImagingHardware
     {
-        private KinectSensor Sensor;
+        private Microsoft.Kinect.KinectSensor Sensor;
         private SensorDataProcessor DataProcessor;
         private const int FrameWaitTimeout = 700;
 
@@ -13,7 +12,7 @@ namespace FacialRecognition.Library.Hardware.KinectV1
         /// Constructs a KinectV1Sensor that uses the specified KinectSensor for data capture.
         /// </summary>
         /// <param name="sensor">The KinectSensor to be used.</param>
-        public KinectV1Sensor(KinectSensor sensor)
+        public KinectV1Sensor(Microsoft.Kinect.KinectSensor sensor)
         {
             this.Sensor = sensor;
             this.ConfigureSensor();
@@ -22,9 +21,9 @@ namespace FacialRecognition.Library.Hardware.KinectV1
 
         private void ConfigureSensor()
         {
-            this.Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
-            this.Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
-            this.Sensor.DepthStream.Range = DepthRange.Default;
+            this.Sensor.ColorStream.Enable(Microsoft.Kinect.ColorImageFormat.RgbResolution640x480Fps30);
+            this.Sensor.DepthStream.Enable(Microsoft.Kinect.DepthImageFormat.Resolution640x480Fps30);
+            this.Sensor.DepthStream.Range = Microsoft.Kinect.DepthRange.Default;
             this.Sensor.Start();
         }
 

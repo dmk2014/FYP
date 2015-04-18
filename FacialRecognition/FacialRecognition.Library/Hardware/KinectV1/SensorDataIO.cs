@@ -1,5 +1,4 @@
-﻿using Microsoft.Kinect;
-using System;
+﻿using System;
 using System.IO;
 
 namespace FacialRecognition.Library.Hardware.KinectV1
@@ -8,7 +7,7 @@ namespace FacialRecognition.Library.Hardware.KinectV1
     {
         private string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-        public void SaveRawPixelDataDepth(DepthImageFrame frame)
+        public void SaveRawPixelDataDepth(Microsoft.Kinect.DepthImageFrame frame)
         {
             var pixelData = new short[frame.PixelDataLength];
             frame.CopyPixelDataTo(pixelData);
@@ -27,7 +26,7 @@ namespace FacialRecognition.Library.Hardware.KinectV1
             }
         }
 
-        public void SaveRawPixelDataColour(ColorImageFrame frame)
+        public void SaveRawPixelDataColour(Microsoft.Kinect.ColorImageFrame frame)
         {
             var pixelData = new byte[frame.PixelDataLength];
             frame.CopyPixelDataTo(pixelData);

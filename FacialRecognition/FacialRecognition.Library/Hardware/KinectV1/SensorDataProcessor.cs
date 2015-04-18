@@ -1,5 +1,4 @@
-﻿﻿using Microsoft.Kinect;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
@@ -12,7 +11,7 @@ namespace FacialRecognition.Library.Hardware.KinectV1
         /// </summary>
         /// <param name="colorFrame">The source color frame to be converted.</param>
         /// <returns>A Bitmap image.</returns>
-        public Bitmap ColorToBitmap(ColorImageFrame colorFrame)
+        public Bitmap ColorToBitmap(Microsoft.Kinect.ColorImageFrame colorFrame)
         {
             var sourceImageData = new byte[colorFrame.PixelDataLength];
             colorFrame.CopyPixelDataTo(sourceImageData);
@@ -29,7 +28,7 @@ namespace FacialRecognition.Library.Hardware.KinectV1
         /// </summary>
         /// <param name="depthFrame">The source depth frame to be converted.</param>
         /// <returns>A Bitmap image.</returns>
-        public Bitmap DepthToBitmap(DepthImageFrame depthFrame)
+        public Bitmap DepthToBitmap(Microsoft.Kinect.DepthImageFrame depthFrame)
         {
             var sourceDepthData = new short[depthFrame.PixelDataLength];
             depthFrame.CopyPixelDataTo(sourceDepthData);
@@ -47,12 +46,12 @@ namespace FacialRecognition.Library.Hardware.KinectV1
         /// <param name="depthFrame">The depth frame.</param>
         /// <param name="maxDepth">The max depth in millimetres.</param>
         /// <returns>A Bitmap image.</returns>
-        public Bitmap ReduceColorImageUsingDepthData(ColorImageFrame colorFrame, DepthImageFrame depthFrame, int maxDepth)
+        public Bitmap ReduceColorImageUsingDepthData(Microsoft.Kinect.ColorImageFrame colorFrame, Microsoft.Kinect.DepthImageFrame depthFrame, int maxDepth)
         {
             // Reference used for Kinect Depth API functions: https://msdn.microsoft.com/en-us/library/jj131029.aspx
             
             // Get the depth data
-            var depthData = new DepthImagePixel[depthFrame.PixelDataLength];
+            var depthData = new Microsoft.Kinect.DepthImagePixel[depthFrame.PixelDataLength];
             depthFrame.CopyDepthImagePixelDataTo(depthData);
 
             // Get the color data
