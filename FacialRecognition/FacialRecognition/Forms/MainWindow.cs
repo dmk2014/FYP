@@ -16,7 +16,7 @@ namespace FacialRecognition.Forms
         private IDatabase Database;
         private KinectV1Sensor Kinect;
         private FacialDetector Detector;
-        private OctaveRecogniser Recogniser;
+        private PhotometricFacialRecogniser Recogniser;
 
         private string CouchDBHost;
         private int CouchDBPort;
@@ -81,7 +81,7 @@ namespace FacialRecognition.Forms
             // Initialise OctaveRecogniser which utilises Redis
             try
             {
-                this.Recogniser = new OctaveRecogniser(this.RedisHost, this.RedisPort);
+                this.Recogniser = new PhotometricFacialRecogniser(this.RedisHost, this.RedisPort);
             }
             catch(Exception ex)
             {
@@ -263,7 +263,7 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                var normaliser = new FacialRecognition.Library.Octave.OctaveNormaliser();
+                var normaliser = new FacialRecognition.Library.Octave.PhotometricFacialImageNormaliser();
                 var face = RecognitionSourceImage.Clone(LocationOfDetectedFaces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
 
                 pbxSourceFace.Size = face.Size;
@@ -438,7 +438,7 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                var normaliser = new OctaveNormaliser();
+                var normaliser = new PhotometricFacialImageNormaliser();
                 var capturedImage = new Bitmap(pbxUserImage.Image);
                 var face = capturedImage.Clone(LocationOfDetectedFaces[0], System.Drawing.Imaging.PixelFormat.Format32bppRgb);
 

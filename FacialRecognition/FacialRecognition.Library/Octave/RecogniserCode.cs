@@ -1,6 +1,6 @@
 ﻿namespace FacialRecognition.Library.Octave
 {
-    public enum OctaveMessageType
+    public enum RecogniserCode
     {
         // Represents a key which contains no data
         NoData = 50,

@@ -7,13 +7,13 @@ namespace FacialRecognition.Test
     [TestClass]
     public class OctaveNormaliser_Test
     {
-        OctaveNormaliser Normaliser;
+        PhotometricFacialImageNormaliser Normaliser;
         Bitmap TestImage;
 
         [TestInitialize]
         public void InitializeTest()
         {
-            this.Normaliser = new OctaveNormaliser();
+            this.Normaliser = new PhotometricFacialImageNormaliser();
             this.TestImage = Properties.Resources.FacialImage; 
         }
 

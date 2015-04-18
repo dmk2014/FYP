@@ -120,7 +120,7 @@
     <Compile Include="Models\PersonCouchDB.cs" />
     <Compile Include="Octave\OctaveNormaliser.cs" />
     <Compile Include="Octave\RedisConnection.cs" />
-    <Compile Include="Octave\OctaveMessage.cs" />
+    <Compile Include="Octave\RedisMessage.cs" />
     <Compile Include="Octave\OctaveMessageType.cs" />
     <Compile Include="Octave\OctaveRecogniser.cs" />
     <Compile Include="Octave\OctaveStatus.cs" />

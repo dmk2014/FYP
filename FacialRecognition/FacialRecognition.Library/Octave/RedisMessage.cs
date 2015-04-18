@@ -2,7 +2,7 @@
 
 namespace FacialRecognition.Library.Octave
 {
-    public class OctaveMessage
+    public class RedisMessage
     {
         /// <summary>
         /// Gets or sets the message code.
@@ -17,20 +17,20 @@ namespace FacialRecognition.Library.Octave
         /// <summary>
         /// Construct an Octave message with no data.
         /// </summary>
-        public OctaveMessage()
+        public RedisMessage()
         {
-            this.Code = (int)OctaveMessageType.NoData;
-            this.Data = ((int)OctaveMessageType.NoData).ToString();
+            this.Code = (int)RecogniserCode.NoData;
+            this.Data = ((int)RecogniserCode.NoData).ToString();
         }
 
         /// <summary>
         /// Construct an Octave message using the specified code.
         /// </summary>
         /// <param name="code">The message code.</param>
-        public OctaveMessage(int code)
+        public RedisMessage(int code)
         {
             this.Code = code;
-            this.Data = ((int)OctaveMessageType.NoData).ToString();
+            this.Data = ((int)RecogniserCode.NoData).ToString();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace FacialRecognition.Library.Octave
         /// </summary>
         /// <param name="code">The message code.</param>
         /// <param name="data">The message data.</param>
-        public OctaveMessage(int code, string data)
+        public RedisMessage(int code, string data)
         {
             this.Code = code;
             this.Data = data;

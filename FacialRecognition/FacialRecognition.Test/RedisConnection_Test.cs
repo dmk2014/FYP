@@ -125,7 +125,7 @@ namespace FacialRecognition.Test
         [TestMethod]
         public void TestIsRecogniserAvailableSucceeds()
         {
-            this.RedisDatabase.StringSet(RecogniserStatusKey, (int)OctaveStatus.Available);
+            this.RedisDatabase.StringSet(RecogniserStatusKey, (int)RecogniserStatus.Available);
 
             var isRecogniserAvailableMethod = this.Interface.GetType().GetMethod("IsRecogniserAvailable",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -141,7 +141,7 @@ namespace FacialRecognition.Test
             // Create a test message
             var testCode = 21;
             var testData = "testdata";
-            var message = new OctaveMessage(testCode, testData);
+            var message = new RedisMessage(testCode, testData);
 
             // Send the message to Redis
             this.Interface.SendRequest(message);

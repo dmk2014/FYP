@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace FacialRecognition.Library.Octave
 {
-    public class OctaveRecogniser : Core.IFacialRecogniser
+    public class PhotometricFacialRecogniser : Core.IFacialRecogniser
     {
         private RedisConnection Interface;
 
@@ -14,7 +14,7 @@ namespace FacialRecognition.Library.Octave
         /// </summary>
         /// <param name="redisHost">Host where Redis server is running.</param>
         /// <param name="redisPort">Port where Redis server is running.</param>
-        public OctaveRecogniser(string redisHost, int redisPort)
+        public PhotometricFacialRecogniser(string redisHost, int redisPort)
         {
             this.SetInterface(redisHost, redisPort);
         }
@@ -39,13 +39,13 @@ namespace FacialRecognition.Library.Octave
             // Normalised image that must be marshalled to a string
             var imageAsString = this.MarshalFacialImage(facialImage);
 
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRecognition, imageAsString);
+            var recogniserRequest = new RedisMessage((int)RecogniserCode.RequestRecognition, imageAsString);
             this.Interface.SendRequest(recogniserRequest);
 
             var timeoutThirtySeconds = 30000;
             var response = this.Interface.ReceiveResponse(timeoutThirtySeconds);
 
-            if (response.Code == (int)OctaveMessageType.ResponseOk)
+            if (response.Code == (int)RecogniserCode.ResponseOk)
             {
                 // The recogniser response will be the ID of the closest match found in the facial database
                 var result = new Person();
@@ -64,13 +64,13 @@ namespace FacialRecognition.Library.Octave
         /// <returns>A boolean indictaing the success of the operation.</returns>
         public bool SaveSession()
         {
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestSave);
+            var recogniserRequest = new RedisMessage((int)RecogniserCode.RequestSave);
             this.Interface.SendRequest(recogniserRequest);
 
             int timeoutTenMinutes = 600000;
             var response = this.Interface.ReceiveResponse(timeoutTenMinutes);
 
-            if (response.Code == (int)OctaveMessageType.ResponseOk)
+            if (response.Code == (int)RecogniserCode.ResponseOk)
             {
                 return true;
             }
@@ -86,13 +86,13 @@ namespace FacialRecognition.Library.Octave
         /// <returns>A boolean indictaing the success of the operation.</returns>
         public bool ReloadSession()
         {
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestReload);
+            var recogniserRequest = new RedisMessage((int)RecogniserCode.RequestReload);
             this.Interface.SendRequest(recogniserRequest);
 
             int timeoutFiveMinutes = 300000;
             var response = this.Interface.ReceiveResponse(timeoutFiveMinutes);
 
-            if (response.Code == (int)OctaveMessageType.ResponseOk)
+            if (response.Code == (int)RecogniserCode.ResponseOk)
             {
                 return true;
             }
@@ -113,14 +113,14 @@ namespace FacialRecognition.Library.Octave
             this.SendDataToCacheForRetraining(people);
 
             // Send a request to retrain the recogniser
-            var recogniserRequest = new OctaveMessage((int)OctaveMessageType.RequestRetrain);
+            var recogniserRequest = new RedisMessage((int)RecogniserCode.RequestRetrain);
             this.Interface.SendRequest(recogniserRequest);
 
             // Wait for a response - large timeout because retraining requires considerable time period
             int timeoutThirtyMinutes = 1800000;
             var response = this.Interface.ReceiveResponse(timeoutThirtyMinutes);
             
-            if (response.Code == (int)OctaveMessageType.ResponseOk)
+            if (response.Code == (int)RecogniserCode.ResponseOk)
             {
                 return true;
             }
@@ -172,7 +172,7 @@ namespace FacialRecognition.Library.Octave
             }
 
             // Mark end of data in the cache - required by Octave
-            var endOfData = ((int)OctaveMessageType.NoData).ToString();
+            var endOfData = ((int)RecogniserCode.NoData).ToString();
             this.Interface.SendPersonDataToCache(endOfData, endOfData);
         }
     }

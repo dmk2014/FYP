@@ -5,7 +5,7 @@ using System;
 
 namespace FacialRecognition.Library.Octave
 {
-    public class OctaveNormaliser : FacialImageNormaliser
+    public class PhotometricFacialImageNormaliser : FacialImageNormaliser
     {
         /// <summary>
         /// Resizes an image using the specified parameters

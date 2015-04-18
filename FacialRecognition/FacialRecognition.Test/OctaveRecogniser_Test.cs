@@ -12,7 +12,7 @@ namespace FacialRecognition.Test
     {
         private IDatabase Database;
         private const string DatabaseName = "facial1";
-        private OctaveRecogniser Recogniser;
+        private PhotometricFacialRecogniser Recogniser;
         private readonly Image TestImage = FacialRecognition.Test.Properties.Resources.FacialImage;
 
         private const string CouchHost = "localhost";
@@ -24,7 +24,7 @@ namespace FacialRecognition.Test
         public void InitializeTest()
         {
             Database = new CouchDatabase(CouchHost, CouchPort, DatabaseName);
-            Recogniser = new OctaveRecogniser(RedisHost, RedisPort);
+            Recogniser = new PhotometricFacialRecogniser(RedisHost, RedisPort);
         }
 
         [TestMethod]

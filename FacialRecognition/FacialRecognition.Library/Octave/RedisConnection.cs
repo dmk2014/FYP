@@ -68,7 +68,7 @@ namespace FacialRecognition.Library.Octave
             {
                 var statusCode = int.Parse(status);
 
-                if (statusCode == (int)OctaveStatus.Available)
+                if (statusCode == (int)RecogniserStatus.Available)
                     return true;
                 else
                     throw new Exception("Octave reports that it is busy and cannot currently handle a request. Please wait and try again.");
@@ -85,7 +85,7 @@ namespace FacialRecognition.Library.Octave
         /// </summary>
         /// <param name="message">An OctaveMessage that specifies the requirements of the request.</param>
         /// <returns>Boolean value indicating if sending the request was successful.</returns>
-        public bool SendRequest(OctaveMessage message)
+        public bool SendRequest(RedisMessage message)
         {
             if (this.IsRecogniserAvailable())
             {
@@ -93,8 +93,8 @@ namespace FacialRecognition.Library.Octave
 
                 transaction.StringSetAsync(this.FacialRequestCodeKey, message.Code);
                 transaction.StringSetAsync(this.FacialRequestDataKey, message.Data);
-                transaction.StringSetAsync(this.FacialResponseCodeKey, (int)OctaveMessageType.NoData);
-                transaction.StringSetAsync(this.FacialResponseDataKey, (int)OctaveMessageType.NoData);
+                transaction.StringSetAsync(this.FacialResponseCodeKey, (int)RecogniserCode.NoData);
+                transaction.StringSetAsync(this.FacialResponseDataKey, (int)RecogniserCode.NoData);
 
                 return transaction.Execute();
             }
@@ -109,9 +109,9 @@ namespace FacialRecognition.Library.Octave
         /// </summary>
         /// <param name="timeout">The maximum time (in milliseconds) to wait for a response.</param>
         /// <returns>An OctaveMessage containing the response code & data.</returns>
-        public OctaveMessage ReceiveResponse(int timeout)
+        public RedisMessage ReceiveResponse(int timeout)
         {
-            var response = new OctaveMessage();
+            var response = new RedisMessage();
             var responseReceived = false;
             var watch = new Stopwatch();
 
@@ -125,16 +125,16 @@ namespace FacialRecognition.Library.Octave
                 {
                     var responseCode = int.Parse(responseCodeString);
 
-                    if (responseCode != (int)OctaveMessageType.NoData)
+                    if (responseCode != (int)RecogniserCode.NoData)
                     {
                         var responseData = this.RedisDatabase.StringGet(this.FacialResponseDataKey);
-                        response = new OctaveMessage(responseCode, responseData);
+                        response = new RedisMessage(responseCode, responseData);
                         responseReceived = true;
                     }
                 }
             }
 
-            if (response.Code != (int)OctaveMessageType.NoData)
+            if (response.Code != (int)RecogniserCode.NoData)
             {
                 return response;
             }
