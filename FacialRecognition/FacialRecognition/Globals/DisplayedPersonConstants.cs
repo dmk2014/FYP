@@ -1,6 +1,6 @@
 ﻿using FacialRecognition.Library.Models;
 
-namespace FacialRecognition
+namespace FacialRecognition.Globals
 {
     public class DisplayedPerson
     {

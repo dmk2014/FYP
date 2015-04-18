@@ -1,4 +1,4 @@
-﻿namespace FacialRecognition
+﻿namespace FacialRecognition.Globals
 {
     public enum DatabaseEditingMode
     {

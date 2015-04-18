@@ -1,4 +1,5 @@
-﻿using FacialRecognition.Library.Database;
+﻿using FacialRecognition.Globals;
+using FacialRecognition.Library.Database;
 using FacialRecognition.Library.Detection;
 using FacialRecognition.Library.Hardware.KinectV1;
 using FacialRecognition.Library.ImageProcessing;
