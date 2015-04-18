@@ -2,9 +2,9 @@
 
 namespace FacialRecognition
 {
-    public class DisplayedPersonConstants
+    public class DisplayedPerson
     {
-        public static Person DisplayedPerson { get; set; }
-        public static int DisplayedImageIndex { get; set; }
+        public static Person Person { get; set; }
+        public static int ImageIndex { get; set; }
     }
 }

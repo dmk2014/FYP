@@ -322,13 +322,13 @@ namespace FacialRecognition.Forms
                 var idOfSelectedPerson = selectedPerson[0].Cells["colIdentifier"].Value.ToString();
 
                 var person = this.Database.Retrieve(idOfSelectedPerson);
-                DisplayedPersonConstants.DisplayedPerson = person;
+                DisplayedPerson.Person = person;
                 pbxPersonFacialImages.Image = null;
 
-                if (DisplayedPersonConstants.DisplayedPerson.Images.Count > 0)
+                if (DisplayedPerson.Person.Images.Count > 0)
                 {
-                    pbxPersonFacialImages.Image = DisplayedPersonConstants.DisplayedPerson.Images[0];
-                    DisplayedPersonConstants.DisplayedImageIndex = 0;
+                    pbxPersonFacialImages.Image = DisplayedPerson.Person.Images[0];
+                    DisplayedPerson.ImageIndex = 0;
                 }
 
                 txtPersonID.Text = person.Id;
@@ -352,8 +352,8 @@ namespace FacialRecognition.Forms
 
                 //TODO
                 //Extract this code
-                DisplayedPersonConstants.DisplayedPerson = new Person();               
-                DisplayedPersonConstants.DisplayedImageIndex = 0;
+                DisplayedPerson.Person = new Person();               
+                DisplayedPerson.ImageIndex = 0;
 
                 txtPersonForename.Focus();
             }
@@ -375,7 +375,7 @@ namespace FacialRecognition.Forms
 
                 personToUpdate.Forename = txtPersonForename.Text;
                 personToUpdate.Surname = txtPersonSurname.Text;
-                personToUpdate.Images = DisplayedPersonConstants.DisplayedPerson.Images;
+                personToUpdate.Images = DisplayedPerson.Person.Images;
 
                 this.Database.Update(personToUpdate);
 
@@ -386,7 +386,7 @@ namespace FacialRecognition.Forms
                 var person = new Person();
                 person.Forename = txtPersonForename.Text;
                 person.Surname = txtPersonSurname.Text;
-                person.Images = DisplayedPersonConstants.DisplayedPerson.Images;
+                person.Images = DisplayedPerson.Person.Images;
 
                 this.Database.Store(person);
 
@@ -446,9 +446,9 @@ namespace FacialRecognition.Forms
                 var normalisedImage = normaliser.NormaliseImage(face, 168, 192);
                 
                 // Add to user images
-                DisplayedPersonConstants.DisplayedPerson.Images.Add(normalisedImage);
-                pbxPersonFacialImages.Image = DisplayedPersonConstants.DisplayedPerson.Images[DisplayedPersonConstants.DisplayedPerson.Images.Count - 1];
-                DisplayedPersonConstants.DisplayedImageIndex = DisplayedPersonConstants.DisplayedPerson.Images.Count - 1;
+                DisplayedPerson.Person.Images.Add(normalisedImage);
+                pbxPersonFacialImages.Image = DisplayedPerson.Person.Images[DisplayedPerson.Person.Images.Count - 1];
+                DisplayedPerson.ImageIndex = DisplayedPerson.Person.Images.Count - 1;
             }
             catch (Exception _ex)
             {
@@ -460,30 +460,30 @@ namespace FacialRecognition.Forms
         // Extract these two methods to one method
         private void btnPersonImagesForward_Click(object sender, EventArgs e)
         {
-            if (DisplayedPersonConstants.DisplayedPerson.Images.Count > 0)
+            if (DisplayedPerson.Person.Images.Count > 0)
             {
-                var imageCount = DisplayedPersonConstants.DisplayedPerson.Images.Count;
-                var displayedIndex = DisplayedPersonConstants.DisplayedImageIndex;
+                var imageCount = DisplayedPerson.Person.Images.Count;
+                var displayedIndex = DisplayedPerson.ImageIndex;
 
                 if (displayedIndex + 1 < imageCount)
                 {
-                    pbxPersonFacialImages.Image = DisplayedPersonConstants.DisplayedPerson.Images[displayedIndex + 1];
-                    DisplayedPersonConstants.DisplayedImageIndex++;
+                    pbxPersonFacialImages.Image = DisplayedPerson.Person.Images[displayedIndex + 1];
+                    DisplayedPerson.ImageIndex++;
                 }
             }
         }
 
         private void btnPersonImagesBack_Click(object sender, EventArgs e)
         {
-            if (DisplayedPersonConstants.DisplayedPerson.Images.Count > 0)
+            if (DisplayedPerson.Person.Images.Count > 0)
             {
-                var imageCount = DisplayedPersonConstants.DisplayedPerson.Images.Count;
-                var displayedIndex = DisplayedPersonConstants.DisplayedImageIndex;
+                var imageCount = DisplayedPerson.Person.Images.Count;
+                var displayedIndex = DisplayedPerson.ImageIndex;
 
                 if (displayedIndex - 1 >= 0)
                 {
-                    pbxPersonFacialImages.Image = DisplayedPersonConstants.DisplayedPerson.Images[displayedIndex - 1];
-                    DisplayedPersonConstants.DisplayedImageIndex--;
+                    pbxPersonFacialImages.Image = DisplayedPerson.Person.Images[displayedIndex - 1];
+                    DisplayedPerson.ImageIndex--;
                 }
             }
         }
