@@ -1,5 +1,4 @@
-﻿using DreamSeat;
-using FacialRecognition.Library.Models;
+﻿using FacialRecognition.Library.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,7 +25,7 @@ namespace FacialRecognition.Library.Database
         ///     lowercase letter and contain only lowercase or _$()+-/ characters.</param>
         public CouchDatabase(string host, int port, string databaseName)
         {
-            this.Couch = new CouchClient();
+            this.Couch = new DreamSeat.CouchClient();
             this.InitializeDatabase(databaseName);
         }
 
@@ -41,8 +40,8 @@ namespace FacialRecognition.Library.Database
             // Ensure view to retrieve all documents exists
             if (!this.Database.DocumentExists(DesignDocuments + DesignDocumentName))
             {
-                var designDocument = new CouchDesignDocument(DesignDocumentName);
-                var couchView = new CouchView(AllDocumentsViewDefinition);
+                var designDocument = new DreamSeat.CouchDesignDocument(DesignDocumentName);
+                var couchView = new DreamSeat.CouchView(AllDocumentsViewDefinition);
 
                 designDocument.Views.Add(AllDocumentsViewName, couchView);
                 this.Database.CreateDocument(designDocument);
@@ -197,7 +196,7 @@ namespace FacialRecognition.Library.Database
         private List<Image> RetrieveAttachments(string personID)
         {
             var images = new List<Image>();
-            var person = this.Database.GetDocument<CouchDocument>(personID);
+            var person = this.Database.GetDocument<DreamSeat.CouchDocument>(personID);
 
             if (person.HasAttachment)
             {
