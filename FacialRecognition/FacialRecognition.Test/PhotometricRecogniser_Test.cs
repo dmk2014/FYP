@@ -7,7 +7,7 @@ using System.Drawing;
 namespace FacialRecognition.Test
 {
     [TestClass]
-    public class OctaveRecogniser_Test
+    public class PhotometricRecogniser_Test
     {
         private IDatabase Database;
         private const string DatabaseName = "facial1";

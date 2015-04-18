@@ -5,7 +5,7 @@ using System.Drawing;
 namespace FacialRecognition.Test
 {
     [TestClass]
-    public class OctaveNormaliser_Test
+    public class PhotometricNormaliser_Test
     {
         PhotometricFacialImageNormaliser Normaliser;
         Bitmap TestImage;

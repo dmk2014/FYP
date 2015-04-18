@@ -82,9 +82,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="OctaveRecogniser_Test.cs" />
+    <Compile Include="PhotometricRecogniser_Test.cs" />
     <Compile Include="RedisConnection_Test.cs" />
-    <Compile Include="OctaveNormaliser_Test.cs" />
+    <Compile Include="PhotometricNormaliser_Test.cs" />
     <Compile Include="FacialDetector_Test.cs" />
   </ItemGroup>
   <ItemGroup>
