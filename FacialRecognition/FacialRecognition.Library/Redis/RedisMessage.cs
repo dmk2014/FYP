@@ -15,7 +15,7 @@ namespace FacialRecognition.Library.Redis
         public string Data { set; get; }
 
         /// <summary>
-        /// Construct an Octave message with no data.
+        /// Construct an Redis message with no data.
         /// </summary>
         public RedisMessage()
         {
@@ -24,7 +24,7 @@ namespace FacialRecognition.Library.Redis
         }
 
         /// <summary>
-        /// Construct an Octave message using the specified code.
+        /// Construct a Redis message using the specified code.
         /// </summary>
         /// <param name="code">The message code.</param>
         public RedisMessage(int code)
@@ -34,7 +34,7 @@ namespace FacialRecognition.Library.Redis
         }
 
         /// <summary>
-        /// Construct an Octave message using the specified code & data.
+        /// Construct a Redis message using the specified code & data.
         /// </summary>
         /// <param name="code">The message code.</param>
         /// <param name="data">The message data.</param>

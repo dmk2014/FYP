@@ -8,10 +8,10 @@ namespace FacialRecognition.Library.Recognition
 {
     public class PhotometricFacialRecogniser : IFacialRecogniser
     {
-        private RedisConnection Interface;
+        private RedisConnection RedisConnection;
 
         /// <summary>
-        /// Connects to an Octave recogniser using the Redis server at the specified host and port.
+        /// Connects to a photometric recogniser using the Redis server at the specified host and port.
         /// </summary>
         /// <param name="redisHost">Host where Redis server is running.</param>
         /// <param name="redisPort">Port where Redis server is running.</param>
@@ -27,7 +27,7 @@ namespace FacialRecognition.Library.Recognition
         /// <param name="redisPort">Port where Redis server is running.</param>
         public void SetInterface(string redisHost, int redisPort)
         {
-            this.Interface = new RedisConnection(redisHost, redisPort);
+            this.RedisConnection = new RedisConnection(redisHost, redisPort);
         }
 
         /// <summary>
@@ -41,10 +41,10 @@ namespace FacialRecognition.Library.Recognition
             var imageAsString = this.MarshalFacialImage(facialImage);
 
             var recogniserRequest = new RedisMessage((int)RecogniserCode.RequestRecognition, imageAsString);
-            this.Interface.SendRequest(recogniserRequest);
+            this.RedisConnection.SendRequest(recogniserRequest);
 
             var timeoutThirtySeconds = 30000;
-            var response = this.Interface.ReceiveResponse(timeoutThirtySeconds);
+            var response = this.RedisConnection.ReceiveResponse(timeoutThirtySeconds);
 
             if (response.Code == (int)RecogniserCode.ResponseOk)
             {
@@ -66,10 +66,10 @@ namespace FacialRecognition.Library.Recognition
         public bool SaveSession()
         {
             var recogniserRequest = new RedisMessage((int)RecogniserCode.RequestSave);
-            this.Interface.SendRequest(recogniserRequest);
+            this.RedisConnection.SendRequest(recogniserRequest);
 
             int timeoutTenMinutes = 600000;
-            var response = this.Interface.ReceiveResponse(timeoutTenMinutes);
+            var response = this.RedisConnection.ReceiveResponse(timeoutTenMinutes);
 
             if (response.Code == (int)RecogniserCode.ResponseOk)
             {
@@ -88,10 +88,10 @@ namespace FacialRecognition.Library.Recognition
         public bool ReloadSession()
         {
             var recogniserRequest = new RedisMessage((int)RecogniserCode.RequestReload);
-            this.Interface.SendRequest(recogniserRequest);
+            this.RedisConnection.SendRequest(recogniserRequest);
 
             int timeoutFiveMinutes = 300000;
-            var response = this.Interface.ReceiveResponse(timeoutFiveMinutes);
+            var response = this.RedisConnection.ReceiveResponse(timeoutFiveMinutes);
 
             if (response.Code == (int)RecogniserCode.ResponseOk)
             {
@@ -115,11 +115,11 @@ namespace FacialRecognition.Library.Recognition
 
             // Send a request to retrain the recogniser
             var recogniserRequest = new RedisMessage((int)RecogniserCode.RequestRetrain);
-            this.Interface.SendRequest(recogniserRequest);
+            this.RedisConnection.SendRequest(recogniserRequest);
 
             // Wait for a response - large timeout because retraining requires considerable time period
             int timeoutThirtyMinutes = 1800000;
-            var response = this.Interface.ReceiveResponse(timeoutThirtyMinutes);
+            var response = this.RedisConnection.ReceiveResponse(timeoutThirtyMinutes);
             
             if (response.Code == (int)RecogniserCode.ResponseOk)
             {
@@ -161,20 +161,20 @@ namespace FacialRecognition.Library.Recognition
         private void SendDataToCacheForRetraining(List<Person> peopleInDatabase)
         {
             // Ensure cache is cleared of all previous data
-            this.Interface.EnsurePersonDataIsClearedFromCache();
+            this.RedisConnection.EnsurePersonDataIsClearedFromCache();
 
             // Send all data to the cache
             foreach(var person in peopleInDatabase)
             {
                 foreach(var image in person.Images)
                 {
-                    this.Interface.SendPersonDataToCache(person.Id, this.MarshalFacialImage(image));
+                    this.RedisConnection.SendPersonDataToCache(person.Id, this.MarshalFacialImage(image));
                 }
             }
 
             // Mark end of data in the cache - required by Octave
             var endOfData = ((int)RecogniserCode.NoData).ToString();
-            this.Interface.SendPersonDataToCache(endOfData, endOfData);
+            this.RedisConnection.SendPersonDataToCache(endOfData, endOfData);
         }
     }
 }
