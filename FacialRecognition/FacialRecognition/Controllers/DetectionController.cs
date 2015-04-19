@@ -1,6 +1,7 @@
 ﻿using FacialRecognition.Globals;
 using System.Drawing;
 using System.Windows.Forms;
+using FacialRecognition.Util;
 
 namespace FacialRecognition.Controllers
 {
@@ -24,6 +25,10 @@ namespace FacialRecognition.Controllers
                 }
 
                 pictureBox.Image = sourceImage;
+            }
+            else
+            {
+                Messages.DisplayInformationMessage(null, "No faces were detected within the specified image");
             }
 
             return pictureBox;
