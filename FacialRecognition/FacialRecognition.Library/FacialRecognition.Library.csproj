@@ -115,6 +115,11 @@
     <Compile Include="Hardware\KinectV1\SensorDataIO.cs" />
     <Compile Include="Hardware\KinectV1\SensorDataProcessor.cs" />
     <Compile Include="Detection\IFacialDetector.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Recognition\IFacialRecogniser.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonCouchDB.cs" />
@@ -132,8 +137,16 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\haarcascade_frontalface_default.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="x64\cudart64_65.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
