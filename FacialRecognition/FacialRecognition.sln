@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacialRecognition", "FacialRecognition\FacialRecognition.csproj", "{5776870B-B619-48F4-9641-2263F6D559DB}"
 EndProject
-Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Modelling", "Modelling\Modelling.modelproj", "{170C798B-BCE2-42D3-A06C-16913FCC424B}"
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "FacialRecognition.Modelling", "Modelling\FacialRecognition.Modelling.modelproj", "{170C798B-BCE2-42D3-A06C-16913FCC424B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacialRecognition.Library", "FacialRecognition.Library\FacialRecognition.Library.csproj", "{49864109-6B1D-4327-9FC3-90F95240DD7A}"
 EndProject

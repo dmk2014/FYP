@@ -7,13 +7,13 @@ namespace FacialRecognition.Test
     [TestClass]
     public class CouchDB_Connection_Test
     {
-        IDatabase _db;
-        private const String DATABASE_NAME = "testing";
+        IDatabase CouchDatabase;
+        private const String DatabaseName = "testing";
 
         [TestCleanup]
         public void TestCleanup()
         {
-            _db.DeleteDatabase(DATABASE_NAME);
+            CouchDatabase.DeleteDatabase(DatabaseName);
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace FacialRecognition.Test
         [TestMethod]
         public void TestCouchConnection()
         {
-            _db = new CouchDatabase("localhost", 5984, DATABASE_NAME);
+            CouchDatabase = new CouchDatabase("localhost", 5984, DatabaseName);
         }
     }
 }

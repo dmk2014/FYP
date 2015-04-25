@@ -8,10 +8,10 @@ namespace FacialRecognition.Test
     [TestClass]
     public class RedisConnection_Test
     {
-        private StackExchange.Redis.ConnectionMultiplexer Connection;
+        private StackExchange.Redis.ConnectionMultiplexer ConnectionMultiplexer;
         private StackExchange.Redis.IDatabase RedisDatabase;
 
-        private RedisConnection Interface;
+        private RedisConnection RedisConnection;
         private const string RedisHost = "localhost";
         private const int RedisPort = 6379;
 
@@ -24,12 +24,12 @@ namespace FacialRecognition.Test
         [TestInitialize]
         public void InitializeTest()
         {
-            this.Connection = StackExchange.Redis.ConnectionMultiplexer.Connect(RedisHost + ":" + RedisPort);
-            this.RedisDatabase = this.Connection.GetDatabase();
-            this.Interface = new RedisConnection(RedisHost, RedisPort);
+            this.ConnectionMultiplexer = StackExchange.Redis.ConnectionMultiplexer.Connect(RedisHost + ":" + RedisPort);
+            this.RedisDatabase = this.ConnectionMultiplexer.GetDatabase();
+            this.RedisConnection = new RedisConnection(RedisHost, RedisPort);
 
             // Ensure a clear cache
-            this.Interface.EnsurePersonDataIsClearedFromCache();
+            this.RedisConnection.EnsurePersonDataIsClearedFromCache();
             this.RedisDatabase.KeyDelete(RequestCodeKey);
             this.RedisDatabase.KeyDelete(RequestDataKey);
             this.RedisDatabase.KeyDelete(ResponseCodeKey);
@@ -63,7 +63,7 @@ namespace FacialRecognition.Test
 
             for (var i = 0; i < numItemsInList; i++)
             {
-                this.Interface.SendPersonDataToCache(personLabel, personImage);
+                this.RedisConnection.SendPersonDataToCache(personLabel, personImage);
             }
 
             // Assert that the correct amount of data was inserted
@@ -87,7 +87,7 @@ namespace FacialRecognition.Test
 
             for (var i = 0; i < numItemsInList; i++)
             {
-                this.Interface.SendPersonDataToCache(personLabel, personImage);
+                this.RedisConnection.SendPersonDataToCache(personLabel, personImage);
             }
 
             // Assert that the correct amount of data was inserted
@@ -101,7 +101,7 @@ namespace FacialRecognition.Test
             Assert.AreEqual(numItemsInList, dataCount);
 
             // Clear all person data from the cache
-            this.Interface.EnsurePersonDataIsClearedFromCache();
+            this.RedisConnection.EnsurePersonDataIsClearedFromCache();
 
             // Assert that list size is 0, indicating data has been cleared
             labelCount = this.RedisDatabase.ListLength(labelKey);
@@ -117,10 +117,10 @@ namespace FacialRecognition.Test
         {
             this.RedisDatabase.KeyDelete(RecogniserStatusKey);
 
-            var isRecogniserAvailableMethod = this.Interface.GetType().GetMethod("IsRecogniserAvailable",
+            var isRecogniserAvailableMethod = this.RedisConnection.GetType().GetMethod("IsRecogniserAvailable",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
-            isRecogniserAvailableMethod.Invoke(this.Interface, new Object[] { });
+            isRecogniserAvailableMethod.Invoke(this.RedisConnection, new Object[] { });
         }
 
         [TestMethod]
@@ -128,10 +128,10 @@ namespace FacialRecognition.Test
         {
             this.RedisDatabase.StringSet(RecogniserStatusKey, (int)RecogniserStatus.Available);
 
-            var isRecogniserAvailableMethod = this.Interface.GetType().GetMethod("IsRecogniserAvailable",
+            var isRecogniserAvailableMethod = this.RedisConnection.GetType().GetMethod("IsRecogniserAvailable",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
-            var result = (bool)isRecogniserAvailableMethod.Invoke(this.Interface, new Object[] { });
+            var result = (bool)isRecogniserAvailableMethod.Invoke(this.RedisConnection, new Object[] { });
 
             Assert.IsTrue(result);
         }
@@ -145,7 +145,7 @@ namespace FacialRecognition.Test
             var message = new RedisMessage(testCode, testData);
 
             // Send the message to Redis
-            this.Interface.SendRequest(message);
+            this.RedisConnection.SendRequest(message);
             
             // Manually retrieve the values of the requests keys
             var requestCode = int.Parse(this.RedisDatabase.StringGet(RequestCodeKey));
@@ -168,7 +168,7 @@ namespace FacialRecognition.Test
 
             // Retrieve the response
             var timeout = 100;
-            var result = this.Interface.ReceiveResponse(timeout);
+            var result = this.RedisConnection.ReceiveResponse(timeout);
 
             // Assert that the response specified was received
             Assert.AreEqual(responseCode, result.Code);
@@ -182,7 +182,7 @@ namespace FacialRecognition.Test
             // Send a request for which there will be no response
             // A TimeoutException should be thrown
             var timeoutTenSeconds = 10000;
-            this.Interface.ReceiveResponse(timeoutTenSeconds);
+            this.RedisConnection.ReceiveResponse(timeoutTenSeconds);
         }
     }
 }

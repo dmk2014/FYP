@@ -9,27 +9,27 @@ namespace FacialRecognition.Test
     [TestClass]
     public class CouchDB_CRUD_Test
     {
-        IDatabase c_DB;
-        private readonly String DATABASE_NAME = "testing";
-        private readonly Image TEST_IMAGE = FacialRecognition.Test.Properties.Resources.FacialImage;
+        IDatabase CouchDatabase;
+        private readonly String DatabaseName = "testing";
+        private readonly Image TestImage = FacialRecognition.Test.Properties.Resources.FacialImage;
 
         [TestInitialize]
         public void Setup()
         {
-            c_DB = new CouchDatabase("localhost", 5984, DATABASE_NAME);
+            CouchDatabase = new CouchDatabase("localhost", 5984, DatabaseName);
 
             var _person = new Person();
             _person.Id = "person1";
             _person.Forename = "Unit";
             _person.Surname = "Test";
 
-            var _result = c_DB.Store(_person);
+            var _result = CouchDatabase.Store(_person);
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            c_DB.DeleteDatabase(DATABASE_NAME);
+            CouchDatabase.DeleteDatabase(DatabaseName);
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace FacialRecognition.Test
             _person.Forename = "Unit";
             _person.Surname = "Test";
 
-            var _result = c_DB.Store(_person);
+            var _result = CouchDatabase.Store(_person);
             Assert.IsTrue(_result);
         }
 
@@ -52,14 +52,14 @@ namespace FacialRecognition.Test
             _person.Forename = "Stack";
             _person.Surname = "Overflow";
 
-            c_DB.Store(_person);
+            CouchDatabase.Store(_person);
 
             //Person stored. DB generates Rev. Now lets change the person and update them
             _person.Surname = "Trace";
-            c_DB.Update(_person);
+            CouchDatabase.Update(_person);
 
             //Retrieve the item, and cast it so we can verify the revision number
-            var _result = (PersonCouchDB)c_DB.Retrieve(_person.Id);
+            var _result = (PersonCouchDB)CouchDatabase.Retrieve(_person.Id);
             Assert.IsTrue(_result.Rev.StartsWith("2"));
         }
 
@@ -71,10 +71,10 @@ namespace FacialRecognition.Test
             _person.Forename = "Mike";
             _person.Surname = "Fratello";
 
-            c_DB.Update(_person);
+            CouchDatabase.Update(_person);
 
             //Assert creation
-            var _result = c_DB.Retrieve(_person.Id);
+            var _result = CouchDatabase.Retrieve(_person.Id);
 
             Assert.AreEqual(_result.Id, _person.Id);
             Assert.AreEqual(_result.Forename, _person.Forename);
@@ -88,13 +88,13 @@ namespace FacialRecognition.Test
             var _person = new Person();
             _person.Id = "abc123xyznotindb";
 
-            c_DB.Retrieve(_person.Id);
+            CouchDatabase.Retrieve(_person.Id);
         }
 
         [TestMethod]
         public void TestRetrieveAPerson()
         {
-            var _result = c_DB.Retrieve("person1");
+            var _result = CouchDatabase.Retrieve("person1");
 
             Assert.AreEqual("person1", _result.Id);
             Assert.AreEqual("Unit", _result.Forename);
@@ -105,7 +105,7 @@ namespace FacialRecognition.Test
         [TestMethod]
         public void TestRetrieveAll()
         {
-            var _result = c_DB.RetrieveAll();
+            var _result = CouchDatabase.RetrieveAll();
 
             Assert.IsTrue(_result.Count > 0);
         }
@@ -117,9 +117,9 @@ namespace FacialRecognition.Test
             _person.Id = "personattach";
             _person.Forename = "Unit";
             _person.Surname = "Test";
-            _person.Images.Add(this.TEST_IMAGE);
+            _person.Images.Add(this.TestImage);
 
-            c_DB.Store(_person);
+            CouchDatabase.Store(_person);
         }
 
         [TestMethod]
@@ -129,13 +129,13 @@ namespace FacialRecognition.Test
             _person.Id = "personattachupdate";
             _person.Forename = "Unit";
             _person.Surname = "Test";
-            _person.Images.Add(this.TEST_IMAGE);
+            _person.Images.Add(this.TestImage);
 
-            c_DB.Store(_person);
+            CouchDatabase.Store(_person);
 
             //Now we will add another attachment and update the doc
-            _person.Images.Add(this.TEST_IMAGE);
-            c_DB.Update(_person);
+            _person.Images.Add(this.TestImage);
+            CouchDatabase.Update(_person);
         }
 
         [TestMethod]
@@ -145,14 +145,14 @@ namespace FacialRecognition.Test
             _person.Id = "personattachretrieve";
             _person.Forename = "Unit";
             _person.Surname = "Test";
-            _person.Images.Add(this.TEST_IMAGE);
+            _person.Images.Add(this.TestImage);
 
-            c_DB.Store(_person);
+            CouchDatabase.Store(_person);
 
-            var _result = c_DB.Retrieve(_person.Id);
+            var _result = CouchDatabase.Retrieve(_person.Id);
 
             Assert.IsTrue(_result.Images.Count == 1);
-            Assert.AreEqual(_result.Images[0].Size, this.TEST_IMAGE.Size);
+            Assert.AreEqual(_result.Images[0].Size, this.TestImage.Size);
         }
 
         [TestMethod]
@@ -163,10 +163,10 @@ namespace FacialRecognition.Test
             _person.Forename = "Unit";
             _person.Surname = "Test";
 
-            _person.Images.Add(this.TEST_IMAGE);
-            c_DB.Store(_person);
+            _person.Images.Add(this.TestImage);
+            CouchDatabase.Store(_person);
 
-            var _result = c_DB.RetrieveAll();
+            var _result = CouchDatabase.RetrieveAll();
 
             var _attemptToFindPerson = _result.Find(p => p.Id == _person.Id);
 
