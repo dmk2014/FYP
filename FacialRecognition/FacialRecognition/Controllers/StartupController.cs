@@ -23,7 +23,15 @@ namespace FacialRecognition.Controllers
             this.ReadApplicationSettings();
 
             // Construct Facial Detector
-            ApplicationGlobals.Detector = new FacialDetector();
+            try
+            {
+                ApplicationGlobals.Detector = new FacialDetector();
+            }
+            catch (Exception ex)
+            {
+                errorsOccured = true;
+                errorMessages.Add(ex.Message);
+            }
 
             // Initialise Database
             try

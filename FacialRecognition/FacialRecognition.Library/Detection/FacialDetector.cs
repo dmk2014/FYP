@@ -35,7 +35,8 @@ namespace FacialRecognition.Library.Detection
         /// </summary>
         public FacialDetector()
         {
-            this.ClassifierPath = @"C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\bin\haarcascade_frontalface_default.xml";
+            var pathToDefaultClassifier = Path.GetFullPath("Resources/haarcascade_frontalface_default.xml").ToString();
+            this.SetClassifier(pathToDefaultClassifier);
         }
 
         /// <summary>
@@ -44,7 +45,16 @@ namespace FacialRecognition.Library.Detection
         /// <param name="pathToClassifier">The location of the classifier that is to be used</param>
         public FacialDetector(string pathToClassifier)
         {
-            if(File.Exists(pathToClassifier))
+            this.SetClassifier(pathToClassifier);
+        }
+
+        /// <summary>
+        /// Set the cascade classifier that is used during facial detection
+        /// </summary>
+        /// <param name="pathToClassifier">The location of the classifier that is to be used</param>
+        public void SetClassifier(string pathToClassifier)
+        {
+            if (File.Exists(pathToClassifier))
             {
                 this.ClassifierPath = pathToClassifier;
             }
