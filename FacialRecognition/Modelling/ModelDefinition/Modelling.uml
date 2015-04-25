@@ -262,7 +262,14 @@
             Id="c90d3519-e4f9-4a7f-a0f2-04f43225da62">
             <useCaseMoniker
               Id="82151fd3-dffb-4499-9a3f-087bd7bd0273"
-              LastKnownName="&#xD;&#xA;Stop Kinect Data Streams"
+              LastKnownName="Connect to Redis Cache"
+              LastKnownLocation="Modelling.uml" />
+          </include>
+          <include
+            Id="6970a232-1eb6-4407-b948-7a84ce447468">
+            <useCaseMoniker
+              Id="814b5dfd-224a-40ec-9309-2862d03f7ced"
+              LastKnownName="Prepare Facial Detector"
               LastKnownLocation="Modelling.uml" />
           </include>
         </additions>
@@ -402,7 +409,7 @@
     <packageHasNamedElement>
       <useCase
         Id="82151fd3-dffb-4499-9a3f-087bd7bd0273"
-        name="&#xD;&#xA;Stop Kinect Data Streams"
+        name="Connect to Redis Cache"
         isAbstract="false"
         isLeaf="false" />
     </packageHasNamedElement>
@@ -466,6 +473,13 @@
       <useCase
         Id="e9f7c99c-6094-44aa-911d-0ac587fec503"
         name="Process Facial Image Against Database"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="814b5dfd-224a-40ec-9309-2862d03f7ced"
+        name="Prepare Facial Detector"
         isAbstract="false"
         isLeaf="false" />
     </packageHasNamedElement>

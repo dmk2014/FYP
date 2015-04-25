@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="539bbdd9-414b-42a0-ad79-1b08a2d25cfe" name="FacialRecognition" linkedPackageId="347ae0c4-187b-48fb-96a7-8ada72b30e4b" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
-  <profileInstances>
-    <packageHasProfileInstances Id="3faf2330-e8bf-495e-9e1c-8c09fcb9db30">
-      <profileInstance Id="b314b551-3ae8-41db-945b-69f812447871" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="0b32e91b-c23c-47bb-8ce9-5825a55dc6d6">
-      <profileInstance Id="a02e8f2e-5531-4c8e-8231-14eb98a41acb" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <useCaseModelRootHasTypes>
       <actor Id="bcb05774-ba66-4e70-abb4-a2e900bbb186" name="Business Owner" isAbstract="false" isLeaf="false">
@@ -114,17 +100,13 @@
             <useCaseMoniker Id="1a3df355-5f28-412b-86d1-951672e64065" LastKnownName="Initialise Kinect Sensor" />
             <elementDefinition Id="a0f2b9d2-1fd2-4cc0-80c9-e12e3bae69f4" />
           </include>
-          <include Id="65e8a3d0-5ac6-4461-92ff-fc2c4e48e685">
-            <useCaseMoniker Id="8d2e5abf-1833-4286-944c-1c55bc7aab18" LastKnownName="Start Colour Stream" />
-            <elementDefinition Id="42323e25-56ea-4c8a-9f7b-1a0b27df8a13" />
-          </include>
-          <include Id="d3950ea7-7f08-4384-ab56-074156faf64f">
-            <useCaseMoniker Id="e27d8b4d-0d61-43db-92e7-4e2498ea5b81" LastKnownName="Start Depth Stream" />
-            <elementDefinition Id="14b70aa2-1bb7-4d5e-89dc-2cf1a81f7807" />
-          </include>
           <include Id="34caf49c-76a9-4e72-b2f6-2826669a2116">
-            <useCaseMoniker Id="6744f84c-3917-4079-830d-4ecbc20a6fac" LastKnownName="&#xD;&#xA;Stop Kinect Data Streams" />
+            <useCaseMoniker Id="6744f84c-3917-4079-830d-4ecbc20a6fac" LastKnownName="Connect to Redis Cache" />
             <elementDefinition Id="c90d3519-e4f9-4a7f-a0f2-04f43225da62" />
+          </include>
+          <include Id="0f2e365a-d388-473b-8523-6b63b1c71e07">
+            <useCaseMoniker Id="e7e88dd3-b8cc-405a-9c6f-061123aceecc" LastKnownName="Prepare Facial Detector" />
+            <elementDefinition Id="6970a232-1eb6-4407-b948-7a84ce447468" />
           </include>
         </additions>
       </useCase>
@@ -204,17 +186,7 @@
       </useCase>
     </useCaseModelRootHasTypes>
     <useCaseModelRootHasTypes>
-      <useCase Id="8d2e5abf-1833-4286-944c-1c55bc7aab18" name="Start Colour Stream" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="c5c6409a-1d47-40b2-9ada-7cd5f74f827a" />
-      </useCase>
-    </useCaseModelRootHasTypes>
-    <useCaseModelRootHasTypes>
-      <useCase Id="e27d8b4d-0d61-43db-92e7-4e2498ea5b81" name="Start Depth Stream" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="ffde3516-f144-4126-ab59-ca9e8d7e4fa7" />
-      </useCase>
-    </useCaseModelRootHasTypes>
-    <useCaseModelRootHasTypes>
-      <useCase Id="6744f84c-3917-4079-830d-4ecbc20a6fac" name="&#xD;&#xA;Stop Kinect Data Streams" isAbstract="false" isLeaf="false">
+      <useCase Id="6744f84c-3917-4079-830d-4ecbc20a6fac" name="Connect to Redis Cache" isAbstract="false" isLeaf="false">
         <elementDefinition Id="82151fd3-dffb-4499-9a3f-087bd7bd0273" />
       </useCase>
     </useCaseModelRootHasTypes>
@@ -263,8 +235,27 @@
         <elementDefinition Id="e9f7c99c-6094-44aa-911d-0ac587fec503" />
       </useCase>
     </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="e7e88dd3-b8cc-405a-9c6f-061123aceecc" name="Prepare Facial Detector" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="814b5dfd-224a-40ec-9309-2862d03f7ced" />
+      </useCase>
+    </useCaseModelRootHasTypes>
   </packagedElements>
   <package Id="347ae0c4-187b-48fb-96a7-8ada72b30e4b" name="Modelling">
     <elementDefinition Id="4ec15c01-60b7-4793-ab39-c43808bac7b9" />
+    <profileInstances>
+      <packageHasProfileInstances Id="3faf2330-e8bf-495e-9e1c-8c09fcb9db30">
+        <profileInstance Id="b314b551-3ae8-41db-945b-69f812447871" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="0b32e91b-c23c-47bb-8ce9-5825a55dc6d6">
+        <profileInstance Id="a02e8f2e-5531-4c8e-8231-14eb98a41acb" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </useCaseModelRoot>
