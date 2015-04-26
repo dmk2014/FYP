@@ -254,7 +254,7 @@ namespace FacialRecognition.Forms
         {
             var selectedPerson = grdUsers.SelectedRows;
 
-            if (selectedPerson.Count == 1 && this.EditingMode == DatabaseEditingMode.UpdatingExistingUser)
+            if (this.EditingMode == DatabaseEditingMode.UpdatingExistingUser)
             {
                 var idOfSelectedPerson = selectedPerson[0].Cells["colIdentifier"].Value.ToString();
 
@@ -286,8 +286,7 @@ namespace FacialRecognition.Forms
                 personToUpdate.Images = DisplayedPerson.Person.Images;
 
                 ApplicationGlobals.Database.Update(personToUpdate);
-
-                MessageBox.Show("Person Updated");
+                Messages.DisplayInformationMessage(this, "Document saved successfully");
             }
             else if (this.EditingMode == DatabaseEditingMode.AddingNewUser)
             {
@@ -297,8 +296,7 @@ namespace FacialRecognition.Forms
                 person.Images = DisplayedPerson.Person.Images;
 
                 ApplicationGlobals.Database.Store(person);
-
-                MessageBox.Show("Person Stored");
+                Messages.DisplayInformationMessage(this, "Document saved successfully");
 
                 txtPersonForename.Text = String.Empty;
                 txtPersonSurname.Text = String.Empty;
@@ -449,6 +447,7 @@ namespace FacialRecognition.Forms
             // Initialise system using new settings
             this.Cursor = Cursors.WaitCursor;
             this.InitialiseApplication();
+            this.UpdateDatabaseDisplay();
             this.Cursor = Cursors.Default;
         }
         #endregion
