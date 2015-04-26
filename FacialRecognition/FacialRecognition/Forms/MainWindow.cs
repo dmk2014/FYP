@@ -13,6 +13,7 @@ namespace FacialRecognition.Forms
         private Controllers.DetectionController DetectionController;
         private Controllers.ImageProcessingController ImageProcessingController;
         private Bitmap RecognitionSourceImage;
+        private Bitmap DatabaseSourceImage;
         private DatabaseEditingMode EditingMode = DatabaseEditingMode.AddingNewUser;
 
         public frmFacialRecognition()
@@ -150,7 +151,8 @@ namespace FacialRecognition.Forms
         {
             try 
             {
-                pbxCapturedColorImage.Image = this.DetectionController.FindAndDrawDetectedFaces(RecognitionSourceImage).Image;
+                var imageToDisplay = new Bitmap((Bitmap)this.RecognitionSourceImage.Clone());
+                pbxCapturedColorImage.Image = this.DetectionController.FindAndDrawDetectedFaces(imageToDisplay).Image;
                 btnNormalise.Enabled = true;
             }
             catch(Exception ex)
@@ -310,7 +312,8 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                pbxUserImage.Image = ApplicationGlobals.Kinect.CaptureImage();
+                this.DatabaseSourceImage = ApplicationGlobals.Kinect.CaptureImage();
+                pbxUserImage.Image = this.DatabaseSourceImage;
             }
             catch(Exception ex)
             {
@@ -322,8 +325,8 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                var sourceImage = new Bitmap(pbxUserImage.Image);
-                pbxUserImage.Image = this.DetectionController.FindAndDrawDetectedFaces(sourceImage).Image;
+                var imageToDisplay = new Bitmap((Bitmap)this.DatabaseSourceImage.Clone());
+                pbxUserImage.Image = this.DetectionController.FindAndDrawDetectedFaces(imageToDisplay).Image;
             }
             catch(Exception ex)
             {
@@ -335,7 +338,7 @@ namespace FacialRecognition.Forms
         {
             try
             {
-                var face = this.DetectionController.ExtractFacialImage(pbxUserImage.Image, ApplicationGlobals.LocationOfDetectedFaces);
+                var face = this.DetectionController.ExtractFacialImage(this.DatabaseSourceImage, ApplicationGlobals.LocationOfDetectedFaces);
                 var normalisedImage = this.ImageProcessingController.NormaliseFacialImage(face);
                 
                 // Add to user images
