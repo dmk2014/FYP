@@ -22,7 +22,7 @@
 %!test
 %! % Use a subset of the Yale images to improve testing efficiency
 %! yaleFaces = loadYaleTrainingDatabase();
-%! yaleFaces = yaleFace(:, 1:500)
+%! yaleFaces = yaleFaces(:, 1:500)
 %!
 %! averageFace = calculateAverageFace(yaleFaces);
 %! reducedFaces = reduceFaces(yaleFaces, averageFace);
@@ -39,7 +39,7 @@
 %!test
 %! % Use a subset of the Yale images to improve testing efficiency
 %! yaleFaces = loadYaleTrainingDatabase();
-%! yaleFaces = yaleFace(:, 1:500)
+%! yaleFaces = yaleFaces(:, 1:500)
 %!
 %! averageFace = calculateAverageFace(yaleFaces);
 %! reducedFaces = reduceFaces(yaleFaces, averageFace);
