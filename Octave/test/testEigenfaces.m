@@ -52,3 +52,25 @@
 %!
 %! assert(rows(eigenfaces), expectedRows);
 %! assert(columns(eigenfaces), expectedColumns);
+
+
+% ___Test Calculate Weights___
+
+%!test
+%! % Use a subset of the Yale images to improve testing efficiency
+%! yaleFaces = loadYaleTrainingDatabase();
+%! yaleFaces = yaleFaces(:, 1:500);
+%!
+%! averageFace = calculateAverageFace(yaleFaces);
+%! reducedFaces = reduceFaces(yaleFaces, averageFace);
+%!
+%! numEigenfacesToCalculate = 50;
+%! eigenfaces = getEigenfacesSVD(reducedFaces, numEigenfacesToCalculate);
+%!
+%! weights = findWeights(reducedFaces, eigenfaces);
+%!
+%! expectedRows = 50;
+%! expectedColumns = 500;
+%!
+%! assert(rows(weights), expectedRows);
+%! assert(columns(weights), expectedColumns);
