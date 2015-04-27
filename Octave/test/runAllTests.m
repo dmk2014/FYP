@@ -25,3 +25,6 @@ disp("...COMPLETE");
 
 disp("\nRunning IO Tests...");
 test testIO;
+
+disp("\nRunning Eigenfaces Tests...");
+test testEigenfaces;
