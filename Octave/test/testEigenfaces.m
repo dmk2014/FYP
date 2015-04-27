@@ -13,7 +13,7 @@
 %! expectedRows = 32256;
 %! expectedColumns = 1;
 %!
-%! assert(rows(averageFace), expectedRows)
+%! assert(rows(averageFace), expectedRows);
 %! assert(columns(averageFace), expectedColumns);
 
 
@@ -22,7 +22,7 @@
 %!test
 %! % Use a subset of the Yale images to improve testing efficiency
 %! yaleFaces = loadYaleTrainingDatabase();
-%! yaleFaces = yaleFaces(:, 1:500)
+%! yaleFaces = yaleFaces(:, 1:500);
 %!
 %! averageFace = calculateAverageFace(yaleFaces);
 %! reducedFaces = reduceFaces(yaleFaces, averageFace);
@@ -30,7 +30,7 @@
 %! expectedRows = 32256;
 %! expectedColumns = 500;
 %! 
-%! assert(rows(reducedFaces), expectedRows)
+%! assert(rows(reducedFaces), expectedRows);
 %! assert(columns(reducedFaces), expectedColumns);
 
 
@@ -39,7 +39,7 @@
 %!test
 %! % Use a subset of the Yale images to improve testing efficiency
 %! yaleFaces = loadYaleTrainingDatabase();
-%! yaleFaces = yaleFaces(:, 1:500)
+%! yaleFaces = yaleFaces(:, 1:500);
 %!
 %! averageFace = calculateAverageFace(yaleFaces);
 %! reducedFaces = reduceFaces(yaleFaces, averageFace);

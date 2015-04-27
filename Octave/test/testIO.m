@@ -12,7 +12,7 @@
 %! expectedRows = 32256;
 %! expectedColumns = 2432;
 %!
-%! assert(rows(yaleFaces), expectedRows)
+%! assert(rows(yaleFaces), expectedRows);
 %! assert(columns(yaleFaces), expectedColumns);
 
 
