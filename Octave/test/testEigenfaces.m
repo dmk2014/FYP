@@ -74,3 +74,27 @@
 %!
 %! assert(rows(weights), expectedRows);
 %! assert(columns(weights), expectedColumns);
+
+
+% ___Test Classify A Face___
+
+%!test
+%! % Use a subset of the Yale images to improve testing efficiency
+%! [yaleFaces, labels] = loadYaleTrainingDatabase();
+%! yaleFaces = yaleFaces(:, 1:500);
+%!
+%! averageFace = calculateAverageFace(yaleFaces);
+%! reducedFaces = reduceFaces(yaleFaces, averageFace);
+%!
+%! numEigenfacesToCalculate = 50;
+%! eigenfaces = getEigenfacesSVD(reducedFaces, numEigenfacesToCalculate);
+%!
+%! weights = findWeights(reducedFaces, eigenfaces);
+%! 
+%! % Take one face of Yale and classify it
+%! faceToClassify = yaleFaces(:, 1);
+%! recognitionResult = classifyAnUnknownFace(eigenfaces, weights, faceToClassify, averageFace, labels);
+%! 
+%! % Ensure classification result was correct
+%! expectedResult = "yaleB01";
+%! assert(recognitionResult, expectedResult);
