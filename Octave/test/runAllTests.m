@@ -28,3 +28,6 @@ test testIO;
 
 disp("\nRunning Eigenfaces Tests...");
 test testEigenfaces;
+
+disp("\nRunning Redis Tests...");
+test testRedis;
