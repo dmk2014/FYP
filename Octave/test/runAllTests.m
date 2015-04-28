@@ -31,3 +31,6 @@ test testEigenfaces;
 
 disp("\nRunning Redis Tests...");
 test testRedis;
+
+disp("\nRunning Util Tests...");
+test testUtil;
