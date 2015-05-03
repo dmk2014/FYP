@@ -430,6 +430,7 @@ namespace FacialRecognition.Forms
             txtCouchDatabaseName.Text = Properties.Settings.Default.CouchDatabaseName;
             txtRedisHost.Text = Properties.Settings.Default.RedisHost;
             txtRedisPort.Text = Properties.Settings.Default.RedisPort.ToString();
+            txtMaxDepth.Text = Properties.Settings.Default.MaxImageDepth.ToString();
         }
 
         private void btnSaveSettings_Click(object sender, EventArgs e)
@@ -440,6 +441,7 @@ namespace FacialRecognition.Forms
             Properties.Settings.Default.CouchDatabaseName = txtCouchDatabaseName.Text;
             Properties.Settings.Default.RedisHost = txtRedisHost.Text;
             Properties.Settings.Default.RedisPort = int.Parse(txtRedisPort.Text);
+            Properties.Settings.Default.MaxImageDepth = int.Parse(txtMaxDepth.Text);
             Properties.Settings.Default.Save();
 
             Messages.DisplayInformationMessage(this, "Setting saved successfully. Application will now attempt to re-connect to data stores using specified settings.");

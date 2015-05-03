@@ -15,6 +15,7 @@ namespace FacialRecognition.Controllers
         private string CouchDatabaseName;
         private string RedisHost;
         private int RedisPort;
+        private int MaxImageDepth;
 
         public void SystemStartup()
         {
@@ -95,6 +96,7 @@ namespace FacialRecognition.Controllers
             this.CouchDatabaseName = Properties.Settings.Default.CouchDatabaseName;
             this.RedisHost = Properties.Settings.Default.RedisHost;
             this.RedisPort = Properties.Settings.Default.RedisPort;
+            this.MaxImageDepth = Properties.Settings.Default.MaxImageDepth;
         }
 
         private void PrepareKinectSensor()
@@ -102,6 +104,7 @@ namespace FacialRecognition.Controllers
             if (Microsoft.Kinect.KinectSensor.KinectSensors.Count > 0)
             {
                 ApplicationGlobals.Kinect = new KinectV1Sensor(Microsoft.Kinect.KinectSensor.KinectSensors[0]);
+                ApplicationGlobals.Kinect.SetMaxImageDepth(this.MaxImageDepth);
             }
             else
             {

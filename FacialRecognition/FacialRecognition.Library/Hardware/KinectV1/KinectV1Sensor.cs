@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace FacialRecognition.Library.Hardware.KinectV1
 {
@@ -7,6 +8,7 @@ namespace FacialRecognition.Library.Hardware.KinectV1
         private Microsoft.Kinect.KinectSensor Sensor;
         private SensorDataProcessor DataProcessor;
         private const int FrameWaitTimeout = 700;
+        private int MaxDepth = 1500;
 
         /// <summary>
         /// Constructs a KinectV1Sensor that uses the specified KinectSensor for data capture.
@@ -25,6 +27,22 @@ namespace FacialRecognition.Library.Hardware.KinectV1
             this.Sensor.DepthStream.Enable(Microsoft.Kinect.DepthImageFormat.Resolution640x480Fps30);
             this.Sensor.DepthStream.Range = Microsoft.Kinect.DepthRange.Default;
             this.Sensor.Start();
+        }
+
+        /// <summary>
+        /// Set the max depth value for which colour data should be retained when performing background removal.
+        /// </summary>
+        /// <param name="maxDepth">The max depth value in millimetres. Must be in the range 800 - 4000.</param>
+        public void SetMaxImageDepth(int maxDepth)
+        {
+            if (maxDepth >= 800 && maxDepth <= 4000)
+            {
+                this.MaxDepth = maxDepth;
+            }
+            else
+            {
+                throw new Exception("Specified max depth (" + maxDepth + ") out of range, must be between 800 and 4000mm");
+            }
         }
 
         /// <summary>
@@ -112,8 +130,7 @@ namespace FacialRecognition.Library.Hardware.KinectV1
             var depthFrame = this.Sensor.DepthStream.OpenNextFrame(FrameWaitTimeout);
             
             // Invoke depth reduction method
-            var maxDepth = this.Sensor.DepthStream.MaxDepth;
-            var reducedImage = this.DataProcessor.ReduceColorImageUsingDepthData(colorFrame, depthFrame, maxDepth);
+            var reducedImage = this.DataProcessor.ReduceColorImageUsingDepthData(colorFrame, depthFrame, this.MaxDepth);
 
             return reducedImage;
         }

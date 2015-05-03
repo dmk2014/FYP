@@ -82,5 +82,17 @@ namespace FacialRecognition.Properties {
                 this["CouchDatabaseName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1500")]
+        public int MaxImageDepth {
+            get {
+                return ((int)(this["MaxImageDepth"]));
+            }
+            set {
+                this["MaxImageDepth"] = value;
+            }
+        }
     }
 }

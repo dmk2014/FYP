@@ -17,5 +17,8 @@
     <Setting Name="CouchDatabaseName" Type="System.String" Scope="User">
       <Value Profile="(Default)">facial1</Value>
     </Setting>
+    <Setting Name="MaxImageDepth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1500</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
