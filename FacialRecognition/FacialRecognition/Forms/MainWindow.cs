@@ -5,6 +5,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
+using System.Threading.Tasks;
+using System.Threading;
+
 namespace FacialRecognition.Forms
 {
     public partial class frmFacialRecognition : Form
@@ -254,7 +257,7 @@ namespace FacialRecognition.Forms
         {
             var selectedPerson = grdUsers.SelectedRows;
 
-            if (this.EditingMode == DatabaseEditingMode.UpdatingExistingUser)
+            if (selectedPerson.Count > 0 && this.EditingMode == DatabaseEditingMode.UpdatingExistingUser)
             {
                 var idOfSelectedPerson = selectedPerson[0].Cells["colIdentifier"].Value.ToString();
 
@@ -391,7 +394,7 @@ namespace FacialRecognition.Forms
 
             try
             {
-                ApplicationGlobals.Recogniser.RetrainRecogniser(ApplicationGlobals.Database.RetrieveAll());
+                this.RetrainRecogniserAsync();
             }
             catch(Exception ex)
             {
@@ -399,15 +402,38 @@ namespace FacialRecognition.Forms
             }
         }
 
+        private async void RetrainRecogniserAsync()
+        {
+            // References for asynchronous method call:
+            // http://dotnetcodr.com/2014/01/01/5-ways-to-start-a-task-in-net-c/
+            // https://msdn.microsoft.com/en-us/library/hh524395.aspx
+            
+            // Show wait window
+            this.Hide();
+            var waitWindow = new frmWaitWindow();
+            waitWindow.Show(this);
+
+            await Task.Run(() => ApplicationGlobals.Recogniser.RetrainRecogniser(ApplicationGlobals.Database.RetrieveAll()));
+
+            // Show main window once task has completed
+            waitWindow.Close();
+            this.Show();
+        }
+
         private void btnPersistRecogniserData_Click(object sender, EventArgs e)
         {
             try
             {
+                this.Cursor = Cursors.WaitCursor;
                 ApplicationGlobals.Recogniser.SaveSession();
             }
             catch (Exception ex)
             {
                 Messages.DisplayErrorMessage(this, ex.Message);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
             }
         }
 
@@ -415,11 +441,16 @@ namespace FacialRecognition.Forms
         {
             try
             {
+                this.Cursor = Cursors.WaitCursor;
                 ApplicationGlobals.Recogniser.ReloadSession();
             }
             catch (Exception ex)
             {
                 Messages.DisplayErrorMessage(this, ex.Message);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using FacialRecognition.Library.Recognition;
 using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace FacialRecognition.Library.Redis
 {
@@ -133,6 +134,10 @@ namespace FacialRecognition.Library.Redis
                         responseReceived = true;
                     }
                 }
+
+                // Wait 100 milliseconds between each check for a response
+                // This improves performance - CPU usage of application reduced from 25% to between 1 and 3% on test machine
+                Thread.Sleep(100);
             }
 
             if (response.Code != (int)RecogniserCode.NoData)

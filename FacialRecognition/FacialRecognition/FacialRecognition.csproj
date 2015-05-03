@@ -90,6 +90,12 @@
     <Compile Include="Controllers\DetectionController.cs" />
     <Compile Include="Controllers\ImageProcessingController.cs" />
     <Compile Include="Controllers\StartupController.cs" />
+    <Compile Include="Forms\WaitWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WaitWindow.Designer.cs">
+      <DependentUpon>WaitWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Globals\ApplicationGlobals.cs" />
     <Compile Include="Globals\DatabaseEditingMode.cs" />
     <Compile Include="Globals\DisplayedPerson.cs" />
@@ -104,6 +110,9 @@
     <Compile Include="Util\Messages.cs" />
     <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WaitWindow.resx">
+      <DependentUpon>WaitWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
