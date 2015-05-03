@@ -81,6 +81,8 @@
             this.tabStreams = new System.Windows.Forms.TabPage();
             this.tabConfiguration = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtMaxDepth = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.txtCouchDatabaseName = new System.Windows.Forms.TextBox();
             this.lblCouchDatabaseName = new System.Windows.Forms.Label();
             this.btnSaveSettings = new System.Windows.Forms.Button();
@@ -97,8 +99,6 @@
             this.btnReloadRecogniserData = new System.Windows.Forms.Button();
             this.btnPersistRecogniserData = new System.Windows.Forms.Button();
             this.diaOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtMaxDepth = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDept)).BeginInit();
             this.grpControls.SuspendLayout();
@@ -472,6 +472,7 @@
             // 
             // btnPersonImagesDelete
             // 
+            this.btnPersonImagesDelete.Enabled = false;
             this.btnPersonImagesDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPersonImagesDelete.ForeColor = System.Drawing.Color.Red;
             this.btnPersonImagesDelete.Location = new System.Drawing.Point(889, 534);
@@ -695,6 +696,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
             // 
+            // txtMaxDepth
+            // 
+            this.txtMaxDepth.Location = new System.Drawing.Point(166, 203);
+            this.txtMaxDepth.Name = "txtMaxDepth";
+            this.txtMaxDepth.Size = new System.Drawing.Size(235, 20);
+            this.txtMaxDepth.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(73, 206);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(87, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Max Depth (mm):";
+            // 
             // txtCouchDatabaseName
             // 
             this.txtCouchDatabaseName.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
@@ -827,22 +844,6 @@
             this.btnPersistRecogniserData.Text = "Persist Recogniser";
             this.btnPersistRecogniserData.UseVisualStyleBackColor = true;
             this.btnPersistRecogniserData.Click += new System.EventHandler(this.btnPersistRecogniserData_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(73, 206);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 13);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "Max Depth (mm):";
-            // 
-            // txtMaxDepth
-            // 
-            this.txtMaxDepth.Location = new System.Drawing.Point(166, 203);
-            this.txtMaxDepth.Name = "txtMaxDepth";
-            this.txtMaxDepth.Size = new System.Drawing.Size(235, 20);
-            this.txtMaxDepth.TabIndex = 11;
             // 
             // frmFacialRecognition
             // 

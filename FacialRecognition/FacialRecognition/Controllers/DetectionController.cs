@@ -8,6 +8,11 @@ namespace FacialRecognition.Controllers
 {
     public class DetectionController
     {
+        /// <summary>
+        /// Find detected faces in the provided image and draws them onto a PictureBox component.
+        /// </summary>
+        /// <param name="sourceImage">The image from which to detect and draw faces.</param>
+        /// <returns>A PictureBox containing the source image with drawn faces.</returns>
         public PictureBox FindAndDrawDetectedFaces(Bitmap sourceImage)
         {
             var pictureBox = new PictureBox();
@@ -35,6 +40,12 @@ namespace FacialRecognition.Controllers
             return pictureBox;
         }
 
+        /// <summary>
+        /// Extracts the largest face from the provided source image.
+        /// </summary>
+        /// <param name="sourceImage">The image from which to extract faces.</param>
+        /// <param name="faceLocations">An array of rectangles containing the locations of faces in the source image.</param>
+        /// <returns>A facial image.</returns>
         public Image ExtractFacialImage(Image sourceImage, Rectangle[] faceLocations)
         {
             if (faceLocations.Length > 0)

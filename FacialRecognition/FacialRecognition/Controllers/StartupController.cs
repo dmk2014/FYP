@@ -17,6 +17,9 @@ namespace FacialRecognition.Controllers
         private int RedisPort;
         private int MaxImageDepth;
 
+        /// <summary>
+        /// Launches the Facial Recognition system. Prepares the Facial Detector, Facial Database, Kinect Sensor and Photometric Recogniser.
+        /// </summary>
         public void SystemStartup()
         {
             var errorsOccured = false;

@@ -3,10 +3,8 @@ using FacialRecognition.Library.Models;
 using FacialRecognition.Util;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
-
 using System.Threading.Tasks;
-using System.Threading;
+using System.Windows.Forms;
 
 namespace FacialRecognition.Forms
 {
