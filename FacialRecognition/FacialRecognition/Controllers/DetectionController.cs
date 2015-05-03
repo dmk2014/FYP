@@ -18,7 +18,7 @@ namespace FacialRecognition.Controllers
             if (ApplicationGlobals.LocationOfDetectedFaces.Length > 0)
             {
                 var graphics = Graphics.FromImage(sourceImage);
-                var pen = new Pen(Color.Green, 2);
+                var pen = new Pen(Color.Green, 3);
 
                 foreach (var rectangle in ApplicationGlobals.LocationOfDetectedFaces)
                 {
