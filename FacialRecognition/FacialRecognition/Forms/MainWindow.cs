@@ -405,17 +405,27 @@ namespace FacialRecognition.Forms
             // References for asynchronous method call:
             // http://dotnetcodr.com/2014/01/01/5-ways-to-start-a-task-in-net-c/
             // https://msdn.microsoft.com/en-us/library/hh524395.aspx
-            
+
             // Show wait window
-            this.Hide();
             var waitWindow = new frmWaitWindow();
+            this.Hide();
             waitWindow.Show(this);
 
-            await Task.Run(() => ApplicationGlobals.Recogniser.RetrainRecogniser(ApplicationGlobals.Database.RetrieveAll()));
-
-            // Show main window once task has completed
-            waitWindow.Close();
-            this.Show();
+            try
+            {
+                // Execute task
+                await Task.Run(() => ApplicationGlobals.Recogniser.RetrainRecogniser(ApplicationGlobals.Database.RetrieveAll()));
+            }
+            catch (Exception ex)
+            {
+                Messages.DisplayErrorMessage(this, ex.Message);
+            }
+            finally
+            {
+                // Show main window
+                waitWindow.Close();
+                this.Show();
+            }
         }
 
         private void btnPersistRecogniserData_Click(object sender, EventArgs e)
